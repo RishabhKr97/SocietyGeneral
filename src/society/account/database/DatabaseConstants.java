@@ -29,8 +29,8 @@ class DatabaseConstants {
 			+ "admission_fee_deposit INTEGER, "
 			+ "welfare_deposit INTEGER, "
 			+ "misc_deposit INTEGER, "
-			+ "payment_mode INTEGER"
-			+ "remarks TEXT"
+			+ "payment_mode INTEGER, "
+			+ "remarks TEXT, "
 			+ "FOREIGN KEY (account_number) REFERENCES members(account_number) )";
 	
 	public static final String ADD_MEMBER = "INSERT INTO members "

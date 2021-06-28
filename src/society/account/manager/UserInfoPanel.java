@@ -31,6 +31,10 @@ public class UserInfoPanel extends JPanel implements ActionListener {
 	private JTextField mMobileValue;
 	private JLabel mEmailLabel;
 	private JTextField mEmailValue;
+	private JLabel mPanLabel;
+	private JTextField mPanValue;
+	private JLabel mAadharLabel;
+	private JTextField mAadharValue;
 	private JLabel mShareBalanceLabel;
 	private JTextField mShareBalanceValue;
 	private JLabel mCdBalanceLabel;
@@ -129,45 +133,69 @@ public class UserInfoPanel extends JPanel implements ActionListener {
 		mEmailValue.setEditable(false);
 		add(mEmailValue);
 
+		mPanLabel = new JLabel("PAN Number");
+		mPanLabel.setSize(180, 20);
+		mPanLabel.setLocation(5, 260);
+		add(mPanLabel);
+
+		mPanValue = new JTextField();
+		mPanValue.setText("My PAN Number");
+		mPanValue.setSize(180, 20);
+		mPanValue.setLocation(200, 260);
+		mPanValue.setEditable(false);
+		add(mPanValue);
+
+		mAadharLabel = new JLabel("Aadhar Number");
+		mAadharLabel.setSize(180, 20);
+		mAadharLabel.setLocation(5, 290);
+		add(mAadharLabel);
+
+		mAadharValue = new JTextField();
+		mAadharValue.setText("My Aadhar Number");
+		mAadharValue.setSize(180, 20);
+		mAadharValue.setLocation(200, 290);
+		mAadharValue.setEditable(false);
+		add(mAadharValue);
+
 		mShareBalanceLabel = new JLabel("Share Balance");
 		mShareBalanceLabel.setSize(180, 20);
-		mShareBalanceLabel.setLocation(5, 260);
+		mShareBalanceLabel.setLocation(5, 320);
 		add(mShareBalanceLabel);
 
 		mShareBalanceValue = new JTextField();
 		mShareBalanceValue.setText("My Share Balance");
 		mShareBalanceValue.setSize(180, 20);
-		mShareBalanceValue.setLocation(200, 260);
+		mShareBalanceValue.setLocation(200, 320);
 		mShareBalanceValue.setEditable(false);
 		add(mShareBalanceValue);
 
 		mCdBalanceLabel = new JLabel("Compulsory Deposit Balance");
 		mCdBalanceLabel.setSize(180, 20);
-		mCdBalanceLabel.setLocation(5, 290);
+		mCdBalanceLabel.setLocation(5, 350);
 		add(mCdBalanceLabel);
 
 		mCdBalanceValue = new JTextField();
 		mCdBalanceValue.setText("My Compulsory Deposit Balance");
 		mCdBalanceValue.setSize(180, 20);
-		mCdBalanceValue.setLocation(200, 290);
+		mCdBalanceValue.setLocation(200, 350);
 		mCdBalanceValue.setEditable(false);
 		add(mCdBalanceValue);
 
 		mLoanBalanceLabel = new JLabel("Loan Balance");
 		mLoanBalanceLabel.setSize(180, 20);
-		mLoanBalanceLabel.setLocation(5, 320);
+		mLoanBalanceLabel.setLocation(5, 380);
 		add(mLoanBalanceLabel);
 
 		mLoanBalanceValue = new JTextField();
 		mLoanBalanceValue.setText("My Loan Balance");
 		mLoanBalanceValue.setSize(180, 20);
-		mLoanBalanceValue.setLocation(200, 320);
+		mLoanBalanceValue.setLocation(200, 380);
 		mLoanBalanceValue.setEditable(false);
 		add(mLoanBalanceValue);
 
 		mStatusLabel = new JLabel("Account is active.");
 		mStatusLabel.setSize(180, 20);
-		mStatusLabel.setLocation(120, 370);
+		mStatusLabel.setLocation(120, 430);
 		mStatusLabel.setForeground(Color.GREEN);
 		add(mStatusLabel);
 	}

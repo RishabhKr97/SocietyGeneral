@@ -55,9 +55,13 @@ public class ManagePanel extends JPanel {
 		private JTextField mMobileValue;
 		private JLabel mEmailLabel;
 		private JTextField mEmailValue;
+		private JLabel mPanLabel;
+		private JTextField mPanValue;
+		private JLabel mAadharLabel;
+		private JTextField mAadharValue;
 		private JButton mSubmit;
 		private JButton mClear;
-		private final DatabaseHelper dbHelper = null;// new DatabaseHelper();
+		private final DatabaseHelper dbHelper = new DatabaseHelper();
 
 		AddUserPanel() {
 			setLayout(null);
@@ -157,15 +161,35 @@ public class ManagePanel extends JPanel {
 			mEmailValue.setLocation(200, 230);
 			add(mEmailValue);
 
+			mPanLabel = new JLabel("PAN Number");
+			mPanLabel.setSize(180, 20);
+			mPanLabel.setLocation(5, 260);
+			add(mPanLabel);
+
+			mPanValue = new JTextField();
+			mPanValue.setSize(180, 20);
+			mPanValue.setLocation(200, 260);
+			add(mPanValue);
+
+			mAadharLabel = new JLabel("Aadhar Number");
+			mAadharLabel.setSize(180, 20);
+			mAadharLabel.setLocation(5, 290);
+			add(mAadharLabel);
+
+			mAadharValue = new JTextField();
+			mAadharValue.setSize(180, 20);
+			mAadharValue.setLocation(200, 290);
+			add(mAadharValue);
+
 			mSubmit = new JButton("Submit");
 			mSubmit.setSize(80, 20);
-			mSubmit.setLocation(100, 280);
+			mSubmit.setLocation(100, 340);
 			mSubmit.addActionListener(this);
 			add(mSubmit);
 
 			mClear = new JButton("Clear");
 			mClear.setSize(80, 20);
-			mClear.setLocation(205, 280);
+			mClear.setLocation(205, 340);
 			mClear.addActionListener(this);
 			add(mClear);
 		}
@@ -185,8 +209,10 @@ public class ManagePanel extends JPanel {
 				String address = mAddressValue.getText().trim();
 				String mobile = mMobileValue.getText().trim();
 				String email = mEmailValue.getText().trim();
+				String pan = mPanValue.getText().trim();
+				String aadhar = mAadharValue.getText().trim();
 
-				if (!verifyInput(accountNumber, name, mobile, email)) {
+				if (!verifyInput(accountNumber, name, mobile, email, pan, aadhar)) {
 					return;
 				}
 
@@ -205,10 +231,13 @@ public class ManagePanel extends JPanel {
 				mAddressValue.setText("");
 				mMobileValue.setText("");
 				mEmailValue.setText("");
+				mPanValue.setText("");
+				mAadharValue.setText("");
 			}
 		}
 
-		private boolean verifyInput(String accNum, String name, String mobile, String email) {
+		private boolean verifyInput(String accNum, String name, String mobile, String email, String pan,
+				String aadhar) {
 			try {
 				if (Integer.parseInt(accNum) <= 0) {
 					mAccountNumberValue.setText("Invalid Account Number");
@@ -216,6 +245,7 @@ public class ManagePanel extends JPanel {
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
+				mAccountNumberValue.setText("Invalid Account Number");
 				return false;
 			}
 
@@ -235,9 +265,18 @@ public class ManagePanel extends JPanel {
 				return false;
 			}
 
+			if (pan.length() != 10) {
+				mPanValue.setText("Invalid PAN Number");
+				return false;
+			}
+
+			if (aadhar.length() != 12) {
+				mAadharValue.setText("Invalid Aadhar Number");
+				return false;
+			}
+
 			return true;
 		}
-
 	}
 
 	private class DeleteUserPanel extends JPanel implements ActionListener {
@@ -247,6 +286,5 @@ public class ManagePanel extends JPanel {
 			// TODO Auto-generated method stub
 
 		}
-
 	}
 }
