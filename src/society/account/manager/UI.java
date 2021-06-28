@@ -25,8 +25,8 @@ public class UI {
 		mManagePanel = new ManagePanel();
 
 		mTabs.setSize(600, 600);
-		mTabs.add("user info", mUserInfoPanel);
-		mTabs.add("transaction", mTransactionPanel);
+		mTabs.add("member info", mUserInfoPanel);
+		mTabs.add("member transactions", mTransactionPanel);
 		mTabs.add("summary", mSummaryPanel);
 		mTabs.add("manage", mManagePanel);
 
