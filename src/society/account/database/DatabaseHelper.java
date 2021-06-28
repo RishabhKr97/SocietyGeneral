@@ -8,11 +8,9 @@ public class DatabaseHelper {
 		dbManager.close();
 	}
 
-	public void addUser(String accNum, String name, String dob, String doj, String address, String mobile,
-			String email) {
+	public void addUser(String accNum, String name, String dob, String doj, String address, String mobile, String email,
+			String pan, String aadhar) {
 		dbManager.executeQuery(DatabaseConstants.ADD_MEMBER,
-				new String[] { accNum, name, dob, doj, address, mobile, email, "1" });
-		dbManager.executeQuery(DatabaseConstants.ADD_MEMBER_IN_BALANCE, new String[] { accNum, "0", "0", "0", "0" });
+				new String[] { accNum, name, dob, doj, address, mobile, email, pan, aadhar, "1" });
 	}
-
 }

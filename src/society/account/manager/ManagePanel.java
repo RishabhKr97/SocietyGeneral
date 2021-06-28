@@ -191,7 +191,7 @@ public class ManagePanel extends JPanel {
 				}
 
 				dbHelper.addUser(accountNumber, name, dobYear + "-" + dobMonth + "-" + dobDate,
-						dojYear + "-" + dojMonth + "-" + dojDate, address, mobile, email);
+						dojYear + "-" + dojMonth + "-" + dojDate, address, mobile, email, "pan", "aadhar");
 
 			} else if (e.getSource() == mClear) {
 				mAccountNumberValue.setText("");
@@ -249,5 +249,4 @@ public class ManagePanel extends JPanel {
 		}
 
 	}
-
 }

@@ -9,10 +9,7 @@ import java.sql.Statement;
 
 class DatabaseManager {
 
-	private static final String DEFAULT_USER = "root";
-	private static final String DEFAULT_PASSWORD = "password";
-	private static final String DB_NAME = "SocietyGeneral";
-	private static final String DB_URL = "jdbc:mysql://localhost:3306/";
+	private static final String DB_URL = "jdbc:sqlite:Database/SocietyGeneral.db";
 	private Connection mConnection = null;
 
 	private DatabaseManager() {
@@ -21,21 +18,14 @@ class DatabaseManager {
 
 	private void initializeDatabase() {
 		try {
-			mConnection = DriverManager.getConnection(DB_URL, DEFAULT_USER, DEFAULT_PASSWORD);
-			// create database
-			executeQuery(DatabaseConstants.CREATE_DATABASE + DB_NAME);
-			mConnection.setCatalog(DB_NAME);
+			mConnection = DriverManager.getConnection(DB_URL);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		// create schema
 		executeQuery(DatabaseConstants.CREATE_MEMBERS_TABLE);
-		executeQuery(DatabaseConstants.CREATE_BALANCE_TABLE);
 		executeQuery(DatabaseConstants.CREATE_TRANSACTIONS_TABLE);
-		executeQuery(DatabaseConstants.CREATE_SHARE_TRANSACTIONS_TABLE);
-		executeQuery(DatabaseConstants.CREATE_CD_TRANSACTIONS_TABLE);
-		executeQuery(DatabaseConstants.CREATE_LOAN_TRANSACTIONS_TABLE);
 	}
 
 	ResultSet executeQuery(String query) {
