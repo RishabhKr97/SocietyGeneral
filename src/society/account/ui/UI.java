@@ -1,4 +1,4 @@
-package society.account.manager;
+package society.account.ui;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -16,7 +16,7 @@ public class UI {
 	SummaryPanel mSummaryPanel;
 	ManagePanel mManagePanel;
 
-	UI() {
+	public UI() {
 		mMainFrame = new JFrame();
 		mTabs = new JTabbedPane();
 		mUserInfoPanel = new UserInfoPanel();

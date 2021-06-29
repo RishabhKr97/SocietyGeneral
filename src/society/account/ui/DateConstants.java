@@ -1,4 +1,4 @@
-package society.account.manager;
+package society.account.ui;
 
 import java.time.LocalDateTime;
 

@@ -1,11 +1,12 @@
-package society.account.manager;
+package society.account.ui.subPanels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
-public class TransactionPanel extends JPanel implements ActionListener {
+@SuppressWarnings("serial")
+public class EditTransactionPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
