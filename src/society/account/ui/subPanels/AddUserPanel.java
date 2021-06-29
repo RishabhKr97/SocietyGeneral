@@ -12,7 +12,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import society.account.database.DatabaseHelper;
-import society.account.ui.DateConstants;
+import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
 public class AddUserPanel extends JPanel implements ActionListener {
@@ -72,17 +72,17 @@ public class AddUserPanel extends JPanel implements ActionListener {
 		mDobLabel.setLocation(5, 70);
 		add(mDobLabel);
 
-		mDobDate = new JComboBox<>(DateConstants.DATES);
+		mDobDate = new JComboBox<>(UiConstants.DateConstants.DATES);
 		mDobDate.setSize(52, 20);
 		mDobDate.setLocation(200, 70);
 		add(mDobDate);
 
-		mDobMonth = new JComboBox<>(DateConstants.MONTHS);
+		mDobMonth = new JComboBox<>(UiConstants.DateConstants.MONTHS);
 		mDobMonth.setSize(52, 20);
 		mDobMonth.setLocation(264, 70);
 		add(mDobMonth);
 
-		mDobYear = new JComboBox<>(DateConstants.YEARS);
+		mDobYear = new JComboBox<>(UiConstants.DateConstants.YEARS);
 		mDobYear.setSize(52, 20);
 		mDobYear.setLocation(328, 70);
 		add(mDobYear);
@@ -92,22 +92,22 @@ public class AddUserPanel extends JPanel implements ActionListener {
 		mDojLabel.setLocation(5, 100);
 		add(mDojLabel);
 
-		mDojDate = new JComboBox<>(DateConstants.DATES);
+		mDojDate = new JComboBox<>(UiConstants.DateConstants.DATES);
 		mDojDate.setSize(52, 20);
 		mDojDate.setLocation(200, 100);
-		mDojDate.setSelectedIndex(DateConstants.getCurrentDateIdx());
+		mDojDate.setSelectedIndex(UiConstants.DateConstants.getCurrentDateIdx());
 		add(mDojDate);
 
-		mDojMonth = new JComboBox<>(DateConstants.MONTHS);
+		mDojMonth = new JComboBox<>(UiConstants.DateConstants.MONTHS);
 		mDojMonth.setSize(52, 20);
 		mDojMonth.setLocation(264, 100);
-		mDojMonth.setSelectedIndex(DateConstants.getCurrentMonthIdx());
+		mDojMonth.setSelectedIndex(UiConstants.DateConstants.getCurrentMonthIdx());
 		add(mDojMonth);
 
-		mDojYear = new JComboBox<>(DateConstants.YEARS);
+		mDojYear = new JComboBox<>(UiConstants.DateConstants.YEARS);
 		mDojYear.setSize(52, 20);
 		mDojYear.setLocation(328, 100);
-		mDojYear.setSelectedIndex(DateConstants.getCurrentYearIdx());
+		mDojYear.setSelectedIndex(UiConstants.DateConstants.getCurrentYearIdx());
 		add(mDojYear);
 
 		mAddressLabel = new JLabel("Address");
@@ -206,9 +206,9 @@ public class AddUserPanel extends JPanel implements ActionListener {
 			mDobDate.setSelectedIndex(0);
 			mDobMonth.setSelectedIndex(0);
 			mDobYear.setSelectedIndex(0);
-			mDojDate.setSelectedIndex(DateConstants.getCurrentDateIdx());
-			mDojMonth.setSelectedIndex(DateConstants.getCurrentMonthIdx());
-			mDojYear.setSelectedIndex(DateConstants.getCurrentYearIdx());
+			mDojDate.setSelectedIndex(UiConstants.DateConstants.getCurrentDateIdx());
+			mDojMonth.setSelectedIndex(UiConstants.DateConstants.getCurrentMonthIdx());
+			mDojYear.setSelectedIndex(UiConstants.DateConstants.getCurrentYearIdx());
 			mAddressValue.setText("");
 			mMobileValue.setText("");
 			mEmailValue.setText("");

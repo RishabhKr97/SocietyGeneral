@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import society.account.ui.DateConstants;
+import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
 public class AddTransactionPanel extends JPanel implements ActionListener {
@@ -74,22 +74,22 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 		mDotLabel.setLocation(5, 40);
 		add(mDotLabel);
 
-		mDotDate = new JComboBox<>(DateConstants.DATES);
+		mDotDate = new JComboBox<>(UiConstants.DateConstants.DATES);
 		mDotDate.setSize(52, 20);
 		mDotDate.setLocation(200, 40);
-		mDotDate.setSelectedIndex(DateConstants.getCurrentDateIdx());
+		mDotDate.setSelectedIndex(UiConstants.DateConstants.getCurrentDateIdx());
 		add(mDotDate);
 
-		mDotMonth = new JComboBox<>(DateConstants.MONTHS);
+		mDotMonth = new JComboBox<>(UiConstants.DateConstants.MONTHS);
 		mDotMonth.setSize(52, 20);
 		mDotMonth.setLocation(264, 40);
-		mDotMonth.setSelectedIndex(DateConstants.getCurrentMonthIdx());
+		mDotMonth.setSelectedIndex(UiConstants.DateConstants.getCurrentMonthIdx());
 		add(mDotMonth);
 
-		mDotYear = new JComboBox<>(DateConstants.YEARS);
+		mDotYear = new JComboBox<>(UiConstants.DateConstants.YEARS);
 		mDotYear.setSize(52, 20);
 		mDotYear.setLocation(328, 40);
-		mDotYear.setSelectedIndex(DateConstants.getCurrentYearIdx());
+		mDotYear.setSelectedIndex(UiConstants.DateConstants.getCurrentYearIdx());
 		add(mDotYear);
 
 		mCdDepositLabel = new JLabel("Compulsory Deposit");
@@ -207,8 +207,8 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 		mPaymentModeLabel.setLocation(5, 400);
 		add(mPaymentModeLabel);
 
-		mPaymentModeValue = new JComboBox<>(DateConstants.DATES);
-		mPaymentModeValue.setSize(52, 20);
+		mPaymentModeValue = new JComboBox<>(UiConstants.PaymentModeConstants.PAYMENT_MODES);
+		mPaymentModeValue.setSize(70, 20);
 		mPaymentModeValue.setLocation(200, 400);
 		add(mPaymentModeValue);
 
@@ -266,9 +266,9 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 
 		} else if (e.getSource() == mClear) {
 			mAccountNumberValue.setText("");
-			mDotDate.setSelectedIndex(DateConstants.getCurrentDateIdx());
-			mDotMonth.setSelectedIndex(DateConstants.getCurrentMonthIdx());
-			mDotYear.setSelectedIndex(DateConstants.getCurrentYearIdx());
+			mDotDate.setSelectedIndex(UiConstants.DateConstants.getCurrentDateIdx());
+			mDotMonth.setSelectedIndex(UiConstants.DateConstants.getCurrentMonthIdx());
+			mDotYear.setSelectedIndex(UiConstants.DateConstants.getCurrentYearIdx());
 			mCdDepositValue.setText("0");
 			mCdFineDepositValue.setText("0");
 			mLoanInstallmentDepositValue.setText("0");

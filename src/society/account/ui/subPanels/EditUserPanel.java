@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import society.account.ui.DateConstants;
+import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
 public class EditUserPanel extends JPanel implements ActionListener {
@@ -85,17 +85,17 @@ public class EditUserPanel extends JPanel implements ActionListener {
 		mDobLabel.setLocation(5, 120);
 		add(mDobLabel);
 
-		mDobDate = new JComboBox<>(DateConstants.DATES);
+		mDobDate = new JComboBox<>(UiConstants.DateConstants.DATES);
 		mDobDate.setSize(52, 20);
 		mDobDate.setLocation(200, 120);
 		add(mDobDate);
 
-		mDobMonth = new JComboBox<>(DateConstants.MONTHS);
+		mDobMonth = new JComboBox<>(UiConstants.DateConstants.MONTHS);
 		mDobMonth.setSize(52, 20);
 		mDobMonth.setLocation(264, 120);
 		add(mDobMonth);
 
-		mDobYear = new JComboBox<>(DateConstants.YEARS);
+		mDobYear = new JComboBox<>(UiConstants.DateConstants.YEARS);
 		mDobYear.setSize(52, 20);
 		mDobYear.setLocation(328, 120);
 		add(mDobYear);
@@ -105,22 +105,22 @@ public class EditUserPanel extends JPanel implements ActionListener {
 		mDojLabel.setLocation(5, 150);
 		add(mDojLabel);
 
-		mDojDate = new JComboBox<>(DateConstants.DATES);
+		mDojDate = new JComboBox<>(UiConstants.DateConstants.DATES);
 		mDojDate.setSize(52, 20);
 		mDojDate.setLocation(200, 150);
-		mDojDate.setSelectedIndex(DateConstants.getCurrentDateIdx());
+		mDojDate.setSelectedIndex(UiConstants.DateConstants.getCurrentDateIdx());
 		add(mDojDate);
 
-		mDojMonth = new JComboBox<>(DateConstants.MONTHS);
+		mDojMonth = new JComboBox<>(UiConstants.DateConstants.MONTHS);
 		mDojMonth.setSize(52, 20);
 		mDojMonth.setLocation(264, 150);
-		mDojMonth.setSelectedIndex(DateConstants.getCurrentMonthIdx());
+		mDojMonth.setSelectedIndex(UiConstants.DateConstants.getCurrentMonthIdx());
 		add(mDojMonth);
 
-		mDojYear = new JComboBox<>(DateConstants.YEARS);
+		mDojYear = new JComboBox<>(UiConstants.DateConstants.YEARS);
 		mDojYear.setSize(52, 20);
 		mDojYear.setLocation(328, 150);
-		mDojYear.setSelectedIndex(DateConstants.getCurrentYearIdx());
+		mDojYear.setSelectedIndex(UiConstants.DateConstants.getCurrentYearIdx());
 		add(mDojYear);
 
 		mAddressLabel = new JLabel("Address");
