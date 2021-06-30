@@ -14,6 +14,13 @@ import society.account.ui.UiConstants;
 @SuppressWarnings("serial")
 public class AddTransactionPanel extends JPanel implements ActionListener {
 
+	private int mWidth = UiConstants.DimensionConstants.DEFAULT_WIDTH;
+	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
+	private int mInitialSpacing = UiConstants.DimensionConstants.DEFAULT_INITIAL_SPACING;
+	private int mVerticalSpacing = UiConstants.DimensionConstants.DEFAULT_VERTICAL_SPACING;
+	private int mHorizontalSpacing = UiConstants.DimensionConstants.DEFAULT_HORIZONTAL_SPACING;
+	private int mComboBoxWidth = UiConstants.DimensionConstants.DEFAULT_COMBO_BOX_DATE_WIDTH;
+
 	private JLabel mAccountNumberLabel;
 	private JTextField mAccountNumberValue;
 	private JButton mGetPaymentDetails;
@@ -54,183 +61,185 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 		setLayout(null);
 
 		mAccountNumberLabel = new JLabel("Account Number");
-		mAccountNumberLabel.setSize(180, 20);
-		mAccountNumberLabel.setLocation(5, 10);
+		mAccountNumberLabel.setSize(mWidth, mHeight);
+		mAccountNumberLabel.setLocation(mInitialSpacing, mInitialSpacing);
 		add(mAccountNumberLabel);
 
 		mAccountNumberValue = new JTextField();
-		mAccountNumberValue.setSize(180, 20);
-		mAccountNumberValue.setLocation(200, 10);
+		mAccountNumberValue.setSize(mWidth, mHeight);
+		mAccountNumberValue.setLocation(mHorizontalSpacing, mInitialSpacing);
 		add(mAccountNumberValue);
 
 		mGetPaymentDetails = new JButton("Get Details");
-		mGetPaymentDetails.setSize(100, 20);
-		mGetPaymentDetails.setLocation(400, 10);
+		mGetPaymentDetails.setSize(125, mHeight);
+		mGetPaymentDetails.setLocation(mHorizontalSpacing * 2, mInitialSpacing);
 		mGetPaymentDetails.addActionListener(this);
 		add(mGetPaymentDetails);
 
 		mDotLabel = new JLabel("Date of Transaction");
-		mDotLabel.setSize(180, 20);
-		mDotLabel.setLocation(5, 40);
+		mDotLabel.setSize(mWidth, mHeight);
+		mDotLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing);
 		add(mDotLabel);
 
 		mDotDate = new JComboBox<>(UiConstants.DateConstants.DATES);
-		mDotDate.setSize(52, 20);
-		mDotDate.setLocation(200, 40);
+		mDotDate.setSize(mComboBoxWidth, mHeight);
+		mDotDate.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing);
 		mDotDate.setSelectedIndex(UiConstants.DateConstants.getCurrentDateIdx());
 		add(mDotDate);
 
 		mDotMonth = new JComboBox<>(UiConstants.DateConstants.MONTHS);
-		mDotMonth.setSize(52, 20);
-		mDotMonth.setLocation(264, 40);
+		mDotMonth.setSize(mComboBoxWidth, mHeight);
+		mDotMonth.setLocation(mHorizontalSpacing + mInitialSpacing + mComboBoxWidth,
+				mInitialSpacing + mVerticalSpacing);
 		mDotMonth.setSelectedIndex(UiConstants.DateConstants.getCurrentMonthIdx());
 		add(mDotMonth);
 
 		mDotYear = new JComboBox<>(UiConstants.DateConstants.YEARS);
-		mDotYear.setSize(52, 20);
-		mDotYear.setLocation(328, 40);
+		mDotYear.setSize(mComboBoxWidth, mHeight);
+		mDotYear.setLocation(mHorizontalSpacing + (mInitialSpacing + mComboBoxWidth) * 2,
+				mInitialSpacing + mVerticalSpacing);
 		mDotYear.setSelectedIndex(UiConstants.DateConstants.getCurrentYearIdx());
 		add(mDotYear);
 
 		mCdDepositLabel = new JLabel("Compulsory Deposit");
-		mCdDepositLabel.setSize(180, 20);
-		mCdDepositLabel.setLocation(5, 70);
+		mCdDepositLabel.setSize(mWidth, mHeight);
+		mCdDepositLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 2);
 		add(mCdDepositLabel);
 
 		mCdDepositValue = new JTextField();
-		mCdDepositValue.setSize(180, 20);
-		mCdDepositValue.setLocation(200, 70);
+		mCdDepositValue.setSize(mWidth, mHeight);
+		mCdDepositValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 2);
 		add(mCdDepositValue);
 
 		mCdFineDepositLabel = new JLabel("Compulsory Deposit Fine");
-		mCdFineDepositLabel.setSize(180, 20);
-		mCdFineDepositLabel.setLocation(5, 100);
+		mCdFineDepositLabel.setSize(mWidth, mHeight);
+		mCdFineDepositLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 3);
 		add(mCdFineDepositLabel);
 
 		mCdFineDepositValue = new JTextField();
-		mCdFineDepositValue.setSize(180, 20);
-		mCdFineDepositValue.setLocation(200, 100);
+		mCdFineDepositValue.setSize(mWidth, mHeight);
+		mCdFineDepositValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 3);
 		add(mCdFineDepositValue);
 
 		mLoanInstallmentDepositLabel = new JLabel("Loan Installment Deposit");
-		mLoanInstallmentDepositLabel.setSize(180, 20);
-		mLoanInstallmentDepositLabel.setLocation(5, 130);
+		mLoanInstallmentDepositLabel.setSize(mWidth, mHeight);
+		mLoanInstallmentDepositLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 4);
 		add(mLoanInstallmentDepositLabel);
 
 		mLoanInstallmentDepositValue = new JTextField();
-		mLoanInstallmentDepositValue.setSize(180, 20);
-		mLoanInstallmentDepositValue.setLocation(200, 130);
+		mLoanInstallmentDepositValue.setSize(mWidth, mHeight);
+		mLoanInstallmentDepositValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 4);
 		add(mLoanInstallmentDepositValue);
 
 		mLoanInterestDepositLabel = new JLabel("Loan Interest Deposit");
-		mLoanInterestDepositLabel.setSize(180, 20);
-		mLoanInterestDepositLabel.setLocation(5, 160);
+		mLoanInterestDepositLabel.setSize(mWidth, mHeight);
+		mLoanInterestDepositLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 5);
 		add(mLoanInterestDepositLabel);
 
 		mLoanInterestDepositValue = new JTextField();
-		mLoanInterestDepositValue.setSize(180, 20);
-		mLoanInterestDepositValue.setLocation(200, 160);
+		mLoanInterestDepositValue.setSize(mWidth, mHeight);
+		mLoanInterestDepositValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 5);
 		add(mLoanInterestDepositValue);
 
 		mLoanFineDepositLabel = new JLabel("Loan Fine Deposit");
-		mLoanFineDepositLabel.setSize(180, 20);
-		mLoanFineDepositLabel.setLocation(5, 190);
+		mLoanFineDepositLabel.setSize(mWidth, mHeight);
+		mLoanFineDepositLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 6);
 		add(mLoanFineDepositLabel);
 
 		mLoanFineDepositValue = new JTextField();
-		mLoanFineDepositValue.setSize(180, 20);
-		mLoanFineDepositValue.setLocation(200, 190);
+		mLoanFineDepositValue.setSize(mWidth, mHeight);
+		mLoanFineDepositValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 6);
 		add(mLoanFineDepositValue);
 
 		mShareMoneyDepositLabel = new JLabel("Share Money Deposit");
-		mShareMoneyDepositLabel.setSize(180, 20);
-		mShareMoneyDepositLabel.setLocation(5, 220);
+		mShareMoneyDepositLabel.setSize(mWidth, mHeight);
+		mShareMoneyDepositLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 7);
 		add(mShareMoneyDepositLabel);
 
 		mShareMoneyDepositValue = new JTextField();
-		mShareMoneyDepositValue.setSize(180, 20);
-		mShareMoneyDepositValue.setLocation(200, 220);
+		mShareMoneyDepositValue.setSize(mWidth, mHeight);
+		mShareMoneyDepositValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 7);
 		add(mShareMoneyDepositValue);
 
 		mAdmissionFeeDepositLabel = new JLabel("Admission Fee Deposit");
-		mAdmissionFeeDepositLabel.setSize(180, 20);
-		mAdmissionFeeDepositLabel.setLocation(5, 250);
+		mAdmissionFeeDepositLabel.setSize(mWidth, mHeight);
+		mAdmissionFeeDepositLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 8);
 		add(mAdmissionFeeDepositLabel);
 
 		mAdmissionFeeDepositValue = new JTextField();
-		mAdmissionFeeDepositValue.setSize(180, 20);
-		mAdmissionFeeDepositValue.setLocation(200, 250);
+		mAdmissionFeeDepositValue.setSize(mWidth, mHeight);
+		mAdmissionFeeDepositValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 8);
 		add(mAdmissionFeeDepositValue);
 
 		mWelfareDepositLabel = new JLabel("Welfare Deposit");
-		mWelfareDepositLabel.setSize(180, 20);
-		mWelfareDepositLabel.setLocation(5, 280);
+		mWelfareDepositLabel.setSize(mWidth, mHeight);
+		mWelfareDepositLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 9);
 		add(mWelfareDepositLabel);
 
 		mWelfareDepositValue = new JTextField();
-		mWelfareDepositValue.setSize(180, 20);
-		mWelfareDepositValue.setLocation(200, 280);
+		mWelfareDepositValue.setSize(mWidth, mHeight);
+		mWelfareDepositValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 9);
 		add(mWelfareDepositValue);
 
 		mMiscDepositLabel = new JLabel("Miscellaneous Deposit");
-		mMiscDepositLabel.setSize(180, 20);
-		mMiscDepositLabel.setLocation(5, 310);
+		mMiscDepositLabel.setSize(mWidth, mHeight);
+		mMiscDepositLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 10);
 		add(mMiscDepositLabel);
 
 		mMiscDepositValue = new JTextField();
-		mMiscDepositValue.setSize(180, 20);
-		mMiscDepositValue.setLocation(200, 310);
+		mMiscDepositValue.setSize(mWidth, mHeight);
+		mMiscDepositValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 10);
 		add(mMiscDepositValue);
 
 		mLoanIssuedLabel = new JLabel("Loan Issued");
-		mLoanIssuedLabel.setSize(180, 20);
-		mLoanIssuedLabel.setLocation(5, 340);
+		mLoanIssuedLabel.setSize(mWidth, mHeight);
+		mLoanIssuedLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 11);
 		add(mLoanIssuedLabel);
 
 		mLoanIssuedValue = new JTextField();
-		mLoanIssuedValue.setSize(180, 20);
-		mLoanIssuedValue.setLocation(200, 340);
+		mLoanIssuedValue.setSize(mWidth, mHeight);
+		mLoanIssuedValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 11);
 		add(mLoanIssuedValue);
 
 		mMiscPaymentIssuedLabel = new JLabel("Miscellaneous Payment Issued");
-		mMiscPaymentIssuedLabel.setSize(180, 20);
-		mMiscPaymentIssuedLabel.setLocation(5, 370);
+		mMiscPaymentIssuedLabel.setSize(mWidth, mHeight);
+		mMiscPaymentIssuedLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 12);
 		add(mMiscPaymentIssuedLabel);
 
 		mMiscPaymentIssuedValue = new JTextField();
-		mMiscPaymentIssuedValue.setSize(180, 20);
-		mMiscPaymentIssuedValue.setLocation(200, 370);
+		mMiscPaymentIssuedValue.setSize(mWidth, mHeight);
+		mMiscPaymentIssuedValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 12);
 		add(mMiscPaymentIssuedValue);
 
 		mPaymentModeLabel = new JLabel("Payment Mode");
-		mPaymentModeLabel.setSize(180, 20);
-		mPaymentModeLabel.setLocation(5, 400);
+		mPaymentModeLabel.setSize(mWidth, mHeight);
+		mPaymentModeLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 13);
 		add(mPaymentModeLabel);
 
 		mPaymentModeValue = new JComboBox<>(UiConstants.PaymentModeConstants.PAYMENT_MODES);
-		mPaymentModeValue.setSize(70, 20);
-		mPaymentModeValue.setLocation(200, 400);
+		mPaymentModeValue.setSize(90, mHeight);
+		mPaymentModeValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 13);
 		add(mPaymentModeValue);
 
 		mRemarksLabel = new JLabel("Remarks");
-		mRemarksLabel.setSize(180, 20);
-		mRemarksLabel.setLocation(5, 430);
+		mRemarksLabel.setSize(mWidth, mHeight);
+		mRemarksLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 14);
 		add(mRemarksLabel);
 
 		mRemarksValue = new JTextField();
-		mRemarksValue.setSize(180, 20);
-		mRemarksValue.setLocation(200, 430);
+		mRemarksValue.setSize(mWidth, mHeight);
+		mRemarksValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 14);
 		add(mRemarksValue);
 
 		mSubmit = new JButton("Submit");
-		mSubmit.setSize(80, 20);
-		mSubmit.setLocation(100, 480);
+		mSubmit.setSize(100, mHeight);
+		mSubmit.setLocation(200, mInitialSpacing + mVerticalSpacing * 16);
 		mSubmit.addActionListener(this);
 		add(mSubmit);
 
 		mClear = new JButton("Clear");
-		mClear.setSize(80, 20);
-		mClear.setLocation(205, 480);
+		mClear.setSize(100, mHeight);
+		mClear.setLocation(330, mInitialSpacing + mVerticalSpacing * 16);
 		mClear.addActionListener(this);
 		mClear.doClick();
 		add(mClear);

@@ -4,6 +4,16 @@ import java.time.LocalDateTime;
 
 public class UiConstants {
 
+	public static class DimensionConstants {
+		public static final int WINDOW_DIMENSION = 850;
+		public static final int DEFAULT_WIDTH = 250;
+		public static final int DEFAULT_HEIGHT = 25;
+		public static final int DEFAULT_INITIAL_SPACING = 15;
+		public static final int DEFAULT_VERTICAL_SPACING = DEFAULT_HEIGHT + 15;
+		public static final int DEFAULT_HORIZONTAL_SPACING = DEFAULT_INITIAL_SPACING + DEFAULT_WIDTH + 30;
+		public static final int DEFAULT_COMBO_BOX_DATE_WIDTH = 60;
+	}
+
 	public static class DateConstants {
 
 		private static final String NA = "NA";
@@ -54,5 +64,20 @@ public class UiConstants {
 	public static class PaymentModeConstants {
 
 		public static final String[] PAYMENT_MODES = { "Cash", "Cheque", "Online", "Others" };
+	}
+
+	public static class TransactionTableConstants {
+
+		public static final String[] COLUMN_NAMES = { "Transaction<br>Number", "Account<br>Number", "Date", "CD",
+				"CD<br>Fine", "Loan<br>Installment", "Loan<br>Interest", "Loan<br>Fine", "Share<br>Money",
+				"Admission<br>Fee", "Welfare<br>Depoit", "Misc.<br>Fee", "Loan<br>Issue", "Misc.<br>Pay. Issue", "Mode",
+				"Remarks" };
+		public static final String[][] ROW_DEFAULTS = new String[0][];
+
+		static {
+			for (int i = 0; i < COLUMN_NAMES.length; i++) {
+				COLUMN_NAMES[i] = "<html><center>" + COLUMN_NAMES[i] + "</html>";
+			}
+		}
 	}
 }

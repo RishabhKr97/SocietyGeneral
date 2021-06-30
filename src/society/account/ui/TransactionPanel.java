@@ -24,10 +24,11 @@ public class TransactionPanel extends JPanel {
 		mSearchTransactionPanel = new SearchTransactionPanel();
 		mEditTransactionPanel = new EditTransactionPanel();
 
-		mTabs.setSize(600, 600);
-		mTabs.add("add new transaction", mAddTransactionPanel);
-		mTabs.add("search transaction", mSearchTransactionPanel);
-		mTabs.add("edit transaction", mEditTransactionPanel);
+		mTabs.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION, UiConstants.DimensionConstants.WINDOW_DIMENSION);
+		mTabs.setFont(UiFontManager.getSubHeadingFont());
+		mTabs.add("Add New Transaction", mAddTransactionPanel);
+		mTabs.add("Search Transaction", mSearchTransactionPanel);
+		mTabs.add("Edit Transaction", mEditTransactionPanel);
 		add(mTabs);
 	}
 }

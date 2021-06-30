@@ -17,6 +17,13 @@ import society.account.ui.UiConstants;
 @SuppressWarnings("serial")
 public class AddUserPanel extends JPanel implements ActionListener {
 
+	private int mWidth = UiConstants.DimensionConstants.DEFAULT_WIDTH;
+	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
+	private int mInitialSpacing = UiConstants.DimensionConstants.DEFAULT_INITIAL_SPACING;
+	private int mVerticalSpacing = UiConstants.DimensionConstants.DEFAULT_VERTICAL_SPACING;
+	private int mHorizontalSpacing = UiConstants.DimensionConstants.DEFAULT_HORIZONTAL_SPACING;
+	private int mComboBoxWidth = UiConstants.DimensionConstants.DEFAULT_COMBO_BOX_DATE_WIDTH;
+
 	private JLabel mAccountNumberLabel;
 	private JTextField mAccountNumberValue;
 	private JLabel mNameLabel;
@@ -48,129 +55,133 @@ public class AddUserPanel extends JPanel implements ActionListener {
 		setLayout(null);
 
 		mAccountNumberLabel = new JLabel("Account Number");
-		mAccountNumberLabel.setSize(180, 20);
-		mAccountNumberLabel.setLocation(5, 10);
+		mAccountNumberLabel.setSize(mWidth, mHeight);
+		mAccountNumberLabel.setLocation(mInitialSpacing, mInitialSpacing);
 		add(mAccountNumberLabel);
 
 		mAccountNumberValue = new JTextField();
-		mAccountNumberValue.setSize(180, 20);
-		mAccountNumberValue.setLocation(200, 10);
+		mAccountNumberValue.setSize(mWidth, mHeight);
+		mAccountNumberValue.setLocation(mHorizontalSpacing, mInitialSpacing);
 		add(mAccountNumberValue);
 
 		mNameLabel = new JLabel("Name");
-		mNameLabel.setSize(180, 20);
-		mNameLabel.setLocation(5, 40);
+		mNameLabel.setSize(mWidth, mHeight);
+		mNameLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing);
 		add(mNameLabel);
 
 		mNameValue = new JTextField();
-		mNameValue.setSize(180, 20);
-		mNameValue.setLocation(200, 40);
+		mNameValue.setSize(mWidth, mHeight);
+		mNameValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing);
 		add(mNameValue);
 
 		mDobLabel = new JLabel("Date of Birth");
-		mDobLabel.setSize(180, 20);
-		mDobLabel.setLocation(5, 70);
+		mDobLabel.setSize(mWidth, mHeight);
+		mDobLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 2);
 		add(mDobLabel);
 
 		mDobDate = new JComboBox<>(UiConstants.DateConstants.DATES);
-		mDobDate.setSize(52, 20);
-		mDobDate.setLocation(200, 70);
+		mDobDate.setSize(mComboBoxWidth, mHeight);
+		mDobDate.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 2);
 		add(mDobDate);
 
 		mDobMonth = new JComboBox<>(UiConstants.DateConstants.MONTHS);
-		mDobMonth.setSize(52, 20);
-		mDobMonth.setLocation(264, 70);
+		mDobMonth.setSize(mComboBoxWidth, mHeight);
+		mDobMonth.setLocation(mHorizontalSpacing + mInitialSpacing + mComboBoxWidth,
+				mInitialSpacing + mVerticalSpacing * 2);
 		add(mDobMonth);
 
 		mDobYear = new JComboBox<>(UiConstants.DateConstants.YEARS);
-		mDobYear.setSize(52, 20);
-		mDobYear.setLocation(328, 70);
+		mDobYear.setSize(mComboBoxWidth, mHeight);
+		mDobYear.setLocation(mHorizontalSpacing + (mInitialSpacing + mComboBoxWidth) * 2,
+				mInitialSpacing + mVerticalSpacing * 2);
 		add(mDobYear);
 
 		mDojLabel = new JLabel("Date of Joining");
-		mDojLabel.setSize(180, 20);
-		mDojLabel.setLocation(5, 100);
+		mDojLabel.setSize(mWidth, mHeight);
+		mDojLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 3);
 		add(mDojLabel);
 
 		mDojDate = new JComboBox<>(UiConstants.DateConstants.DATES);
-		mDojDate.setSize(52, 20);
-		mDojDate.setLocation(200, 100);
+		mDojDate.setSize(mComboBoxWidth, mHeight);
+		mDojDate.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 3);
 		mDojDate.setSelectedIndex(UiConstants.DateConstants.getCurrentDateIdx());
 		add(mDojDate);
 
 		mDojMonth = new JComboBox<>(UiConstants.DateConstants.MONTHS);
-		mDojMonth.setSize(52, 20);
-		mDojMonth.setLocation(264, 100);
+		mDojMonth.setSize(mComboBoxWidth, mHeight);
+		mDojMonth.setLocation(mHorizontalSpacing + mInitialSpacing + mComboBoxWidth,
+				mInitialSpacing + mVerticalSpacing * 3);
 		mDojMonth.setSelectedIndex(UiConstants.DateConstants.getCurrentMonthIdx());
 		add(mDojMonth);
 
 		mDojYear = new JComboBox<>(UiConstants.DateConstants.YEARS);
-		mDojYear.setSize(52, 20);
-		mDojYear.setLocation(328, 100);
+		mDojYear.setSize(mComboBoxWidth, mHeight);
+		mDojYear.setLocation(mHorizontalSpacing + (mInitialSpacing + mComboBoxWidth) * 2,
+				mInitialSpacing + mVerticalSpacing * 3);
 		mDojYear.setSelectedIndex(UiConstants.DateConstants.getCurrentYearIdx());
 		add(mDojYear);
 
 		mAddressLabel = new JLabel("Address");
-		mAddressLabel.setSize(180, 20);
-		mAddressLabel.setLocation(5, 130);
+		mAddressLabel.setSize(mWidth, mHeight);
+		mAddressLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 4);
 		add(mAddressLabel);
 
 		mAddressValue = new JTextArea();
 		mAddressValue.setLineWrap(true);
 		mAddressScroll = new JScrollPane(mAddressValue);
-		mAddressScroll.setSize(180, 60);
-		mAddressScroll.setLocation(200, 130);
+		mAddressScroll.setSize(mWidth, mHeight * 3);
+		mAddressScroll.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 4);
 		add(mAddressScroll);
 
 		mMobileLabel = new JLabel("Mobile Number");
-		mMobileLabel.setSize(180, 20);
-		mMobileLabel.setLocation(5, 200);
+		mMobileLabel.setSize(mWidth, mHeight);
+		mMobileLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 6);
 		add(mMobileLabel);
 
 		mMobileValue = new JTextField();
-		mMobileValue.setSize(180, 20);
-		mMobileValue.setLocation(200, 200);
+		mMobileValue.setSize(mWidth, mHeight);
+		mMobileValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 6);
 		add(mMobileValue);
 
 		mEmailLabel = new JLabel("Email Id");
-		mEmailLabel.setSize(180, 20);
-		mEmailLabel.setLocation(5, 230);
+		mEmailLabel.setSize(mWidth, mHeight);
+		mEmailLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 7);
 		add(mEmailLabel);
 
 		mEmailValue = new JTextField();
-		mEmailValue.setSize(180, 20);
-		mEmailValue.setLocation(200, 230);
+		mEmailValue.setSize(mWidth, mHeight);
+		mEmailValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 7);
 		add(mEmailValue);
 
 		mPanLabel = new JLabel("PAN Number");
-		mPanLabel.setSize(180, 20);
-		mPanLabel.setLocation(5, 260);
+		mPanLabel.setSize(mWidth, mHeight);
+		mPanLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 8);
 		add(mPanLabel);
 
 		mPanValue = new JTextField();
-		mPanValue.setSize(180, 20);
-		mPanValue.setLocation(200, 260);
+		mPanValue.setSize(mWidth, mHeight);
+		mPanValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 8);
 		add(mPanValue);
 
 		mAadharLabel = new JLabel("Aadhar Number");
-		mAadharLabel.setSize(180, 20);
-		mAadharLabel.setLocation(5, 290);
+		mAadharLabel.setSize(mWidth, mHeight);
+		mAadharLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 9);
 		add(mAadharLabel);
 
 		mAadharValue = new JTextField();
-		mAadharValue.setSize(180, 20);
-		mAadharValue.setLocation(200, 290);
+		mAadharValue.setSize(mWidth, mHeight);
+		mAadharValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 9);
 		add(mAadharValue);
 
 		mSubmit = new JButton("Submit");
-		mSubmit.setSize(80, 20);
-		mSubmit.setLocation(100, 340);
+		mSubmit.setSize(100, 20);
+		mSubmit.setLocation(200, mInitialSpacing + mVerticalSpacing * 11);
 		mSubmit.addActionListener(this);
 		add(mSubmit);
 
 		mClear = new JButton("Clear");
-		mClear.setSize(80, 20);
-		mClear.setLocation(205, 340);
+		mClear.setSize(100, 20);
+		mClear.setLocation(330, mInitialSpacing + mVerticalSpacing * 11);
 		mClear.addActionListener(this);
 		add(mClear);
 	}

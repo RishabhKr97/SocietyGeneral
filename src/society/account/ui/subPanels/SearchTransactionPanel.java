@@ -7,12 +7,21 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
 public class SearchTransactionPanel extends JPanel implements ActionListener {
+
+	private int mWidth = UiConstants.DimensionConstants.DEFAULT_WIDTH;
+	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
+	private int mIinitialSpacing = UiConstants.DimensionConstants.DEFAULT_INITIAL_SPACING;
+	private int mVerticalSpacing = UiConstants.DimensionConstants.DEFAULT_VERTICAL_SPACING;
+	private int mHorizontalSpacing = UiConstants.DimensionConstants.DEFAULT_HORIZONTAL_SPACING;
+	private int mComboBoxWidth = UiConstants.DimensionConstants.DEFAULT_COMBO_BOX_DATE_WIDTH;
 
 	private JLabel mAccountNumberLabel;
 	private JTextField mAccountNumberValue;
@@ -21,45 +30,61 @@ public class SearchTransactionPanel extends JPanel implements ActionListener {
 	private JComboBox<String> mDotDate;
 	private JComboBox<String> mDotMonth;
 	private JComboBox<String> mDotYear;
+	private JScrollPane mTransactionPane;
+	private JTable mTransactionTable;
 
 	public SearchTransactionPanel() {
 		setLayout(null);
 
 		mAccountNumberLabel = new JLabel("Account Number");
-		mAccountNumberLabel.setSize(180, 20);
-		mAccountNumberLabel.setLocation(5, 10);
+		mAccountNumberLabel.setSize(mWidth, mHeight);
+		mAccountNumberLabel.setLocation(mIinitialSpacing, mIinitialSpacing);
 		add(mAccountNumberLabel);
 
 		mAccountNumberValue = new JTextField();
-		mAccountNumberValue.setSize(180, 20);
-		mAccountNumberValue.setLocation(200, 10);
+		mAccountNumberValue.setSize(mWidth, mHeight);
+		mAccountNumberValue.setLocation(mHorizontalSpacing, mIinitialSpacing);
 		add(mAccountNumberValue);
 
 		mGetPaymentDetails = new JButton("Get Details");
-		mGetPaymentDetails.setSize(100, 20);
-		mGetPaymentDetails.setLocation(400, 10);
+		mGetPaymentDetails.setSize(125, mHeight);
+		mGetPaymentDetails.setLocation(mHorizontalSpacing * 2, mIinitialSpacing);
 		mGetPaymentDetails.addActionListener(this);
 		add(mGetPaymentDetails);
 
 		mDotLabel = new JLabel("Date of Transaction");
-		mDotLabel.setSize(180, 20);
-		mDotLabel.setLocation(5, 40);
+		mDotLabel.setSize(mWidth, mHeight);
+		mDotLabel.setLocation(mIinitialSpacing, mIinitialSpacing + mVerticalSpacing);
 		add(mDotLabel);
 
 		mDotDate = new JComboBox<>(UiConstants.DateConstants.DATES_WITH_NA);
-		mDotDate.setSize(52, 20);
-		mDotDate.setLocation(200, 40);
+		mDotDate.setSize(mComboBoxWidth, mHeight);
+		mDotDate.setLocation(mHorizontalSpacing, mIinitialSpacing + mVerticalSpacing);
 		add(mDotDate);
 
 		mDotMonth = new JComboBox<>(UiConstants.DateConstants.MONTHS_WITH_NA);
-		mDotMonth.setSize(52, 20);
-		mDotMonth.setLocation(264, 40);
+		mDotMonth.setSize(mComboBoxWidth, mHeight);
+		mDotMonth.setLocation(mHorizontalSpacing + mIinitialSpacing + mComboBoxWidth,
+				mIinitialSpacing + mVerticalSpacing);
 		add(mDotMonth);
 
 		mDotYear = new JComboBox<>(UiConstants.DateConstants.YEARS_WITH_NA);
-		mDotYear.setSize(52, 20);
-		mDotYear.setLocation(328, 40);
+		mDotYear.setSize(mComboBoxWidth, mHeight);
+		mDotYear.setLocation(mHorizontalSpacing + (mIinitialSpacing + mComboBoxWidth) * 2,
+				mIinitialSpacing + mVerticalSpacing);
 		add(mDotYear);
+
+		mTransactionTable = new JTable(UiConstants.TransactionTableConstants.ROW_DEFAULTS,
+				UiConstants.TransactionTableConstants.COLUMN_NAMES);
+		mTransactionTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		mTransactionTable.getTableHeader().setReorderingAllowed(false);
+		mTransactionTable.setEnabled(false);
+		mTransactionPane = new JScrollPane(mTransactionTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		mTransactionPane.setSize(800, 600);
+		mTransactionPane.setLocation(mIinitialSpacing, mIinitialSpacing + mVerticalSpacing * 3);
+		mTransactionPane.setVisible(true);
+		add(mTransactionPane);
 	}
 
 	@Override

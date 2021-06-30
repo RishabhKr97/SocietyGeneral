@@ -9,8 +9,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import society.account.ui.UiConstants;
+
 @SuppressWarnings("serial")
 public class DeleteRestoreUserPanel extends JPanel implements ActionListener {
+
+	private int mWidth = UiConstants.DimensionConstants.DEFAULT_WIDTH;
+	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
+	private int mInitialSpacing = UiConstants.DimensionConstants.DEFAULT_INITIAL_SPACING;
+	private int mVerticalSpacing = UiConstants.DimensionConstants.DEFAULT_VERTICAL_SPACING;
+	private int mHorizontalSpacing = UiConstants.DimensionConstants.DEFAULT_HORIZONTAL_SPACING;
 
 	private JLabel mRemoveMemberLabel;
 	private JTextField mRemoveAccountNumber;
@@ -24,40 +32,40 @@ public class DeleteRestoreUserPanel extends JPanel implements ActionListener {
 		setLayout(null);
 
 		mRemoveMemberLabel = new JLabel("Remove Member");
-		mRemoveMemberLabel.setSize(180, 20);
-		mRemoveMemberLabel.setLocation(5, 10);
+		mRemoveMemberLabel.setSize(mWidth, mHeight);
+		mRemoveMemberLabel.setLocation(mInitialSpacing, mInitialSpacing);
 		add(mRemoveMemberLabel);
 
 		mRemoveAccountNumber = new JTextField();
-		mRemoveAccountNumber.setSize(180, 20);
-		mRemoveAccountNumber.setLocation(200, 10);
+		mRemoveAccountNumber.setSize(mWidth, mHeight);
+		mRemoveAccountNumber.setLocation(mHorizontalSpacing, mInitialSpacing);
 		add(mRemoveAccountNumber);
 
 		mRemoveMemberSubmit = new JButton("Submit");
-		mRemoveMemberSubmit.setSize(80, 20);
-		mRemoveMemberSubmit.setLocation(400, 10);
+		mRemoveMemberSubmit.setSize(100, mHeight);
+		mRemoveMemberSubmit.setLocation(mHorizontalSpacing * 2, mInitialSpacing);
 		mRemoveMemberSubmit.addActionListener(this);
 		add(mRemoveMemberSubmit);
 
 		mRestoreMemberLabel = new JLabel("Restore Member");
-		mRestoreMemberLabel.setSize(180, 20);
-		mRestoreMemberLabel.setLocation(5, 40);
+		mRestoreMemberLabel.setSize(mWidth, mHeight);
+		mRestoreMemberLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing);
 		add(mRestoreMemberLabel);
 
 		mRestoreAccountNumber = new JTextField();
-		mRestoreAccountNumber.setSize(180, 20);
-		mRestoreAccountNumber.setLocation(200, 40);
+		mRestoreAccountNumber.setSize(mWidth, mHeight);
+		mRestoreAccountNumber.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing);
 		add(mRestoreAccountNumber);
 
 		mRestoreMemberSubmit = new JButton("Submit");
-		mRestoreMemberSubmit.setSize(80, 20);
-		mRestoreMemberSubmit.setLocation(400, 40);
+		mRestoreMemberSubmit.setSize(100, mHeight);
+		mRestoreMemberSubmit.setLocation(mHorizontalSpacing * 2, mInitialSpacing + mVerticalSpacing);
 		mRestoreMemberSubmit.addActionListener(this);
 		add(mRestoreMemberSubmit);
 
 		mStatusLabel = new JLabel("Member Deleted Successfully!");
-		mStatusLabel.setSize(180, 20);
-		mStatusLabel.setLocation(150, 90);
+		mStatusLabel.setSize(mWidth, mHeight);
+		mStatusLabel.setLocation(200, mInitialSpacing + mVerticalSpacing * 3);
 		mStatusLabel.setForeground(Color.GREEN);
 		add(mStatusLabel);
 	}

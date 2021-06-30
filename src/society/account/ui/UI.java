@@ -17,6 +17,8 @@ public class UI {
 	ManagePanel mManagePanel;
 
 	public UI() {
+		UiFontManager.setFont();
+
 		mMainFrame = new JFrame();
 		mTabs = new JTabbedPane();
 		mUserInfoPanel = new UserInfoPanel();
@@ -24,15 +26,16 @@ public class UI {
 		mSummaryPanel = new SummaryPanel();
 		mManagePanel = new ManagePanel();
 
-		mTabs.setSize(600, 600);
-		mTabs.add("member info", mUserInfoPanel);
-		mTabs.add("member transactions", mTransactionPanel);
-		mTabs.add("summary", mSummaryPanel);
-		mTabs.add("manage", mManagePanel);
+		mTabs.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION, UiConstants.DimensionConstants.WINDOW_DIMENSION);
+		mTabs.add("Member Info", mUserInfoPanel);
+		mTabs.add("Member Transactions", mTransactionPanel);
+		mTabs.add("Summary", mSummaryPanel);
+		mTabs.add("Manage", mManagePanel);
 
 		mMainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mMainFrame.add(mTabs);
-		mMainFrame.setSize(600, 600);
+		mMainFrame.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION,
+				UiConstants.DimensionConstants.WINDOW_DIMENSION);
 		mMainFrame.setVisible(true);
 		mMainFrame.setTitle("Apna Co-Op. Society");
 

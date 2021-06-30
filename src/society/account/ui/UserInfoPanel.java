@@ -16,6 +16,12 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class UserInfoPanel extends JPanel implements ActionListener {
 
+	private int mWidth = UiConstants.DimensionConstants.DEFAULT_WIDTH;
+	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
+	private int mInitialSpacing = UiConstants.DimensionConstants.DEFAULT_INITIAL_SPACING;
+	private int mVerticalSpacing = UiConstants.DimensionConstants.DEFAULT_VERTICAL_SPACING;
+	private int mHorizontalSpacing = UiConstants.DimensionConstants.DEFAULT_HORIZONTAL_SPACING;
+
 	private JTextField mAccountNumber;
 	private JButton mSubmit;
 	private JLabel mNameLabel;
@@ -48,56 +54,56 @@ public class UserInfoPanel extends JPanel implements ActionListener {
 
 		mAccountNumber = new JTextField();
 		mAccountNumber.setText(" ENTER ACCOUNT NUMBER");
-		mAccountNumber.setSize(180, 20);
-		mAccountNumber.setLocation(5, 5);
+		mAccountNumber.setSize(mWidth, mHeight);
+		mAccountNumber.setLocation(mInitialSpacing, mInitialSpacing);
 		mAccountNumber.addMouseListener(new AccountMouseListner());
 		add(mAccountNumber);
 
 		mSubmit = new JButton("Find");
-		mSubmit.setSize(80, 20);
-		mSubmit.setLocation(200, 5);
+		mSubmit.setSize(100, mHeight);
+		mSubmit.setLocation(mHorizontalSpacing, mInitialSpacing);
 		mSubmit.addActionListener(this);
 		add(mSubmit);
 
 		mNameLabel = new JLabel("Name");
-		mNameLabel.setSize(180, 20);
-		mNameLabel.setLocation(5, 40);
+		mNameLabel.setSize(mWidth, mHeight);
+		mNameLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing);
 		add(mNameLabel);
 
 		mNameValue = new JTextField();
 		mNameValue.setText("My Name");
-		mNameValue.setSize(180, 20);
-		mNameValue.setLocation(200, 40);
+		mNameValue.setSize(mWidth, mHeight);
+		mNameValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing);
 		mNameValue.setEditable(false);
 		add(mNameValue);
 
 		mDobLabel = new JLabel("Date of Birth");
-		mDobLabel.setSize(180, 20);
-		mDobLabel.setLocation(5, 70);
+		mDobLabel.setSize(mWidth, mHeight);
+		mDobLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 2);
 		add(mDobLabel);
 
 		mDobValue = new JTextField();
 		mDobValue.setText("My DOB");
-		mDobValue.setSize(180, 20);
-		mDobValue.setLocation(200, 70);
+		mDobValue.setSize(mWidth, mHeight);
+		mDobValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 2);
 		mDobValue.setEditable(false);
 		add(mDobValue);
 
 		mDojLabel = new JLabel("Date of Joining");
-		mDojLabel.setSize(180, 20);
-		mDojLabel.setLocation(5, 100);
+		mDojLabel.setSize(mWidth, mHeight);
+		mDojLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 3);
 		add(mDojLabel);
 
 		mDojValue = new JTextField();
 		mDojValue.setText("My DOJ");
-		mDojValue.setSize(180, 20);
-		mDojValue.setLocation(200, 100);
+		mDojValue.setSize(mWidth, mHeight);
+		mDojValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 3);
 		mDojValue.setEditable(false);
 		add(mDojValue);
 
 		mAddressLabel = new JLabel("Address");
-		mAddressLabel.setSize(180, 20);
-		mAddressLabel.setLocation(5, 130);
+		mAddressLabel.setSize(mWidth, mHeight);
+		mAddressLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 4);
 		add(mAddressLabel);
 
 		mAddressValue = new JTextArea();
@@ -105,97 +111,97 @@ public class UserInfoPanel extends JPanel implements ActionListener {
 		mAddressValue.setLineWrap(true);
 		mAddressValue.setEditable(false);
 		mAddressScroll = new JScrollPane(mAddressValue);
-		mAddressScroll.setSize(180, 60);
-		mAddressScroll.setLocation(200, 130);
+		mAddressScroll.setSize(mWidth, mHeight * 3);
+		mAddressScroll.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 4);
 		add(mAddressScroll);
 
 		mMobileLabel = new JLabel("Mobile Number");
-		mMobileLabel.setSize(180, 20);
-		mMobileLabel.setLocation(5, 200);
+		mMobileLabel.setSize(mWidth, mHeight);
+		mMobileLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 6);
 		add(mMobileLabel);
 
 		mMobileValue = new JTextField();
 		mMobileValue.setText("My Mobile Number");
-		mMobileValue.setSize(180, 20);
-		mMobileValue.setLocation(200, 200);
+		mMobileValue.setSize(mWidth, mHeight);
+		mMobileValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 6);
 		mMobileValue.setEditable(false);
 		add(mMobileValue);
 
 		mEmailLabel = new JLabel("Email Id");
-		mEmailLabel.setSize(180, 20);
-		mEmailLabel.setLocation(5, 230);
+		mEmailLabel.setSize(mWidth, mHeight);
+		mEmailLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 7);
 		add(mEmailLabel);
 
 		mEmailValue = new JTextField();
 		mEmailValue.setText("My Email Id");
-		mEmailValue.setSize(180, 20);
-		mEmailValue.setLocation(200, 230);
+		mEmailValue.setSize(mWidth, mHeight);
+		mEmailValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 7);
 		mEmailValue.setEditable(false);
 		add(mEmailValue);
 
 		mPanLabel = new JLabel("PAN Number");
-		mPanLabel.setSize(180, 20);
-		mPanLabel.setLocation(5, 260);
+		mPanLabel.setSize(mWidth, mHeight);
+		mPanLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 8);
 		add(mPanLabel);
 
 		mPanValue = new JTextField();
 		mPanValue.setText("My PAN Number");
-		mPanValue.setSize(180, 20);
-		mPanValue.setLocation(200, 260);
+		mPanValue.setSize(mWidth, mHeight);
+		mPanValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 8);
 		mPanValue.setEditable(false);
 		add(mPanValue);
 
 		mAadharLabel = new JLabel("Aadhar Number");
-		mAadharLabel.setSize(180, 20);
-		mAadharLabel.setLocation(5, 290);
+		mAadharLabel.setSize(mWidth, mHeight);
+		mAadharLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 9);
 		add(mAadharLabel);
 
 		mAadharValue = new JTextField();
 		mAadharValue.setText("My Aadhar Number");
-		mAadharValue.setSize(180, 20);
-		mAadharValue.setLocation(200, 290);
+		mAadharValue.setSize(mWidth, mHeight);
+		mAadharValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 9);
 		mAadharValue.setEditable(false);
 		add(mAadharValue);
 
 		mShareBalanceLabel = new JLabel("Share Balance");
-		mShareBalanceLabel.setSize(180, 20);
-		mShareBalanceLabel.setLocation(5, 320);
+		mShareBalanceLabel.setSize(mWidth, mHeight);
+		mShareBalanceLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 10);
 		add(mShareBalanceLabel);
 
 		mShareBalanceValue = new JTextField();
 		mShareBalanceValue.setText("My Share Balance");
-		mShareBalanceValue.setSize(180, 20);
-		mShareBalanceValue.setLocation(200, 320);
+		mShareBalanceValue.setSize(mWidth, mHeight);
+		mShareBalanceValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 10);
 		mShareBalanceValue.setEditable(false);
 		add(mShareBalanceValue);
 
 		mCdBalanceLabel = new JLabel("Compulsory Deposit Balance");
-		mCdBalanceLabel.setSize(180, 20);
-		mCdBalanceLabel.setLocation(5, 350);
+		mCdBalanceLabel.setSize(mWidth, mHeight);
+		mCdBalanceLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 11);
 		add(mCdBalanceLabel);
 
 		mCdBalanceValue = new JTextField();
 		mCdBalanceValue.setText("My Compulsory Deposit Balance");
-		mCdBalanceValue.setSize(180, 20);
-		mCdBalanceValue.setLocation(200, 350);
+		mCdBalanceValue.setSize(mWidth, mHeight);
+		mCdBalanceValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 11);
 		mCdBalanceValue.setEditable(false);
 		add(mCdBalanceValue);
 
 		mLoanBalanceLabel = new JLabel("Loan Balance");
-		mLoanBalanceLabel.setSize(180, 20);
-		mLoanBalanceLabel.setLocation(5, 380);
+		mLoanBalanceLabel.setSize(mWidth, mHeight);
+		mLoanBalanceLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 12);
 		add(mLoanBalanceLabel);
 
 		mLoanBalanceValue = new JTextField();
 		mLoanBalanceValue.setText("My Loan Balance");
-		mLoanBalanceValue.setSize(180, 20);
-		mLoanBalanceValue.setLocation(200, 380);
+		mLoanBalanceValue.setSize(mWidth, mHeight);
+		mLoanBalanceValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 12);
 		mLoanBalanceValue.setEditable(false);
 		add(mLoanBalanceValue);
 
 		mStatusLabel = new JLabel("Account is active.");
-		mStatusLabel.setSize(180, 20);
-		mStatusLabel.setLocation(120, 430);
+		mStatusLabel.setSize(mWidth, mHeight);
+		mStatusLabel.setLocation(200, mInitialSpacing + mVerticalSpacing * 14);
 		mStatusLabel.setForeground(Color.GREEN);
 		add(mStatusLabel);
 	}
