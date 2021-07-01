@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.TableColumn;
 
 import society.account.ui.UiConstants;
 
@@ -76,6 +77,13 @@ public class SearchTransactionPanel extends JPanel implements ActionListener {
 
 		mTransactionTable = new JTable(UiConstants.TransactionTableConstants.ROW_DEFAULTS,
 				UiConstants.TransactionTableConstants.COLUMN_NAMES);
+		for (int column = 0; column < mTransactionTable.getColumnCount(); column++) {
+			TableColumn tableColumn = mTransactionTable.getColumnModel().getColumn(column);
+			tableColumn.setPreferredWidth(UiConstants.DimensionConstants.DEFAULT_TABLE_COLUMN_WIDTH);
+			if (column == mTransactionTable.getColumnCount() - 1) {
+				tableColumn.setPreferredWidth(UiConstants.DimensionConstants.DEFAULT_TABLE_COLUMN_WIDTH * 2);
+			}
+		}
 		mTransactionTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		mTransactionTable.getTableHeader().setReorderingAllowed(false);
 		mTransactionTable.setEnabled(false);

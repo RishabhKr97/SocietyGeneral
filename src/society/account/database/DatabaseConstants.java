@@ -30,7 +30,7 @@ class DatabaseConstants {
 			+ "welfare_deposit INTEGER, "
 			+ "misc_deposit INTEGER, "
 			+ "loan_issued INTEGER, "
-			+ "misc_payment_issued INTEGER, "
+			+ "misc_amount_issued INTEGER, "
 			+ "payment_mode INTEGER, "
 			+ "remarks TEXT, "
 			+ "FOREIGN KEY (account_number) REFERENCES members(account_number) )";

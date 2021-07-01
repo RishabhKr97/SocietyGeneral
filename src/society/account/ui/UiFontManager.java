@@ -11,8 +11,8 @@ public class UiFontManager {
 	private static final Font mTextFont = new Font("", Font.PLAIN, 16);
 	private static final Font mButtonFont = new Font("", Font.BOLD, 15);
 	private static final Font mComboBoxFont = new Font("", Font.BOLD, 16);
-	private static final Font mTableHeaderFont = new Font(Font.SERIF, Font.PLAIN, 14);
-	
+	private static final Font mTableHeaderFont = new Font(Font.SERIF, Font.BOLD, 14);
+
 	public static Font getSubHeadingFont() {
 		return mSubHeadingFont;
 	}

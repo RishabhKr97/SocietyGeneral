@@ -48,8 +48,8 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 	private JTextField mMiscDepositValue;
 	private JLabel mLoanIssuedLabel;
 	private JTextField mLoanIssuedValue;
-	private JLabel mMiscPaymentIssuedLabel;
-	private JTextField mMiscPaymentIssuedValue;
+	private JLabel mMiscAmountIssuedLabel;
+	private JTextField mMiscAmountIssuedValue;
 	private JLabel mPaymentModeLabel;
 	private JComboBox<String> mPaymentModeValue;
 	private JLabel mRemarksLabel;
@@ -201,15 +201,15 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 		mLoanIssuedValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 11);
 		add(mLoanIssuedValue);
 
-		mMiscPaymentIssuedLabel = new JLabel("Miscellaneous Payment Issued");
-		mMiscPaymentIssuedLabel.setSize(mWidth, mHeight);
-		mMiscPaymentIssuedLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 12);
-		add(mMiscPaymentIssuedLabel);
+		mMiscAmountIssuedLabel = new JLabel("Miscellaneous Amount Issued");
+		mMiscAmountIssuedLabel.setSize(mWidth, mHeight);
+		mMiscAmountIssuedLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 12);
+		add(mMiscAmountIssuedLabel);
 
-		mMiscPaymentIssuedValue = new JTextField();
-		mMiscPaymentIssuedValue.setSize(mWidth, mHeight);
-		mMiscPaymentIssuedValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 12);
-		add(mMiscPaymentIssuedValue);
+		mMiscAmountIssuedValue = new JTextField();
+		mMiscAmountIssuedValue.setSize(mWidth, mHeight);
+		mMiscAmountIssuedValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 12);
+		add(mMiscAmountIssuedValue);
 
 		mPaymentModeLabel = new JLabel("Payment Mode");
 		mPaymentModeLabel.setSize(mWidth, mHeight);
@@ -263,7 +263,7 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 			String welfareDeposit = mWelfareDepositValue.getText().trim();
 			String miscDeposit = mMiscDepositValue.getText().trim();
 			String loanIssued = mLoanIssuedValue.getText().trim();
-			String miscPaymentIssued = mMiscPaymentIssuedValue.getText().trim();
+			String miscPaymentIssued = mMiscAmountIssuedValue.getText().trim();
 			String paymentMode = (String) mPaymentModeValue.getSelectedItem();
 			String remarks = mRemarksValue.getText().trim();
 
@@ -288,7 +288,7 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 			mWelfareDepositValue.setText("0");
 			mMiscDepositValue.setText("0");
 			mLoanIssuedValue.setText("0");
-			mMiscPaymentIssuedValue.setText("0");
+			mMiscAmountIssuedValue.setText("0");
 			mPaymentModeValue.setSelectedIndex(0);
 			mRemarksValue.setText("");
 		}
@@ -420,12 +420,12 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 
 		try {
 			if (Integer.parseInt(miscIssue) < 0) {
-				mMiscPaymentIssuedValue.setText("Invalid Value");
+				mMiscAmountIssuedValue.setText("Invalid Value");
 				return false;
 			}
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
-			mMiscPaymentIssuedValue.setText("Invalid Value");
+			mMiscAmountIssuedValue.setText("Invalid Value");
 			return false;
 		}
 

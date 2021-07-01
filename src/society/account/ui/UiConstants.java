@@ -12,6 +12,7 @@ public class UiConstants {
 		public static final int DEFAULT_VERTICAL_SPACING = DEFAULT_HEIGHT + 15;
 		public static final int DEFAULT_HORIZONTAL_SPACING = DEFAULT_INITIAL_SPACING + DEFAULT_WIDTH + 30;
 		public static final int DEFAULT_COMBO_BOX_DATE_WIDTH = 60;
+		public static final int DEFAULT_TABLE_COLUMN_WIDTH = 90;
 	}
 
 	public static class DateConstants {
@@ -70,8 +71,8 @@ public class UiConstants {
 
 		public static final String[] COLUMN_NAMES = { "Transaction<br>Number", "Account<br>Number", "Date", "CD",
 				"CD<br>Fine", "Loan<br>Installment", "Loan<br>Interest", "Loan<br>Fine", "Share<br>Money",
-				"Admission<br>Fee", "Welfare<br>Depoit", "Misc.<br>Fee", "Loan<br>Issue", "Misc.<br>Pay. Issue", "Mode",
-				"Remarks" };
+				"Admission<br>Fee", "Welfare<br>Depoit", "Misc<br>Fee", "Loan<br>Issued", "Misc Amount<br>Issued",
+				"Mode", "Remarks" };
 		public static final String[][] ROW_DEFAULTS = new String[0][];
 
 		static {
