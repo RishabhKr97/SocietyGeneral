@@ -1,16 +1,30 @@
 package society.account.ui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+
+import society.account.ui.subPanels.DefaulterSummaryPanel;
+import society.account.ui.subPanels.TransactionSummaryPanel;
 
 @SuppressWarnings("serial")
-public class SummaryPanel extends JPanel implements ActionListener {
+public class SummaryPanel extends JPanel {
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+	JTabbedPane mTabs;
+	TransactionSummaryPanel mTransactionSummaryPanel;
+	DefaulterSummaryPanel mDefaulterSummaryPanel;
 
+	SummaryPanel() {
+		setLayout(new BorderLayout());
+		mTabs = new JTabbedPane();
+		mTransactionSummaryPanel = new TransactionSummaryPanel();
+		mDefaulterSummaryPanel = new DefaulterSummaryPanel();
+
+		mTabs.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION, UiConstants.DimensionConstants.WINDOW_DIMENSION);
+		mTabs.setFont(UiFontManager.getSubHeadingFont());
+		mTabs.add("Transaction Summary", mTransactionSummaryPanel);
+		mTabs.add("Defaulter Summary", mDefaulterSummaryPanel);
+		add(mTabs);
 	}
 }

@@ -74,7 +74,7 @@ public class EditTransactionPanel extends JPanel implements ActionListener {
 		mSearchTransactionNumberSubmit.setLocation(mHorizontalSpacing, mInitialSpacing);
 		mSearchTransactionNumberSubmit.addActionListener(this);
 		add(mSearchTransactionNumberSubmit);
-		
+
 		mAccountNumberLabel = new JLabel("Account Number");
 		mAccountNumberLabel.setSize(mWidth, mHeight);
 		mAccountNumberLabel.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing);

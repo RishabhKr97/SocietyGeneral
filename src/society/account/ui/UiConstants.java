@@ -67,17 +67,28 @@ public class UiConstants {
 		public static final String[] PAYMENT_MODES = { "Cash", "Cheque", "Online", "Others" };
 	}
 
-	public static class TransactionTableConstants {
+	public static class TableConstants {
 
-		public static final String[] COLUMN_NAMES = { "Transaction<br>Number", "Account<br>Number", "Date", "CD",
-				"CD<br>Fine", "Loan<br>Installment", "Loan<br>Interest", "Loan<br>Fine", "Share<br>Money",
+		public static final String[] TRANSACTION_TABLE_COLUMN_NAMES = { "Transaction<br>Number", "Account<br>Number",
+				"Date", "CD", "CD<br>Fine", "Loan<br>Installment", "Loan<br>Interest", "Loan<br>Fine", "Share<br>Money",
 				"Admission<br>Fee", "Welfare<br>Depoit", "Misc<br>Fee", "Loan<br>Issued", "Misc Amount<br>Issued",
 				"Mode", "Remarks" };
+		public static final String[] SUMMARY_TABLE_COLUMN_NAMES = { "Total<br>CD", "Total CD<br>Fine",
+				"Total Loan<br>Installment", "Total Loan<br>Interest", "Total Loan<br>Fine", "Total Share<br>Money",
+				"Total Admission<br>Fee", "Total Welfare<br>Depoit", "Total Misc<br>Fee", "Total Loan<br>Issued",
+				"Total Misc<br>Amount Issued", "Total Cheque<br>Payments", "Total Cash<br>Payments" };
+		public static final String[] DEFAULTER_TABLE_COLUMN_NAMES = { "Account<br>Number", "Name" };
 		public static final String[][] ROW_DEFAULTS = new String[0][];
 
 		static {
-			for (int i = 0; i < COLUMN_NAMES.length; i++) {
-				COLUMN_NAMES[i] = "<html><center>" + COLUMN_NAMES[i] + "</html>";
+			for (int i = 0; i < TRANSACTION_TABLE_COLUMN_NAMES.length; i++) {
+				TRANSACTION_TABLE_COLUMN_NAMES[i] = "<html><center>" + TRANSACTION_TABLE_COLUMN_NAMES[i] + "</html>";
+			}
+			for (int i = 0; i < SUMMARY_TABLE_COLUMN_NAMES.length; i++) {
+				SUMMARY_TABLE_COLUMN_NAMES[i] = "<html><center>" + SUMMARY_TABLE_COLUMN_NAMES[i] + "</html>";
+			}
+			for (int i = 0; i < DEFAULTER_TABLE_COLUMN_NAMES.length; i++) {
+				DEFAULTER_TABLE_COLUMN_NAMES[i] = "<html><center>" + DEFAULTER_TABLE_COLUMN_NAMES[i] + "</html>";
 			}
 		}
 	}

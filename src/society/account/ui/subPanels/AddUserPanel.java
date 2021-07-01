@@ -26,6 +26,7 @@ public class AddUserPanel extends JPanel implements ActionListener {
 
 	private JLabel mAccountNumberLabel;
 	private JTextField mAccountNumberValue;
+	private JButton mFind;
 	private JLabel mNameLabel;
 	private JTextField mNameValue;
 	private JLabel mDobLabel;
@@ -63,6 +64,12 @@ public class AddUserPanel extends JPanel implements ActionListener {
 		mAccountNumberValue.setSize(mWidth, mHeight);
 		mAccountNumberValue.setLocation(mHorizontalSpacing, mInitialSpacing);
 		add(mAccountNumberValue);
+
+		mFind = new JButton("Find");
+		mFind.setSize(100, mHeight);
+		mFind.setLocation(mHorizontalSpacing * 2, mInitialSpacing);
+		mFind.addActionListener(this);
+		add(mFind);
 
 		mNameLabel = new JLabel("Name");
 		mNameLabel.setSize(mWidth, mHeight);
