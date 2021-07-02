@@ -38,16 +38,14 @@ class DatabaseManager {
 			statement = mConnection.createStatement();
 			statement.execute(query);
 			result = statement.getResultSet();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				if (statement != null) {
+			if (statement != null) {
+				try {
 					statement.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
 			}
 		}
 		return result;
@@ -66,6 +64,31 @@ class DatabaseManager {
 			}
 			statement.execute();
 			result = statement.getResultSet();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+
+	int executeUpdate(String query, String[] params) {
+		PreparedStatement statement = null;
+		int result = 0;
+		try {
+			if (mConnection.isClosed()) {
+				initializeDatabase();
+			}
+			statement = mConnection.prepareStatement(query);
+			for (int i = 1; i <= params.length; i++) {
+				statement.setString(i, params[i - 1]);
+			}
+			result = statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

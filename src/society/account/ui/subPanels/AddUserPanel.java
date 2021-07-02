@@ -12,7 +12,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import society.account.database.DatabaseHelper;
+import society.account.ui.AlertMessages;
 import society.account.ui.InputValidation;
+import society.account.ui.InputValidation.ErrorReport;
 import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
@@ -51,6 +53,7 @@ public class AddUserPanel extends JPanel implements ActionListener {
 	private JTextField mAadharValue;
 	private JButton mSubmit;
 	private JButton mClear;
+	
 	private final DatabaseHelper dbHelper = new DatabaseHelper();
 
 	public AddUserPanel() {
@@ -210,15 +213,24 @@ public class AddUserPanel extends JPanel implements ActionListener {
 			String mobile = mMobileValue.getText().trim();
 			String email = mEmailValue.getText().trim();
 			String pan = mPanValue.getText().trim();
-			String aadhar = mAadharValue.getText().trim();
+			String aadhar = mAadharValue.getText().trim().replace(" ", "");
 
-			if (!InputValidation.verifyMemberInfo(address, name, mobile, email, pan, aadhar).valid) {
+			ErrorReport validation = InputValidation.verifyMemberInfo(accountNumber, name, address, mobile, email, pan,
+					aadhar);
+			if (!validation.valid) {
+				AlertMessages.showErrorMessage(this, validation.errorMessage);
 				return;
 			}
 
-			dbHelper.addUser(accountNumber, name, dobYear + "-" + dobMonth + "-" + dobDate,
-					dojYear + "-" + dojMonth + "-" + dojDate, address, mobile, email, "pan", "aadhar");
+			int result = dbHelper.addUser(accountNumber, name, dobYear + "-" + dobMonth + "-" + dobDate,
+					dojYear + "-" + dojMonth + "-" + dojDate, address, mobile, email, pan, aadhar);
 
+			if (result == 1) {
+				AlertMessages.showAlertMessage(this, "New Member Added!");
+				mClear.doClick();
+			} else {
+				AlertMessages.showSystemErrorMessage(this);
+			}
 		} else if (e.getSource() == mClear) {
 			mAccountNumberValue.setText("");
 			mNameValue.setText("");
@@ -233,6 +245,13 @@ public class AddUserPanel extends JPanel implements ActionListener {
 			mEmailValue.setText("");
 			mPanValue.setText("");
 			mAadharValue.setText("");
+		} else if (e.getSource() == mFind) {
+			int result = dbHelper.getNextAccountNumber();
+			if (result <= 0) {
+				AlertMessages.showSystemErrorMessage(this);
+			} else {
+				mAccountNumberValue.setText(String.valueOf(result));
+			}
 		}
 	}
 }

@@ -1,9 +1,7 @@
 package society.account.database;
 
 class DatabaseConstants {
-	
-	public static final String CREATE_DATABASE = "CREATE DATABASE IF NOT EXISTS ";
-	
+		
 	public static final String CREATE_MEMBERS_TABLE = "CREATE TABLE IF NOT EXISTS members ( "
 			+ "account_number INTEGER PRIMARY KEY, "
 			+ "name TEXT NOT NULL, "
@@ -40,4 +38,8 @@ class DatabaseConstants {
 	
 	public static final String ADD_TRANSACTION = "INSERT INTO transactions "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+	
+	public static final String NEXT_ACCOUNT_NUMBER = "SELECT MAX(account_number) FROM members";
+	
+	public static final String CHECK_ACCOUNT_NUMBER_EXISTS = "SELECT COUNT(*) FROM members WHERE account_number = ?";
 }
