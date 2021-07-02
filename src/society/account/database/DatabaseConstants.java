@@ -45,7 +45,14 @@ class DatabaseConstants {
 	
 	public static final String NEXT_ACCOUNT_NUMBER = "SELECT MAX(account_number) FROM members";
 	
+	public static final String CHECK_ACCOUNT_NUMBER_EXIST = "SELECT COUNT(*) FROM members WHERE account_number = ?";
+	
 	public static final String CHECK_ACCOUNT_NUMBER_ACTIVE = "SELECT COUNT(*) FROM members WHERE account_number = ? AND account_active = 1";
 	
 	public static final String CHECK_ACCOUNT_NUMBER_DELETED = "SELECT COUNT(*) FROM members WHERE account_number = ? AND account_active = 0";
+	
+	public static final String GET_USER_INFO = "SELECT * FROM members WHERE account_number = ?";
+	
+	public static final String UPDATE_USER_INFO = "UPDATE members SET name = ?, date_of_birth = ?, date_of_joining = ?, address = ?, "
+			+ "mobile_number = ?, email_id = ?, pan_number = ?, aadhar_number = ? WHERE account_number = ?";
 }

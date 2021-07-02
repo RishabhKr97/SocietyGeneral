@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -13,7 +14,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import society.account.database.DatabaseHelper;
+import society.account.ui.AlertMessages;
+import society.account.ui.InputValidation;
 import society.account.ui.UiConstants;
+import society.account.ui.InputValidation.ErrorReport;
 
 @SuppressWarnings("serial")
 public class EditUserPanel extends JPanel implements ActionListener {
@@ -24,7 +29,7 @@ public class EditUserPanel extends JPanel implements ActionListener {
 	private int mVerticalSpacing = UiConstants.DimensionConstants.DEFAULT_VERTICAL_SPACING;
 	private int mHorizontalSpacing = UiConstants.DimensionConstants.DEFAULT_HORIZONTAL_SPACING;
 	private int mComboBoxWidth = UiConstants.DimensionConstants.DEFAULT_COMBO_BOX_DATE_WIDTH;
-	
+
 	private JTextField mSearchAccountNumber;
 	private JButton mSearchAccountNumberSubmit;
 	private JLabel mAccountNumberLabel;
@@ -52,6 +57,8 @@ public class EditUserPanel extends JPanel implements ActionListener {
 	private JTextField mAadharValue;
 	private JButton mSubmit;
 
+	private final DatabaseHelper dbHelper = new DatabaseHelper();
+
 	public EditUserPanel() {
 		setLayout(null);
 
@@ -75,6 +82,7 @@ public class EditUserPanel extends JPanel implements ActionListener {
 
 		mAccountNumberValue = new JTextField();
 		mAccountNumberValue.setSize(mWidth, mHeight);
+		mAccountNumberValue.setEditable(false);
 		mAccountNumberValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing);
 		add(mAccountNumberValue);
 
@@ -100,12 +108,14 @@ public class EditUserPanel extends JPanel implements ActionListener {
 
 		mDobMonth = new JComboBox<>(UiConstants.DateConstants.MONTHS);
 		mDobMonth.setSize(mComboBoxWidth, mHeight);
-		mDobMonth.setLocation(mHorizontalSpacing + mInitialSpacing + mComboBoxWidth, mInitialSpacing + mVerticalSpacing * 3);
+		mDobMonth.setLocation(mHorizontalSpacing + mInitialSpacing + mComboBoxWidth,
+				mInitialSpacing + mVerticalSpacing * 3);
 		add(mDobMonth);
 
 		mDobYear = new JComboBox<>(UiConstants.DateConstants.YEARS);
 		mDobYear.setSize(mComboBoxWidth, mHeight);
-		mDobYear.setLocation(mHorizontalSpacing + (mInitialSpacing + mComboBoxWidth) * 2, mInitialSpacing + mVerticalSpacing * 3);
+		mDobYear.setLocation(mHorizontalSpacing + (mInitialSpacing + mComboBoxWidth) * 2,
+				mInitialSpacing + mVerticalSpacing * 3);
 		add(mDobYear);
 
 		mDojLabel = new JLabel("Date of Joining");
@@ -121,13 +131,15 @@ public class EditUserPanel extends JPanel implements ActionListener {
 
 		mDojMonth = new JComboBox<>(UiConstants.DateConstants.MONTHS);
 		mDojMonth.setSize(mComboBoxWidth, mHeight);
-		mDojMonth.setLocation(mHorizontalSpacing + mInitialSpacing + mComboBoxWidth, mInitialSpacing + mVerticalSpacing * 4);
+		mDojMonth.setLocation(mHorizontalSpacing + mInitialSpacing + mComboBoxWidth,
+				mInitialSpacing + mVerticalSpacing * 4);
 		mDojMonth.setSelectedIndex(UiConstants.DateConstants.getCurrentMonthIdx());
 		add(mDojMonth);
 
 		mDojYear = new JComboBox<>(UiConstants.DateConstants.YEARS);
 		mDojYear.setSize(mComboBoxWidth, mHeight);
-		mDojYear.setLocation(mHorizontalSpacing + (mInitialSpacing + mComboBoxWidth) * 2, mInitialSpacing + mVerticalSpacing * 4);
+		mDojYear.setLocation(mHorizontalSpacing + (mInitialSpacing + mComboBoxWidth) * 2,
+				mInitialSpacing + mVerticalSpacing * 4);
 		mDojYear.setSelectedIndex(UiConstants.DateConstants.getCurrentYearIdx());
 		add(mDojYear);
 
@@ -193,8 +205,88 @@ public class EditUserPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == mSearchAccountNumberSubmit) {
-			mSearchAccountNumberSubmit.setText("FOUND");
+			String accNum = mSearchAccountNumber.getText().trim();
+			if (accNum.isEmpty()) {
+				clearFields();
+				return;
+			}
+
+			if (!dbHelper.checkAccountNumberActive(accNum)) {
+				AlertMessages.showAlertMessage(this, "Account Number Does Not Exists");
+				clearFields();
+				return;
+			}
+
+			Map<String, String> values = dbHelper.getUserInfo(accNum);
+			if (values == null) {
+				AlertMessages.showSystemErrorMessage(this);
+				clearFields();
+				return;
+			}
+
+			mAccountNumberValue.setText(accNum);
+			mNameValue.setText(values.get("name"));
+			String[] dob = values.get("date_of_birth").split("-");
+			mDobYear.setSelectedIndex(UiConstants.DateConstants.INDEX_OF_YEARS.get(dob[0]));
+			mDobMonth.setSelectedIndex(UiConstants.DateConstants.INDEX_OF_MONTHS.get(dob[1]));
+			mDobDate.setSelectedIndex(UiConstants.DateConstants.INDEX_OF_DATES.get(dob[2]));
+			String[] doj = values.get("date_of_joining").split("-");
+			mDojYear.setSelectedIndex(UiConstants.DateConstants.INDEX_OF_YEARS.get(doj[0]));
+			mDojMonth.setSelectedIndex(UiConstants.DateConstants.INDEX_OF_MONTHS.get(doj[1]));
+			mDojDate.setSelectedIndex(UiConstants.DateConstants.INDEX_OF_DATES.get(doj[2]));
+			mAddressValue.setText(values.get("address"));
+			mMobileValue.setText(values.get("mobile_number"));
+			mEmailValue.setText(values.get("email_id"));
+			mPanValue.setText(values.get("pan_number"));
+			mAadharValue.setText(values.get("aadhar_number"));
+		} else if (e.getSource() == mSubmit) {
+			String accountNumber = mAccountNumberValue.getText().trim();
+			String name = mNameValue.getText().trim();
+			String dobDate = (String) mDobDate.getSelectedItem();
+			String dobMonth = (String) mDobMonth.getSelectedItem();
+			String dobYear = (String) mDobYear.getSelectedItem();
+			String dojDate = (String) mDojDate.getSelectedItem();
+			String dojMonth = (String) mDojMonth.getSelectedItem();
+			String dojYear = (String) mDojYear.getSelectedItem();
+			String address = mAddressValue.getText().trim();
+			String mobile = mMobileValue.getText().trim();
+			String email = mEmailValue.getText().trim();
+			String pan = mPanValue.getText().trim();
+			String aadhar = mAadharValue.getText().trim().replace(" ", "");
+
+			ErrorReport validation = InputValidation.verifyMemberInfo(name, address, mobile, email, pan, aadhar);
+			if (!validation.valid) {
+				AlertMessages.showErrorMessage(this, validation.errorMessage);
+				return;
+			}
+
+			int result = dbHelper.updateUser(accountNumber, name, dobYear + "-" + dobMonth + "-" + dobDate,
+					dojYear + "-" + dojMonth + "-" + dojDate, address, mobile, email, pan, aadhar);
+
+			if (result == 1) {
+				AlertMessages.showAlertMessage(this, "Member Information Updated!");
+				clearFields();
+			} else {
+				AlertMessages.showSystemErrorMessage(this);
+			}
 		}
+	}
+	
+	private void clearFields() {
+		mSearchAccountNumber.setText(" ENTER ACCOUNT NUMBER");
+		mAccountNumberValue.setText("");
+		mNameValue.setText("");
+		mDobDate.setSelectedIndex(0);
+		mDobMonth.setSelectedIndex(0);
+		mDobYear.setSelectedIndex(0);
+		mDojDate.setSelectedIndex(UiConstants.DateConstants.getCurrentDateIdx());
+		mDojMonth.setSelectedIndex(UiConstants.DateConstants.getCurrentMonthIdx());
+		mDojYear.setSelectedIndex(UiConstants.DateConstants.getCurrentYearIdx());
+		mAddressValue.setText("");
+		mMobileValue.setText("");
+		mEmailValue.setText("");
+		mPanValue.setText("");
+		mAadharValue.setText("");
 	}
 
 	private class AccountMouseListner implements MouseListener {

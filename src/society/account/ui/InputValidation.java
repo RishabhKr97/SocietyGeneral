@@ -11,6 +11,7 @@ public class InputValidation {
 
 	public static ErrorReport verifyMemberInfo(String accNum, String name, String address, String mobile, String email,
 			String pan, String aadhar) {
+
 		ErrorReport errorReport = new ErrorReport();
 		try {
 			if (Integer.parseInt(accNum) <= 0) {
@@ -24,12 +25,19 @@ public class InputValidation {
 			return errorReport;
 		}
 
-		if (new DatabaseHelper().checkAccountNumberExists(accNum)) {
+		if (new DatabaseHelper().checkAccountNumberExist(accNum)) {
 			errorReport.valid = false;
 			errorReport.errorMessage = "Account Number Already Exists!";
 			return errorReport;
 		}
 
+		return verifyMemberInfo(name, address, mobile, email, pan, aadhar);
+	}
+
+	public static ErrorReport verifyMemberInfo(String name, String address, String mobile, String email, String pan,
+			String aadhar) {
+
+		ErrorReport errorReport = new ErrorReport();
 		if (!name.matches("[a-zA-Z]+[\\sa-zA-Z]+")) {
 			errorReport.valid = false;
 			errorReport.errorMessage = "Invalid Name";

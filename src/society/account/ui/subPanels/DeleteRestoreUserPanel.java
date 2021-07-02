@@ -75,7 +75,7 @@ public class DeleteRestoreUserPanel extends JPanel implements ActionListener {
 				return;
 			}
 
-			if (!dbHelper.checkAccountNumberExists(accountNumber)) {
+			if (!dbHelper.checkAccountNumberActive(accountNumber)) {
 				AlertMessages.showAlertMessage(this, "Account Number Does Not Exists");
 				mRemoveAccountNumber.setText("");
 				return;

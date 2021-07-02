@@ -1,6 +1,8 @@
 package society.account.ui;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UiConstants {
 
@@ -37,6 +39,13 @@ public class UiConstants {
 		public static final String[] MONTHS_WITH_NA = new String[MONTHS.length + 1];
 		public static final String[] YEARS_WITH_NA = new String[YEARS.length + 1];
 
+		public static final Map<String, Integer> INDEX_OF_DATES = new HashMap<>();
+		public static final Map<String, Integer> INDEX_OF_MONTHS = new HashMap<>();
+		public static final Map<String, Integer> INDEX_OF_YEARS = new HashMap<>();
+		public static final Map<String, Integer> INDEX_OF_DATES_WITH_NA = new HashMap<>();
+		public static final Map<String, Integer> INDEX_OF_MONTHS_WITH_NA = new HashMap<>();
+		public static final Map<String, Integer> INDEX_OF_YEARS_WITH_NA = new HashMap<>();
+
 		static {
 			DATES_WITH_NA[0] = NA;
 			MONTHS_WITH_NA[0] = NA;
@@ -44,6 +53,25 @@ public class UiConstants {
 			System.arraycopy(DATES, 0, DATES_WITH_NA, 1, DATES.length);
 			System.arraycopy(MONTHS, 0, MONTHS_WITH_NA, 1, MONTHS.length);
 			System.arraycopy(YEARS, 0, YEARS_WITH_NA, 1, YEARS.length);
+
+			for (int i = 0; i < DATES.length; i++) {
+				INDEX_OF_DATES.put(DATES[i], i);
+			}
+			for (int i = 0; i < MONTHS.length; i++) {
+				INDEX_OF_MONTHS.put(MONTHS[i], i);
+			}
+			for (int i = 0; i < YEARS.length; i++) {
+				INDEX_OF_YEARS.put(YEARS[i], i);
+			}
+			for (int i = 0; i < DATES_WITH_NA.length; i++) {
+				INDEX_OF_DATES_WITH_NA.put(DATES_WITH_NA[i], i);
+			}
+			for (int i = 0; i < MONTHS_WITH_NA.length; i++) {
+				INDEX_OF_MONTHS_WITH_NA.put(MONTHS_WITH_NA[i], i);
+			}
+			for (int i = 0; i < YEARS_WITH_NA.length; i++) {
+				INDEX_OF_YEARS_WITH_NA.put(YEARS_WITH_NA[i], i);
+			}
 		}
 
 		public static int getCurrentDateIdx() {
