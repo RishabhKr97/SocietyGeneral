@@ -12,6 +12,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import society.account.database.DatabaseHelper;
+import society.account.ui.InputValidation;
 import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
@@ -211,7 +212,7 @@ public class AddUserPanel extends JPanel implements ActionListener {
 			String pan = mPanValue.getText().trim();
 			String aadhar = mAadharValue.getText().trim();
 
-			if (!verifyInput(accountNumber, name, mobile, email, pan, aadhar)) {
+			if (!InputValidation.verifyMemberInfo(address, name, mobile, email, pan, aadhar).valid) {
 				return;
 			}
 
@@ -233,46 +234,5 @@ public class AddUserPanel extends JPanel implements ActionListener {
 			mPanValue.setText("");
 			mAadharValue.setText("");
 		}
-	}
-
-	private boolean verifyInput(String accNum, String name, String mobile, String email, String pan, String aadhar) {
-		try {
-			if (Integer.parseInt(accNum) <= 0) {
-				mAccountNumberValue.setText("Invalid Account Number");
-				return false;
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			mAccountNumberValue.setText("Invalid Account Number");
-			return false;
-		}
-
-		if (!name.matches("[\\sa-zA-Z]+")) {
-			mNameValue.setText("Invalid Name");
-			return false;
-		}
-
-		if (mobile.length() != 10 || !mobile.matches("[0-9]+")) {
-			mMobileValue.setText("Invalid Mobile Number");
-			return false;
-		}
-
-		if (!email.equals("") && !email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
-			System.out.println(email);
-			mEmailValue.setText("Invalid Email Id");
-			return false;
-		}
-
-		if (pan.length() != 10) {
-			mPanValue.setText("Invalid PAN Number");
-			return false;
-		}
-
-		if (aadhar.length() != 12) {
-			mAadharValue.setText("Invalid Aadhar Number");
-			return false;
-		}
-
-		return true;
 	}
 }
