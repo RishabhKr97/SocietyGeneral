@@ -2,6 +2,7 @@ package society.account.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DatabaseHelper {
 
@@ -31,76 +32,38 @@ public class DatabaseHelper {
 	}
 
 	public int getNextAccountNumber() {
-		int nextAccNum = -1;
-		ResultSet result = dbManager.executeQuery(DatabaseConstants.NEXT_ACCOUNT_NUMBER);
-		if (result == null) {
-			return 1;
-		}
-
-		try {
-			if (result.next()) {
-				nextAccNum = result.getInt(1);
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.NEXT_ACCOUNT_NUMBER);
+				ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result != null && result.next()) {
+				return result.getInt(1) + 1;
 			}
+			return 1;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				result.close();
-				result.getStatement().close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
-		return nextAccNum + 1;
+		return -1;
 	}
 
 	public boolean checkAccountNumberExists(String accNum) {
-		ResultSet result = dbManager.executeQuery(DatabaseConstants.CHECK_ACCOUNT_NUMBER_ACTIVE,
-				new String[] { accNum });
-		if (result == null) {
-			return false;
-		}
-
-		try {
-			if (result.next() && result.getInt(1) == 1) {
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.CHECK_ACCOUNT_NUMBER_ACTIVE,
+				new String[] { accNum }); ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result != null && result.next() && result.getInt(1) == 1) {
 				return true;
 			}
-			return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				result.close();
-				result.getStatement().close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return false;
 	}
 
 	public boolean checkAccountNumberDeleted(String accNum) {
-		ResultSet result = dbManager.executeQuery(DatabaseConstants.CHECK_ACCOUNT_NUMBER_DELETED,
-				new String[] { accNum });
-		if (result == null) {
-			return false;
-		}
-
-		try {
-			if (result.next() && result.getInt(1) == 1) {
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.CHECK_ACCOUNT_NUMBER_DELETED,
+				new String[] { accNum }); ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result != null && result.next() && result.getInt(1) == 1) {
 				return true;
 			}
-			System.out.println(result.getInt(1));
-			return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				result.close();
-				result.getStatement().close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return false;
 	}

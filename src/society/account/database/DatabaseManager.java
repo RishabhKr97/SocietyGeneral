@@ -3,7 +3,6 @@ package society.account.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -28,16 +27,15 @@ class DatabaseManager {
 		executeQuery(DatabaseConstants.CREATE_TRANSACTIONS_TABLE);
 	}
 
-	ResultSet executeQuery(String query) {
+	Statement executeQuery(String query) {
 		Statement statement = null;
-		ResultSet result = null;
 		try {
 			if (mConnection.isClosed()) {
 				initializeDatabase();
 			}
 			statement = mConnection.createStatement();
 			statement.execute(query);
-			result = statement.getResultSet();
+			return statement;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			if (statement != null) {
@@ -48,12 +46,11 @@ class DatabaseManager {
 				}
 			}
 		}
-		return result;
+		return null;
 	}
 
-	ResultSet executeQuery(String query, String[] params) {
+	PreparedStatement executeQuery(String query, String[] params) {
 		PreparedStatement statement = null;
-		ResultSet result = null;
 		try {
 			if (mConnection.isClosed()) {
 				initializeDatabase();
@@ -63,7 +60,7 @@ class DatabaseManager {
 				statement.setString(i, params[i - 1]);
 			}
 			statement.execute();
-			result = statement.getResultSet();
+			return statement;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			if (statement != null) {
@@ -74,7 +71,7 @@ class DatabaseManager {
 				}
 			}
 		}
-		return result;
+		return null;
 	}
 
 	int executeUpdate(String query, String[] params) {
