@@ -36,10 +36,16 @@ class DatabaseConstants {
 	public static final String ADD_MEMBER = "INSERT INTO members "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 	
+	public static final String REMOVE_MEMBER = "UPDATE members SET account_active = 0 WHERE account_number = ?";
+	
+	public static final String RESTORE_MEMBER = "UPDATE members SET account_active = 1 WHERE account_number = ?";
+	
 	public static final String ADD_TRANSACTION = "INSERT INTO transactions "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 	
 	public static final String NEXT_ACCOUNT_NUMBER = "SELECT MAX(account_number) FROM members";
 	
-	public static final String CHECK_ACCOUNT_NUMBER_EXISTS = "SELECT COUNT(*) FROM members WHERE account_number = ?";
+	public static final String CHECK_ACCOUNT_NUMBER_ACTIVE = "SELECT COUNT(*) FROM members WHERE account_number = ? AND account_active = 1";
+	
+	public static final String CHECK_ACCOUNT_NUMBER_DELETED = "SELECT COUNT(*) FROM members WHERE account_number = ? AND account_active = 0";
 }

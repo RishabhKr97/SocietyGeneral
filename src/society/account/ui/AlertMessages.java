@@ -18,4 +18,8 @@ public class AlertMessages {
 		JOptionPane.showMessageDialog(component, "System Error Occured. Contact Administrator.", "Error",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
+
+	public static int showConfirmMessage(Component component, String message) {
+		return JOptionPane.showConfirmDialog(component, message);
+	}
 }

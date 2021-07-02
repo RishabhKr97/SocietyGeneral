@@ -1,6 +1,5 @@
 package society.account.ui.subPanels;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import society.account.database.DatabaseHelper;
+import society.account.ui.AlertMessages;
 import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
@@ -26,7 +27,8 @@ public class DeleteRestoreUserPanel extends JPanel implements ActionListener {
 	private JLabel mRestoreMemberLabel;
 	private JTextField mRestoreAccountNumber;
 	private JButton mRestoreMemberSubmit;
-	private JLabel mStatusLabel;
+
+	private final DatabaseHelper dbHelper = new DatabaseHelper();
 
 	public DeleteRestoreUserPanel() {
 		setLayout(null);
@@ -62,17 +64,61 @@ public class DeleteRestoreUserPanel extends JPanel implements ActionListener {
 		mRestoreMemberSubmit.setLocation(mHorizontalSpacing * 2, mInitialSpacing + mVerticalSpacing);
 		mRestoreMemberSubmit.addActionListener(this);
 		add(mRestoreMemberSubmit);
-
-		mStatusLabel = new JLabel("Member Deleted Successfully!");
-		mStatusLabel.setSize(mWidth, mHeight);
-		mStatusLabel.setLocation(200, mInitialSpacing + mVerticalSpacing * 3);
-		mStatusLabel.setForeground(Color.GREEN);
-		add(mStatusLabel);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 
+		if (e.getSource() == mRemoveMemberSubmit) {
+			String accountNumber = mRemoveAccountNumber.getText().trim();
+			if (accountNumber.isEmpty()) {
+				return;
+			}
+
+			if (!dbHelper.checkAccountNumberExists(accountNumber)) {
+				AlertMessages.showAlertMessage(this, "Account Number Does Not Exists");
+				mRemoveAccountNumber.setText("");
+				return;
+			}
+
+			if (AlertMessages.showConfirmMessage(this, "Remove Member From Society?") != 0) {
+				mRemoveAccountNumber.setText("");
+				return;
+			}
+
+			if (dbHelper.removeUser(accountNumber) != 1) {
+				AlertMessages.showSystemErrorMessage(this);
+				mRemoveAccountNumber.setText("");
+				return;
+			}
+
+			AlertMessages.showAlertMessage(this, "Member Removed From Society");
+			mRemoveAccountNumber.setText("");
+		} else if (e.getSource() == mRestoreMemberSubmit) {
+			String accountNumber = mRestoreAccountNumber.getText().trim();
+			if (accountNumber.isEmpty()) {
+				return;
+			}
+
+			if (!dbHelper.checkAccountNumberDeleted(accountNumber)) {
+				AlertMessages.showAlertMessage(this, "Account Number Was Not Deleted");
+				mRestoreAccountNumber.setText("");
+				return;
+			}
+
+			if (AlertMessages.showConfirmMessage(this, "Add Member Back To Society?") != 0) {
+				mRestoreAccountNumber.setText("");
+				return;
+			}
+
+			if (dbHelper.restoreUser(accountNumber) != 1) {
+				AlertMessages.showSystemErrorMessage(this);
+				mRestoreAccountNumber.setText("");
+				return;
+			}
+
+			AlertMessages.showAlertMessage(this, "Member Added Back To Society");
+			mRestoreAccountNumber.setText("");
+		}
 	}
 }

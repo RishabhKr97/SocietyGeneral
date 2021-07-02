@@ -22,6 +22,14 @@ public class DatabaseHelper {
 				new String[] { accNum, name, dob, doj, address, mobile, email, pan, aadhar, "1" });
 	}
 
+	public int removeUser(String accNum) {
+		return dbManager.executeUpdate(DatabaseConstants.REMOVE_MEMBER, new String[] { accNum });
+	}
+
+	public int restoreUser(String accNum) {
+		return dbManager.executeUpdate(DatabaseConstants.RESTORE_MEMBER, new String[] { accNum });
+	}
+
 	public int getNextAccountNumber() {
 		int nextAccNum = -1;
 		ResultSet result = dbManager.executeQuery(DatabaseConstants.NEXT_ACCOUNT_NUMBER);
@@ -47,16 +55,42 @@ public class DatabaseHelper {
 	}
 
 	public boolean checkAccountNumberExists(String accNum) {
-		ResultSet result = dbManager.executeQuery(DatabaseConstants.CHECK_ACCOUNT_NUMBER_EXISTS,
+		ResultSet result = dbManager.executeQuery(DatabaseConstants.CHECK_ACCOUNT_NUMBER_ACTIVE,
 				new String[] { accNum });
 		if (result == null) {
 			return false;
 		}
 
 		try {
-			if (result.next() && result.getInt(1) > 0) {
+			if (result.next() && result.getInt(1) == 1) {
 				return true;
 			}
+			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				result.close();
+				result.getStatement().close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean checkAccountNumberDeleted(String accNum) {
+		ResultSet result = dbManager.executeQuery(DatabaseConstants.CHECK_ACCOUNT_NUMBER_DELETED,
+				new String[] { accNum });
+		if (result == null) {
+			return false;
+		}
+
+		try {
+			if (result.next() && result.getInt(1) == 1) {
+				return true;
+			}
+			System.out.println(result.getInt(1));
 			return false;
 		} catch (SQLException e) {
 			e.printStackTrace();

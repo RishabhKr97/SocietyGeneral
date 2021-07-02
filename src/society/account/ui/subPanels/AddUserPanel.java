@@ -53,7 +53,7 @@ public class AddUserPanel extends JPanel implements ActionListener {
 	private JTextField mAadharValue;
 	private JButton mSubmit;
 	private JButton mClear;
-	
+
 	private final DatabaseHelper dbHelper = new DatabaseHelper();
 
 	public AddUserPanel() {
