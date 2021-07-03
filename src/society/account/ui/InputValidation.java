@@ -77,4 +77,157 @@ public class InputValidation {
 		errorReport.valid = true;
 		return errorReport;
 	}
+
+	public static ErrorReport verifyTransactionDetails(String accNum, String cd, String cdFine, String loanInstallment,
+			String loanInst, String loanFine, String shareMoney, String admFee, String welfareDep, String miscDep,
+			String loanIssue, String miscIssue) {
+
+		ErrorReport errorReport = new ErrorReport();
+		try {
+			if (Integer.parseInt(accNum) <= 0) {
+				errorReport.valid = false;
+				errorReport.errorMessage = "Invalid Account Number";
+				return errorReport;
+			}
+		} catch (NumberFormatException e) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Invalid Account Number";
+			return errorReport;
+		}
+
+		try {
+			if (Integer.parseInt(cd) < 0) {
+				errorReport.valid = false;
+				errorReport.errorMessage = "Invalid CD Value";
+				return errorReport;
+			}
+		} catch (NumberFormatException e) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Invalid CD Value";
+			return errorReport;
+		}
+
+		try {
+			if (Integer.parseInt(cdFine) < 0) {
+				errorReport.valid = false;
+				errorReport.errorMessage = "Invalid CD Fine Value";
+				return errorReport;
+			}
+		} catch (NumberFormatException e) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Invalid CD Fine Value";
+			return errorReport;
+		}
+
+		try {
+			if (Integer.parseInt(loanInstallment) < 0) {
+				errorReport.valid = false;
+				errorReport.errorMessage = "Invalid Loan Installment Value";
+				return errorReport;
+			}
+		} catch (NumberFormatException e) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Invalid Loan Installment Value";
+			return errorReport;
+		}
+
+		try {
+			if (Integer.parseInt(loanInst) < 0) {
+				errorReport.valid = false;
+				errorReport.errorMessage = "Invalid Loan Interest Value";
+				return errorReport;
+			}
+		} catch (NumberFormatException e) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Invalid Loan Interest Value";
+			return errorReport;
+		}
+
+		try {
+			if (Integer.parseInt(loanFine) < 0) {
+				errorReport.valid = false;
+				errorReport.errorMessage = "Invalid Loan Fine Value";
+				return errorReport;
+			}
+		} catch (NumberFormatException e) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Invalid Loan Fine Value";
+			return errorReport;
+		}
+
+		try {
+			if (Integer.parseInt(shareMoney) < 0) {
+				errorReport.valid = false;
+				errorReport.errorMessage = "Invalid Share Money Value";
+				return errorReport;
+			}
+		} catch (NumberFormatException e) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Invalid Share Money Value";
+			return errorReport;
+		}
+
+		try {
+			if (Integer.parseInt(admFee) < 0) {
+				errorReport.valid = false;
+				errorReport.errorMessage = "Invalid Admission Fee Value";
+				return errorReport;
+			}
+		} catch (NumberFormatException e) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Invalid Admission Fee Value";
+			return errorReport;
+		}
+
+		try {
+			if (Integer.parseInt(welfareDep) < 0) {
+				errorReport.valid = false;
+				errorReport.errorMessage = "Invalid Welfare Deposit Value";
+				return errorReport;
+			}
+		} catch (NumberFormatException e) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Invalid Welfare Deposit Value";
+			return errorReport;
+		}
+
+		try {
+			if (Integer.parseInt(miscDep) < 0) {
+				errorReport.valid = false;
+				errorReport.errorMessage = "Invalid Misc Deposit Value";
+				return errorReport;
+			}
+		} catch (NumberFormatException e) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Invalid Misc Deposit Value";
+			return errorReport;
+		}
+
+		try {
+			if (Integer.parseInt(loanIssue) < 0) {
+				errorReport.valid = false;
+				errorReport.errorMessage = "Invalid Loan Issued Value";
+				return errorReport;
+			}
+		} catch (NumberFormatException e) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Invalid Loan Issued Value";
+			return errorReport;
+		}
+
+		try {
+			if (Integer.parseInt(miscIssue) < 0) {
+				errorReport.valid = false;
+				errorReport.errorMessage = "Invalid Misc Amount Issued Value";
+				return errorReport;
+			}
+		} catch (NumberFormatException e) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Invalid Misc Amount Issued Value";
+			return errorReport;
+		}
+
+		errorReport.valid = true;
+		return errorReport;
+	}
 }

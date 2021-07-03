@@ -133,4 +133,13 @@ public class DatabaseHelper {
 		}
 		return null;
 	}
+
+	public int addTransaction(String accNum, String dot, String cd, String cdFine, String loanInstallment,
+			String loanInst, String loanFine, String shareMoney, String admFee, String welfareDep, String miscDep,
+			String loanIssue, String miscIssue, String mode, String remarks) {
+
+		return dbManager.executeUpdate(DatabaseConstants.ADD_TRANSACTION,
+				new String[] { accNum, dot, cd, cdFine, loanInstallment, loanInst, loanFine, shareMoney, admFee,
+						welfareDep, miscDep, loanIssue, miscIssue, mode, remarks });
+	}
 }

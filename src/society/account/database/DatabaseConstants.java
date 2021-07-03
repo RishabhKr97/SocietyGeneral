@@ -15,7 +15,7 @@ class DatabaseConstants {
 			+ "account_active BOOLEAN )";
 	
 	public static final String CREATE_TRANSACTIONS_TABLE = "CREATE TABLE IF NOT EXISTS transactions ("
-			+ "transaction_id INTEGER PRIMARY KEY, "
+			+ "transaction_id INTEGER PRIMARY KEY AUTOINCREMENT, "
 			+ "account_number INTEGER, "
 			+ "date_of_transaction DATE NOT NULL, "
 			+ "compulsory_deposit INTEGER, "
@@ -40,8 +40,9 @@ class DatabaseConstants {
 	
 	public static final String RESTORE_MEMBER = "UPDATE members SET account_active = 1 WHERE account_number = ?";
 	
-	public static final String ADD_TRANSACTION = "INSERT INTO transactions "
-			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+	public static final String ADD_TRANSACTION = "INSERT INTO transactions (account_number, date_of_transaction, compulsory_deposit, cd_fine_deposit, loan_installment_deposit, "
+			+ "loan_interest_deposit, loan_fine_deposit, share_money_deposit, admission_fee_deposit, welfare_deposit, misc_deposit, loan_issued, misc_amount_issued, payment_mode,"
+			+ "remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 	
 	public static final String NEXT_ACCOUNT_NUMBER = "SELECT MAX(account_number) FROM members";
 	
@@ -55,7 +56,7 @@ class DatabaseConstants {
 	
 	public static final String UPDATE_USER_INFO = "UPDATE members SET name = ?, date_of_birth = ?, date_of_joining = ?, address = ?, "
 			+ "mobile_number = ?, email_id = ?, pan_number = ?, aadhar_number = ? WHERE account_number = ?";
-	
+		
 	public static final String USER_BALANCE_SUMMARY = "SELECT (SUM(loan_issued) - SUM(loan_installment_deposit)) AS loan_balance, "
 			+ "SUM(compulsory_deposit) AS cd_balance, SUM(share_money_deposit) AS share_balance FROM transactions WHERE account_number = ?";
 }

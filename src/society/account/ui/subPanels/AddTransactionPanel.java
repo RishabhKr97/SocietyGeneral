@@ -9,6 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import society.account.database.DatabaseHelper;
+import society.account.ui.AlertMessages;
+import society.account.ui.InputValidation;
+import society.account.ui.InputValidation.ErrorReport;
 import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
@@ -56,6 +60,8 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 	private JTextField mRemarksValue;
 	private JButton mSubmit;
 	private JButton mClear;
+
+	private final DatabaseHelper dbHelper = new DatabaseHelper();
 
 	public AddTransactionPanel() {
 		setLayout(null);
@@ -264,14 +270,30 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 			String miscDeposit = mMiscDepositValue.getText().trim();
 			String loanIssued = mLoanIssuedValue.getText().trim();
 			String miscPaymentIssued = mMiscAmountIssuedValue.getText().trim();
-			String paymentMode = (String) mPaymentModeValue.getSelectedItem();
+			String paymentMode = String.valueOf(mPaymentModeValue.getSelectedIndex());
 			String remarks = mRemarksValue.getText().trim();
 
-			if (!verifyInput(accountNumber, cdDeposit, cdFineDeposit, loanInstallmentDeposit, loanInterestDeposit,
-					loanFineDeposit, shareMoneyDeposit, admissionFeeDeposit, welfareDeposit, miscDeposit, loanIssued,
-					miscPaymentIssued)) {
+			ErrorReport validation = InputValidation.verifyTransactionDetails(accountNumber, cdDeposit, cdFineDeposit,
+					loanInstallmentDeposit, loanInterestDeposit, loanFineDeposit, shareMoneyDeposit,
+					admissionFeeDeposit, welfareDeposit, miscDeposit, loanIssued, miscPaymentIssued);
+			if (!validation.valid) {
+				AlertMessages.showErrorMessage(this, validation.errorMessage);
 				return;
 			}
+
+			int result = dbHelper.addTransaction(accountNumber, dotYear + "-" + dotMonth + "-" + dotDate, cdDeposit,
+					cdFineDeposit, loanInstallmentDeposit, loanInterestDeposit, loanFineDeposit, shareMoneyDeposit,
+					admissionFeeDeposit, welfareDeposit, miscDeposit, loanIssued, miscPaymentIssued, paymentMode,
+					remarks);
+
+			if (result == 1) {
+				AlertMessages.showAlertMessage(this, "Transaction Added!");
+				mClear.doClick();
+			} else {
+				AlertMessages.showSystemErrorMessage(this);
+			}
+
+		} else if (e.getSource() == mGetPaymentDetails) {
 
 		} else if (e.getSource() == mClear) {
 			mAccountNumberValue.setText("");
@@ -292,143 +314,5 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 			mPaymentModeValue.setSelectedIndex(0);
 			mRemarksValue.setText("");
 		}
-	}
-
-	private boolean verifyInput(String accNum, String cd, String cdFine, String loanInstallment, String loanInst,
-			String loanFine, String shareMoney, String admFee, String welfareDep, String miscDep, String loanIssue,
-			String miscIssue) {
-		try {
-			if (Integer.parseInt(accNum) <= 0) {
-				mAccountNumberValue.setText("Invalid Account Number");
-				return false;
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			mAccountNumberValue.setText("Invalid Account Number");
-			return false;
-		}
-
-		try {
-			if (Integer.parseInt(cd) < 0) {
-				mCdDepositValue.setText("Invalid Value");
-				return false;
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			mCdDepositValue.setText("Invalid Value");
-			return false;
-		}
-
-		try {
-			if (Integer.parseInt(cdFine) < 0) {
-				mCdFineDepositValue.setText("Invalid Value");
-				return false;
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			mCdFineDepositValue.setText("Invalid Value");
-			return false;
-		}
-
-		try {
-			if (Integer.parseInt(loanInstallment) < 0) {
-				mLoanInstallmentDepositValue.setText("Invalid Value");
-				return false;
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			mLoanInstallmentDepositValue.setText("Invalid Value");
-			return false;
-		}
-
-		try {
-			if (Integer.parseInt(loanInst) < 0) {
-				mLoanInterestDepositValue.setText("Invalid Value");
-				return false;
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			mLoanInterestDepositValue.setText("Invalid Value");
-			return false;
-		}
-
-		try {
-			if (Integer.parseInt(loanFine) < 0) {
-				mLoanFineDepositValue.setText("Invalid Value");
-				return false;
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			mLoanFineDepositValue.setText("Invalid Value");
-			return false;
-		}
-
-		try {
-			if (Integer.parseInt(shareMoney) < 0) {
-				mShareMoneyDepositValue.setText("Invalid Value");
-				return false;
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			mShareMoneyDepositValue.setText("Invalid Value");
-			return false;
-		}
-
-		try {
-			if (Integer.parseInt(admFee) < 0) {
-				mAdmissionFeeDepositValue.setText("Invalid Value");
-				return false;
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			mAdmissionFeeDepositValue.setText("Invalid Value");
-			return false;
-		}
-
-		try {
-			if (Integer.parseInt(welfareDep) < 0) {
-				mWelfareDepositValue.setText("Invalid Value");
-				return false;
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			mWelfareDepositValue.setText("Invalid Value");
-			return false;
-		}
-
-		try {
-			if (Integer.parseInt(miscDep) < 0) {
-				mMiscDepositValue.setText("Invalid Value");
-				return false;
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			mMiscDepositValue.setText("Invalid Value");
-			return false;
-		}
-
-		try {
-			if (Integer.parseInt(loanIssue) < 0) {
-				mLoanIssuedValue.setText("Invalid Value");
-				return false;
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			mLoanIssuedValue.setText("Invalid Value");
-			return false;
-		}
-
-		try {
-			if (Integer.parseInt(miscIssue) < 0) {
-				mMiscAmountIssuedValue.setText("Invalid Value");
-				return false;
-			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			mMiscAmountIssuedValue.setText("Invalid Value");
-			return false;
-		}
-
-		return true;
 	}
 }
