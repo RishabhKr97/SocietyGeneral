@@ -142,4 +142,53 @@ public class DatabaseHelper {
 				new String[] { accNum, dot, cd, cdFine, loanInstallment, loanInst, loanFine, shareMoney, admFee,
 						welfareDep, miscDep, loanIssue, miscIssue, mode, remarks });
 	}
+
+	public boolean checkTransactionNumberValid(String transNum) {
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.CHECK_TRANSACTION_NUMBER_VALID,
+				new String[] { transNum }); ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result != null && result.next() && result.getInt(1) == 1) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public Map<String, String> getTransactionInfo(String transNum) {
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.GET_TRANSACTION_INFO,
+				new String[] { transNum }); ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result != null && result.next()) {
+				Map<String, String> op = new HashMap<>();
+				op.put("account_number", result.getString("account_number"));
+				op.put("date_of_transaction", result.getString("date_of_transaction"));
+				op.put("compulsory_deposit", result.getString("compulsory_deposit"));
+				op.put("cd_fine_deposit", result.getString("cd_fine_deposit"));
+				op.put("loan_installment_deposit", result.getString("loan_installment_deposit"));
+				op.put("loan_interest_deposit", result.getString("loan_interest_deposit"));
+				op.put("loan_fine_deposit", result.getString("loan_fine_deposit"));
+				op.put("share_money_deposit", result.getString("share_money_deposit"));
+				op.put("admission_fee_deposit", result.getString("admission_fee_deposit"));
+				op.put("welfare_deposit", result.getString("welfare_deposit"));
+				op.put("misc_deposit", result.getString("misc_deposit"));
+				op.put("loan_issued", result.getString("loan_issued"));
+				op.put("misc_amount_issued", result.getString("misc_amount_issued"));
+				op.put("payment_mode", result.getString("payment_mode"));
+				op.put("remarks", result.getString("remarks"));
+				return op;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public int updateTransaction(String accNum, String dot, String cd, String cdFine, String loanInstallment,
+			String loanInst, String loanFine, String shareMoney, String admFee, String welfareDep, String miscDep,
+			String loanIssue, String miscIssue, String mode, String remarks, String transactionNumber) {
+
+		return dbManager.executeUpdate(DatabaseConstants.UPDATE_TRANSACTION_INFO,
+				new String[] { accNum, dot, cd, cdFine, loanInstallment, loanInst, loanFine, shareMoney, admFee,
+						welfareDep, miscDep, loanIssue, miscIssue, mode, remarks, transactionNumber });
+	}
 }

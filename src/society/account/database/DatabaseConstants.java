@@ -59,4 +59,12 @@ class DatabaseConstants {
 		
 	public static final String USER_BALANCE_SUMMARY = "SELECT (SUM(loan_issued) - SUM(loan_installment_deposit)) AS loan_balance, "
 			+ "SUM(compulsory_deposit) AS cd_balance, SUM(share_money_deposit) AS share_balance FROM transactions WHERE account_number = ?";
+	
+	public static final String CHECK_TRANSACTION_NUMBER_VALID = "SELECT COUNT(*) FROM transactions WHERE transaction_id = ?";
+	
+	public static final String GET_TRANSACTION_INFO = "SELECT * FROM transactions WHERE transaction_id = ?";
+	
+	public static final String UPDATE_TRANSACTION_INFO = "UPDATE transactions SET account_number = ?, date_of_transaction = ?, compulsory_deposit = ?, cd_fine_deposit = ?, "
+			+ "loan_installment_deposit = ?, loan_interest_deposit = ?, loan_fine_deposit = ?, share_money_deposit = ?, admission_fee_deposit = ?, welfare_deposit = ?, "
+			+ "misc_deposit = ?, loan_issued = ?, misc_amount_issued = ?, payment_mode = ?, remarks = ? WHERE transaction_id = ?";
 }

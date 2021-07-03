@@ -95,6 +95,12 @@ public class InputValidation {
 			return errorReport;
 		}
 
+		if (!new DatabaseHelper().checkAccountNumberActive(accNum)) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Account Number Does Not Exists!";
+			return errorReport;
+		}
+
 		try {
 			if (Integer.parseInt(cd) < 0) {
 				errorReport.valid = false;
