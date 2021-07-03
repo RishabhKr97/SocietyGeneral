@@ -95,6 +95,7 @@ public class DatabaseHelper {
 				op.put("email_id", result.getString("email_id"));
 				op.put("pan_number", result.getString("pan_number"));
 				op.put("aadhar_number", result.getString("aadhar_number"));
+				op.put("account_active", result.getString("account_active"));
 				return op;
 			}
 		} catch (SQLException e) {
@@ -102,9 +103,9 @@ public class DatabaseHelper {
 		}
 		return null;
 	}
-	
-	public int updateUser(String accNum, String name, String dob, String doj, String address, String mobile, String email,
-			String pan, String aadhar) {
+
+	public int updateUser(String accNum, String name, String dob, String doj, String address, String mobile,
+			String email, String pan, String aadhar) {
 		name = name.toUpperCase();
 		address = address.toUpperCase();
 		email = email.toUpperCase();
@@ -112,5 +113,24 @@ public class DatabaseHelper {
 
 		return dbManager.executeUpdate(DatabaseConstants.UPDATE_USER_INFO,
 				new String[] { name, dob, doj, address, mobile, email, pan, aadhar, accNum });
+	}
+
+	public Map<String, String> getUserBalanceSummary(String accNum) {
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.USER_BALANCE_SUMMARY,
+				new String[] { accNum }); ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result != null && result.next()) {
+				Map<String, String> op = new HashMap<>();
+				String balance = result.getString("share_balance");
+				op.put("share_balance", balance == null ? "0" : balance);
+				balance = result.getString("cd_balance");
+				op.put("cd_balance", balance == null ? "0" : balance);
+				balance = result.getString("loan_balance");
+				op.put("loan_balance", balance == null ? "0" : balance);
+				return op;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

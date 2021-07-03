@@ -55,4 +55,7 @@ class DatabaseConstants {
 	
 	public static final String UPDATE_USER_INFO = "UPDATE members SET name = ?, date_of_birth = ?, date_of_joining = ?, address = ?, "
 			+ "mobile_number = ?, email_id = ?, pan_number = ?, aadhar_number = ? WHERE account_number = ?";
+	
+	public static final String USER_BALANCE_SUMMARY = "SELECT (SUM(loan_issued) - SUM(loan_installment_deposit)) AS loan_balance, "
+			+ "SUM(compulsory_deposit) AS cd_balance, SUM(share_money_deposit) AS share_balance FROM transactions WHERE account_number = ?";
 }

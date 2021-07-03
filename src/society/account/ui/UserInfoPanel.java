@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import society.account.database.DatabaseHelper;
 
 @SuppressWarnings("serial")
 public class UserInfoPanel extends JPanel implements ActionListener {
@@ -48,6 +51,8 @@ public class UserInfoPanel extends JPanel implements ActionListener {
 	private JLabel mLoanBalanceLabel;
 	private JTextField mLoanBalanceValue;
 	private JLabel mStatusLabel;
+
+	private final DatabaseHelper dbHelper = new DatabaseHelper();
 
 	public UserInfoPanel() {
 		setLayout(null);
@@ -199,18 +204,72 @@ public class UserInfoPanel extends JPanel implements ActionListener {
 		mLoanBalanceValue.setEditable(false);
 		add(mLoanBalanceValue);
 
-		mStatusLabel = new JLabel("Account is active.");
+		mStatusLabel = new JLabel();
 		mStatusLabel.setSize(mWidth, mHeight);
 		mStatusLabel.setLocation(200, mInitialSpacing + mVerticalSpacing * 14);
-		mStatusLabel.setForeground(Color.GREEN);
+		mStatusLabel.setVisible(false);
 		add(mStatusLabel);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == mSubmit) {
-			mSubmit.setText("FOUND");
+			String accNum = mAccountNumber.getText().trim();
+			if (accNum.isEmpty()) {
+				clearFields();
+				return;
+			}
+
+			if (!dbHelper.checkAccountNumberExist(accNum)) {
+				AlertMessages.showAlertMessage(this, "Account Number Does Not Exists");
+				clearFields();
+				return;
+			}
+
+			Map<String, String> values_info = dbHelper.getUserInfo(accNum);
+			Map<String, String> values_balance = dbHelper.getUserBalanceSummary(accNum);
+			if (values_info == null || values_balance == null) {
+				AlertMessages.showSystemErrorMessage(this);
+				clearFields();
+				return;
+			}
+
+			mNameValue.setText(values_info.get("name"));
+			mDobValue.setText(values_info.get("date_of_birth"));
+			mDojValue.setText(values_info.get("date_of_joining"));
+			mAddressValue.setText(values_info.get("address"));
+			mMobileValue.setText(values_info.get("mobile_number"));
+			mEmailValue.setText(values_info.get("email_id"));
+			mPanValue.setText(values_info.get("pan_number"));
+			mAadharValue.setText(values_info.get("aadhar_number"));
+			mShareBalanceValue.setText(values_balance.get("share_balance"));
+			mCdBalanceValue.setText(values_balance.get("cd_balance"));
+			mLoanBalanceValue.setText(values_balance.get("loan_balance"));
+			if ("1".equals(values_info.get("account_active"))) {
+				mStatusLabel.setText("Account Is Active!");
+				mStatusLabel.setForeground(Color.GREEN);
+			} else {
+				mStatusLabel.setText("Account Is Not Active!");
+				mStatusLabel.setForeground(Color.RED);
+			}
+			mStatusLabel.setVisible(true);
 		}
+	}
+
+	private void clearFields() {
+		mAccountNumber.setText(" ENTER ACCOUNT NUMBER");
+		mNameValue.setText("");
+		mDobValue.setText("");
+		mDojValue.setText("");
+		mAddressValue.setText("");
+		mMobileValue.setText("");
+		mEmailValue.setText("");
+		mPanValue.setText("");
+		mAadharValue.setText("");
+		mShareBalanceValue.setText("");
+		mCdBalanceValue.setText("");
+		mLoanBalanceValue.setText("");
+		mStatusLabel.setVisible(false);
 	}
 
 	private class AccountMouseListner implements MouseListener {
