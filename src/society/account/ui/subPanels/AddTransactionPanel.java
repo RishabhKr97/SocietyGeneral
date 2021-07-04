@@ -2,6 +2,7 @@ package society.account.ui.subPanels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -294,7 +295,25 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 			}
 
 		} else if (e.getSource() == mGetPaymentDetails) {
+			String accountNumber = mAccountNumberValue.getText().trim();
 
+			if (!dbHelper.checkAccountNumberExist(accountNumber)) {
+				AlertMessages.showErrorMessage(this, "Account Number Does Not Exists");
+				mClear.doClick();
+				return;
+			}
+
+			Map<String, String> values = dbHelper.getPendingPayments(accountNumber);
+			if (values == null) {
+				AlertMessages.showSystemErrorMessage(this);
+				mClear.doClick();
+				return;
+			}
+
+			mCdDepositValue.setText(values.get("cd_pending"));
+			mCdFineDepositValue.setText(values.get("cd_fine"));
+			mLoanInterestDepositValue.setText(values.get("loan_interest"));
+			mLoanFineDepositValue.setText(values.get("loan_fine"));
 		} else if (e.getSource() == mClear) {
 			mAccountNumberValue.setText("");
 			mDotDate.setSelectedIndex(UiConstants.DateConstants.getCurrentDateIdx());

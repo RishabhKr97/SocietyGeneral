@@ -76,4 +76,12 @@ class DatabaseConstants {
 			+ "SUM(admission_fee_deposit) AS admission_fee, SUM(welfare_deposit) AS welfare_deposit, SUM(misc_deposit) AS misc_deposit, SUM(loan_issued) AS loan_issued, "
 			+ "SUM(misc_amount_issued) AS misc_issued, COUNT(payment_mode) AS mode_count, payment_mode FROM transactions WHERE STRFTIME('%d', date_of_transaction) LIKE ? AND "
 			+ "STRFTIME('%m', date_of_transaction) LIKE ? AND STRFTIME('%Y', date_of_transaction) LIKE ? GROUP BY payment_mode ORDER BY mode_count DESC, cd DESC";
+	
+	public static final String LAST_CD_DATE = "SELECT MAX(date) AS last_date FROM ( "
+			+ "SELECT MAX(date_of_transaction) AS date FROM transactions WHERE account_number = ? AND compulsory_deposit > 0 "
+			+ "UNION SELECT date_of_joining AS date FROM members WHERE account_number = ?)";
+	
+	public static final String LAST_LOAN_DEPOSIT_DATE = "SELECT MAX(date) AS last_date FROM ( "
+			+ "SELECT MAX(date_of_transaction) AS date FROM transactions WHERE account_number = ? AND loan_installment_deposit > 0 "
+			+ "UNION SELECT MAX(date_of_transaction) AS date FROM transactions WHERE account_number = ? AND loan_issued > 0)";
 }
