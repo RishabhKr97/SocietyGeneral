@@ -67,4 +67,7 @@ class DatabaseConstants {
 	public static final String UPDATE_TRANSACTION_INFO = "UPDATE transactions SET account_number = ?, date_of_transaction = ?, compulsory_deposit = ?, cd_fine_deposit = ?, "
 			+ "loan_installment_deposit = ?, loan_interest_deposit = ?, loan_fine_deposit = ?, share_money_deposit = ?, admission_fee_deposit = ?, welfare_deposit = ?, "
 			+ "misc_deposit = ?, loan_issued = ?, misc_amount_issued = ?, payment_mode = ?, remarks = ? WHERE transaction_id = ?";
+	
+	public static final String SEARCH_TRANSACTION_BY_DATE = "SELECT * FROM transactions WHERE STRFTIME('%d', date_of_transaction) LIKE ? AND "
+			+ "STRFTIME('%m', date_of_transaction) LIKE ? AND STRFTIME('%Y', date_of_transaction) LIKE ? AND account_number LIKE ? ORDER BY date_of_transaction DESC";
 }

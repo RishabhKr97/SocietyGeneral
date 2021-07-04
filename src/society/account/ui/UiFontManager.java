@@ -13,8 +13,9 @@ public class UiFontManager {
 	private static final Font mLabelFont = new Font("", Font.BOLD, 16);
 	private static final Font mTextFont = new Font("", Font.PLAIN, 16);
 	private static final Font mButtonFont = new Font("", Font.BOLD, 15);
-	private static final Font mComboBoxFont = new Font("", Font.BOLD, 16);
-	private static final Font mTableHeaderFont = new Font(Font.SERIF, Font.BOLD, 14);
+	private static final Font mComboBoxFont = new Font("", Font.BOLD, 15);
+	private static final Font mTableHeaderFont = new Font(Font.SERIF, Font.BOLD, 16);
+	private static final Font mTableTextFont = new Font("", Font.PLAIN, 16);
 	private static final Font mLabelAsHeadingFont = new Font(Font.MONOSPACED, Font.BOLD, 18);
 
 	public static Font getSubHeadingFont() {
@@ -53,7 +54,7 @@ public class UiFontManager {
 //		UIManager.put("Viewport.font", myFont);
 		UIManager.put("TabbedPane.font", mHeadingFont);
 //		UIManager.put("Slider.font", myFont);
-//		UIManager.put("Table.font", myFont);
+		UIManager.put("Table.font", mTableTextFont);
 		UIManager.put("TableHeader.font", mTableHeaderFont);
 		UIManager.put("TextField.font", mTextFont);
 //		UIManager.put("Spinner.font", myFont);

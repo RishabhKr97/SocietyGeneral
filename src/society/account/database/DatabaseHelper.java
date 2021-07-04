@@ -3,8 +3,12 @@ package society.account.database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import society.account.ui.UiConstants;
 
 public class DatabaseHelper {
 
@@ -190,5 +194,39 @@ public class DatabaseHelper {
 		return dbManager.executeUpdate(DatabaseConstants.UPDATE_TRANSACTION_INFO,
 				new String[] { accNum, dot, cd, cdFine, loanInstallment, loanInst, loanFine, shareMoney, admFee,
 						welfareDep, miscDep, loanIssue, miscIssue, mode, remarks, transactionNumber });
+	}
+
+	public List<String[]> searchTransactionByDate(String accNum, String dotDate, String dotMonth, String dotYear) {
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.SEARCH_TRANSACTION_BY_DATE,
+				new String[] { dotDate, dotMonth, dotYear, accNum });
+				ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result != null && result.next()) {
+				List<String[]> op = new ArrayList<>();
+				do {
+					String[] curr = new String[UiConstants.TableConstants.TRANSACTION_TABLE_COLUMN_NAMES.length];
+					curr[0] = result.getString("transaction_id");
+					curr[1] = result.getString("account_number");
+					curr[2] = result.getString("date_of_transaction");
+					curr[3] = result.getString("compulsory_deposit");
+					curr[4] = result.getString("cd_fine_deposit");
+					curr[5] = result.getString("loan_installment_deposit");
+					curr[6] = result.getString("loan_interest_deposit");
+					curr[7] = result.getString("loan_fine_deposit");
+					curr[8] = result.getString("share_money_deposit");
+					curr[9] = result.getString("admission_fee_deposit");
+					curr[10] = result.getString("welfare_deposit");
+					curr[11] = result.getString("misc_deposit");
+					curr[12] = result.getString("loan_issued");
+					curr[13] = result.getString("misc_amount_issued");
+					curr[14] = UiConstants.PaymentModeConstants.PAYMENT_MODES[result.getInt("payment_mode")];
+					curr[15] = result.getString("remarks");
+					op.add(curr);
+				} while (result.next());
+				return op;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

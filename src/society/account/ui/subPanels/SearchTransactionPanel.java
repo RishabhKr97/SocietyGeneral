@@ -2,6 +2,7 @@ package society.account.ui.subPanels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,8 +11,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import society.account.database.DatabaseHelper;
+import society.account.ui.AlertMessages;
 import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
@@ -26,13 +30,15 @@ public class SearchTransactionPanel extends JPanel implements ActionListener {
 
 	private JLabel mAccountNumberLabel;
 	private JTextField mAccountNumberValue;
-	private JButton mGetPaymentDetails;
+	private JButton mSearchButton;
 	private JLabel mDotLabel;
 	private JComboBox<String> mDotDate;
 	private JComboBox<String> mDotMonth;
 	private JComboBox<String> mDotYear;
 	private JScrollPane mTransactionPane;
 	private JTable mTransactionTable;
+
+	private final DatabaseHelper dbHelper = new DatabaseHelper();
 
 	public SearchTransactionPanel() {
 		setLayout(null);
@@ -47,11 +53,11 @@ public class SearchTransactionPanel extends JPanel implements ActionListener {
 		mAccountNumberValue.setLocation(mHorizontalSpacing, mInitialSpacing);
 		add(mAccountNumberValue);
 
-		mGetPaymentDetails = new JButton("Get Details");
-		mGetPaymentDetails.setSize(125, mHeight);
-		mGetPaymentDetails.setLocation(mHorizontalSpacing * 2, mInitialSpacing);
-		mGetPaymentDetails.addActionListener(this);
-		add(mGetPaymentDetails);
+		mSearchButton = new JButton("Get Details");
+		mSearchButton.setSize(125, mHeight);
+		mSearchButton.setLocation(mHorizontalSpacing * 2, mInitialSpacing);
+		mSearchButton.addActionListener(this);
+		add(mSearchButton);
 
 		mDotLabel = new JLabel("Date of Transaction");
 		mDotLabel.setSize(mWidth, mHeight);
@@ -75,8 +81,8 @@ public class SearchTransactionPanel extends JPanel implements ActionListener {
 				mInitialSpacing + mVerticalSpacing);
 		add(mDotYear);
 
-		mTransactionTable = new JTable(UiConstants.TableConstants.ROW_DEFAULTS,
-				UiConstants.TableConstants.TRANSACTION_TABLE_COLUMN_NAMES);
+		mTransactionTable = new JTable(new DefaultTableModel(UiConstants.TableConstants.ROW_DEFAULTS,
+				UiConstants.TableConstants.TRANSACTION_TABLE_COLUMN_NAMES));
 		for (int column = 0; column < mTransactionTable.getColumnCount(); column++) {
 			TableColumn tableColumn = mTransactionTable.getColumnModel().getColumn(column);
 			tableColumn.setPreferredWidth(UiConstants.DimensionConstants.DEFAULT_TABLE_COLUMN_WIDTH);
@@ -84,6 +90,7 @@ public class SearchTransactionPanel extends JPanel implements ActionListener {
 				tableColumn.setPreferredWidth(UiConstants.DimensionConstants.DEFAULT_TABLE_COLUMN_WIDTH * 2);
 			}
 		}
+		mTransactionTable.setRowHeight(mHeight + 2);
 		mTransactionTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		mTransactionTable.getTableHeader().setReorderingAllowed(false);
 		mTransactionTable.setEnabled(false);
@@ -97,7 +104,55 @@ public class SearchTransactionPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if (e.getSource() == mSearchButton) {
+			String accNum = mAccountNumberValue.getText().trim();
+			String dotDate = (String) mDotDate.getSelectedItem();
+			String dotMonth = (String) mDotMonth.getSelectedItem();
+			String dotYear = (String) mDotYear.getSelectedItem();
 
+			if (!dbHelper.checkAccountNumberExist(accNum)) {
+				clearFields();
+				AlertMessages.showAlertMessage(this, "Account Number Does Not Exists");
+				return;
+			}
+
+			if (UiConstants.DateConstants.NA.equals(dotDate)) {
+				dotDate = "%";
+			}
+			if (UiConstants.DateConstants.NA.equals(dotMonth)) {
+				dotMonth = "%";
+			}
+			if (UiConstants.DateConstants.NA.equals(dotYear)) {
+				dotYear = "%";
+			}
+
+			List<String[]> values = dbHelper.searchTransactionByDate(accNum, dotDate, dotMonth, dotYear);
+			if (values == null || values.isEmpty()) {
+				clearFields();
+				AlertMessages.showErrorMessage(this, "Nothing To Display.");
+				return;
+			}
+
+			clearTable();
+			DefaultTableModel tableModel = (DefaultTableModel) mTransactionTable.getModel();
+			for (String[] row : values) {
+				tableModel.addRow(row);
+			}
+		}
+	}
+
+	private void clearFields() {
+		mAccountNumberValue.setText("");
+		mDotDate.setSelectedIndex(0);
+		mDotMonth.setSelectedIndex(0);
+		mDotYear.setSelectedIndex(0);
+		clearTable();
+	}
+
+	private void clearTable() {
+		DefaultTableModel tableModel = (DefaultTableModel) mTransactionTable.getModel();
+		for (int i = 0; i < tableModel.getRowCount(); i++) {
+			tableModel.removeRow(i);
+		}
 	}
 }
