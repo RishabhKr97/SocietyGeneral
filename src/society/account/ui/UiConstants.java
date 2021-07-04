@@ -101,10 +101,10 @@ public class UiConstants {
 				"Date", "CD", "CD<br>Fine", "Loan<br>Installment", "Loan<br>Interest", "Loan<br>Fine", "Share<br>Money",
 				"Admission<br>Fee", "Welfare<br>Depoit", "Misc<br>Fee", "Loan<br>Issued", "Misc Amount<br>Issued",
 				"Mode", "Remarks" };
-		public static final String[] SUMMARY_TABLE_COLUMN_NAMES = { "Total<br>CD", "Total CD<br>Fine",
-				"Total Loan<br>Installment", "Total Loan<br>Interest", "Total Loan<br>Fine", "Total Share<br>Money",
-				"Total Admission<br>Fee", "Total Welfare<br>Depoit", "Total Misc<br>Fee", "Total Loan<br>Issued",
-				"Total Misc<br>Amount Issued", "Total Cheque<br>Payments", "Total Cash<br>Payments" };
+		public static final String[] SUMMARY_TABLE_COLUMN_NAMES = { "Payment<br>Mode", "Count Of<br>Transactions",
+				"Total<br>CD", "Total CD<br>Fine", "Total Loan<br>Installment", "Total Loan<br>Interest",
+				"Total Loan<br>Fine", "Total Share<br>Money", "Total Admission<br>Fee", "Total Welfare<br>Depoit",
+				"Total Misc<br>Fee", "Total Loan<br>Issued", "Total Misc<br>Amount Issued" };
 		public static final String[] DEFAULTER_TABLE_COLUMN_NAMES = { "Account<br>Number", "Name" };
 		public static final String[][] ROW_DEFAULTS = new String[0][];
 

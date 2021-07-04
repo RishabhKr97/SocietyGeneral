@@ -69,5 +69,11 @@ class DatabaseConstants {
 			+ "misc_deposit = ?, loan_issued = ?, misc_amount_issued = ?, payment_mode = ?, remarks = ? WHERE transaction_id = ?";
 	
 	public static final String SEARCH_TRANSACTION_BY_DATE = "SELECT * FROM transactions WHERE STRFTIME('%d', date_of_transaction) LIKE ? AND "
-			+ "STRFTIME('%m', date_of_transaction) LIKE ? AND STRFTIME('%Y', date_of_transaction) LIKE ? AND account_number LIKE ? ORDER BY date_of_transaction DESC";
+			+ "STRFTIME('%m', date_of_transaction) LIKE ? AND STRFTIME('%Y', date_of_transaction) LIKE ? AND account_number LIKE ? ORDER BY date_of_transaction DESC, transaction_id DESC";
+	
+	public static final String SUMMARY_TRANSACTION_BY_DATE = "SELECT SUM(compulsory_deposit) AS cd, SUM(cd_fine_deposit) AS cd_fine, SUM(loan_installment_deposit) AS "
+			+ "loan_installment, SUM(loan_interest_deposit) AS loan_interest, SUM(loan_fine_deposit) AS loan_fine, SUM(share_money_deposit) AS share_money, "
+			+ "SUM(admission_fee_deposit) AS admission_fee, SUM(welfare_deposit) AS welfare_deposit, SUM(misc_deposit) AS misc_deposit, SUM(loan_issued) AS loan_issued, "
+			+ "SUM(misc_amount_issued) AS misc_issued, COUNT(payment_mode) AS mode_count, payment_mode FROM transactions WHERE STRFTIME('%d', date_of_transaction) LIKE ? AND "
+			+ "STRFTIME('%m', date_of_transaction) LIKE ? AND STRFTIME('%Y', date_of_transaction) LIKE ? GROUP BY payment_mode ORDER BY mode_count DESC, cd DESC";
 }

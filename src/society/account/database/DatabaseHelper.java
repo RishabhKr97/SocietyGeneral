@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -222,6 +223,46 @@ public class DatabaseHelper {
 					curr[15] = result.getString("remarks");
 					op.add(curr);
 				} while (result.next());
+				return op;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public List<String[]> getTransactionSummaryByDate(String dotDate, String dotMonth, String dotYear) {
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.SUMMARY_TRANSACTION_BY_DATE,
+				new String[] { dotDate, dotMonth, dotYear });
+				ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result != null && result.next()) {
+				List<String[]> op = new ArrayList<>();
+				do {
+					String[] curr = new String[UiConstants.TableConstants.SUMMARY_TABLE_COLUMN_NAMES.length];
+					curr[0] = UiConstants.PaymentModeConstants.PAYMENT_MODES[result.getInt("payment_mode")];
+					curr[1] = result.getString("mode_count");
+					curr[2] = result.getString("cd");
+					curr[3] = result.getString("cd_fine");
+					curr[4] = result.getString("loan_installment");
+					curr[5] = result.getString("loan_interest");
+					curr[6] = result.getString("loan_fine");
+					curr[7] = result.getString("share_money");
+					curr[8] = result.getString("admission_fee");
+					curr[9] = result.getString("welfare_deposit");
+					curr[10] = result.getString("misc_deposit");
+					curr[11] = result.getString("loan_issued");
+					curr[12] = result.getString("misc_issued");
+					op.add(curr);
+				} while (result.next());
+				
+				int[] summation = new int[UiConstants.TableConstants.SUMMARY_TABLE_COLUMN_NAMES.length];
+				for (String[] row : op) {
+					for (int i = 1; i < row.length; i++) {
+						summation[i] += Integer.parseInt(row[i]);
+					}
+				}
+				op.add(Arrays.stream(summation).mapToObj(String::valueOf).toArray(String[]::new));
+				op.get(op.size()-1)[0] = "ALL";
 				return op;
 			}
 		} catch (SQLException e) {

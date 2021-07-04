@@ -151,8 +151,6 @@ public class SearchTransactionPanel extends JPanel implements ActionListener {
 
 	private void clearTable() {
 		DefaultTableModel tableModel = (DefaultTableModel) mTransactionTable.getModel();
-		for (int i = 0; i < tableModel.getRowCount(); i++) {
-			tableModel.removeRow(i);
-		}
+		tableModel.setRowCount(0);
 	}
 }

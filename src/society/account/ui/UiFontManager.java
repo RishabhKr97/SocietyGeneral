@@ -1,9 +1,6 @@
 package society.account.ui;
 
 import java.awt.Font;
-import java.awt.font.TextAttribute;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.UIManager;
 
@@ -15,7 +12,7 @@ public class UiFontManager {
 	private static final Font mButtonFont = new Font("", Font.BOLD, 15);
 	private static final Font mComboBoxFont = new Font("", Font.BOLD, 15);
 	private static final Font mTableHeaderFont = new Font(Font.SERIF, Font.BOLD, 16);
-	private static final Font mTableTextFont = new Font("", Font.PLAIN, 16);
+	public static final Font mTableTextFont = new Font("", Font.PLAIN, 16);
 	private static final Font mLabelAsHeadingFont = new Font(Font.MONOSPACED, Font.BOLD, 18);
 
 	public static Font getSubHeadingFont() {

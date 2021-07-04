@@ -2,6 +2,7 @@ package society.account.ui.subPanels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,8 +11,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import society.account.database.DatabaseHelper;
+import society.account.ui.AlertMessages;
 import society.account.ui.UiConstants;
 import society.account.ui.UiFontManager;
 
@@ -36,6 +40,8 @@ public class TransactionSummaryPanel extends JPanel implements ActionListener {
 	private JLabel mAllTransactionsLabel;
 	private JScrollPane mTransactionPane;
 	private JTable mTransactionTable;
+
+	private final DatabaseHelper dbHelper = new DatabaseHelper();
 
 	public TransactionSummaryPanel() {
 		setLayout(null);
@@ -73,31 +79,32 @@ public class TransactionSummaryPanel extends JPanel implements ActionListener {
 		mSummaryLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		add(mSummaryLabel);
 
-		mSummaryTable = new JTable(UiConstants.TableConstants.ROW_DEFAULTS,
-				UiConstants.TableConstants.SUMMARY_TABLE_COLUMN_NAMES);
+		mSummaryTable = new JTable(new DefaultTableModel(UiConstants.TableConstants.ROW_DEFAULTS,
+				UiConstants.TableConstants.SUMMARY_TABLE_COLUMN_NAMES));
 		for (int column = 0; column < mSummaryTable.getColumnCount(); column++) {
 			TableColumn tableColumn = mSummaryTable.getColumnModel().getColumn(column);
 			tableColumn.setPreferredWidth(UiConstants.DimensionConstants.DEFAULT_TABLE_COLUMN_WIDTH + 12);
 		}
+		mSummaryTable.setRowHeight(mHeight + 2);
 		mSummaryTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		mSummaryTable.getTableHeader().setReorderingAllowed(false);
 		mSummaryTable.setEnabled(false);
 		mSummaryPane = new JScrollPane(mSummaryTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		mSummaryPane.setSize(800, 110);
+		mSummaryPane.setSize(800, 202);
 		mSummaryPane.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 2);
 		mSummaryPane.setVisible(true);
 		add(mSummaryPane);
 
 		mAllTransactionsLabel = new JLabel("ALL TRANSACTIONS");
 		mAllTransactionsLabel.setSize(800, mHeight);
-		mAllTransactionsLabel.setLocation(mInitialSpacing, mVerticalSpacing * 6);
+		mAllTransactionsLabel.setLocation(mInitialSpacing, mVerticalSpacing * 8);
 		mAllTransactionsLabel.setFont(UiFontManager.getLabelAsHeadingFont());
 		mAllTransactionsLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		add(mAllTransactionsLabel);
 
-		mTransactionTable = new JTable(UiConstants.TableConstants.ROW_DEFAULTS,
-				UiConstants.TableConstants.TRANSACTION_TABLE_COLUMN_NAMES);
+		mTransactionTable = new JTable(new DefaultTableModel(UiConstants.TableConstants.ROW_DEFAULTS,
+				UiConstants.TableConstants.TRANSACTION_TABLE_COLUMN_NAMES));
 		for (int column = 0; column < mTransactionTable.getColumnCount(); column++) {
 			TableColumn tableColumn = mTransactionTable.getColumnModel().getColumn(column);
 			tableColumn.setPreferredWidth(UiConstants.DimensionConstants.DEFAULT_TABLE_COLUMN_WIDTH);
@@ -105,13 +112,14 @@ public class TransactionSummaryPanel extends JPanel implements ActionListener {
 				tableColumn.setPreferredWidth(UiConstants.DimensionConstants.DEFAULT_TABLE_COLUMN_WIDTH * 2);
 			}
 		}
+		mTransactionTable.setRowHeight(mHeight + 2);
 		mTransactionTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		mTransactionTable.getTableHeader().setReorderingAllowed(false);
 		mTransactionTable.setEnabled(false);
 		mTransactionPane = new JScrollPane(mTransactionTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		mTransactionPane.setSize(800, 425);
-		mTransactionPane.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 7);
+		mTransactionPane.setSize(800, 360);
+		mTransactionPane.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 9);
 		mTransactionPane.setVisible(true);
 		add(mTransactionPane);
 
@@ -119,7 +127,55 @@ public class TransactionSummaryPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if (e.getSource() == mFind) {
+			String dotDate = (String) mDotDate.getSelectedItem();
+			String dotMonth = (String) mDotMonth.getSelectedItem();
+			String dotYear = (String) mDotYear.getSelectedItem();
+			String accNum = "%";
 
+			if (UiConstants.DateConstants.NA.equals(dotDate)) {
+				dotDate = "%";
+			}
+			if (UiConstants.DateConstants.NA.equals(dotMonth)) {
+				dotMonth = "%";
+			}
+			if (UiConstants.DateConstants.NA.equals(dotYear)) {
+				dotYear = "%";
+			}
+
+			List<String[]> values_transactions = dbHelper.searchTransactionByDate(accNum, dotDate, dotMonth, dotYear);
+			List<String[]> values_summary = dbHelper.getTransactionSummaryByDate(dotDate, dotMonth, dotYear);
+			if (values_transactions == null || values_transactions.isEmpty()) {
+				clearFields();
+				AlertMessages.showErrorMessage(this, "Nothing To Display.");
+				return;
+			}
+
+			clearTables();
+			DefaultTableModel summaryTableModel = (DefaultTableModel) mSummaryTable.getModel();
+			for (String[] row : values_summary) {
+				summaryTableModel.addRow(row);
+			}
+			
+			DefaultTableModel transactionTableModel = (DefaultTableModel) mTransactionTable.getModel();
+			for (String[] row : values_transactions) {
+				transactionTableModel.addRow(row);
+			}
+		}
+	}
+
+	private void clearFields() {
+		mDotDate.setSelectedIndex(0);
+		mDotMonth.setSelectedIndex(0);
+		mDotYear.setSelectedIndex(0);
+		clearTables();
+	}
+
+	private void clearTables() {
+		DefaultTableModel transactionTableModel = (DefaultTableModel) mTransactionTable.getModel();
+		transactionTableModel.setRowCount(0);
+
+		DefaultTableModel summaryTableModel = (DefaultTableModel) mSummaryTable.getModel();
+		summaryTableModel.setRowCount(0);
 	}
 }
