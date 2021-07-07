@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import society.account.database.DatabaseHelper;
+import society.account.receipt.printmanager.Printer;
 import society.account.ui.AlertMessages;
 import society.account.ui.InputValidation;
 import society.account.ui.InputValidation.ErrorReport;
@@ -288,7 +289,15 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 					remarks);
 
 			if (result == 1) {
-				AlertMessages.showAlertMessage(this, "Transaction Added!");
+				int requiredPrint = AlertMessages.showConfirmMessage(this, "Transaction Added!\nDo You Want To Print?");
+				if (requiredPrint == 0) {
+					String transactionId = dbHelper.getLastTransactionId(accountNumber);
+					if (transactionId == null || !Printer.printTransaction(accountNumber, transactionId, this)) {
+						AlertMessages.showSystemErrorMessage(this);
+					} else {
+						AlertMessages.showAlertMessage(this, "Receipt Generated!");
+					}
+				}
 				mClear.doClick();
 			} else {
 				AlertMessages.showSystemErrorMessage(this);

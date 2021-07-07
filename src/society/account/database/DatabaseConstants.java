@@ -44,6 +44,8 @@ class DatabaseConstants {
 			+ "loan_interest_deposit, loan_fine_deposit, share_money_deposit, admission_fee_deposit, welfare_deposit, misc_deposit, loan_issued, misc_amount_issued, payment_mode,"
 			+ "remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 	
+	public static final String GET_LAST_TRANSACTION_ID = "SELECT MAX(transaction_id) FROM transactions WHERE account_number = ?";
+	
 	public static final String NEXT_ACCOUNT_NUMBER = "SELECT MAX(account_number) FROM members";
 	
 	public static final String CHECK_ACCOUNT_NUMBER_EXIST = "SELECT COUNT(*) FROM members WHERE account_number = ?";
@@ -69,7 +71,8 @@ class DatabaseConstants {
 			+ "misc_deposit = ?, loan_issued = ?, misc_amount_issued = ?, payment_mode = ?, remarks = ? WHERE transaction_id = ?";
 	
 	public static final String SEARCH_TRANSACTION_BY_DATE = "SELECT * FROM transactions WHERE STRFTIME('%d', date_of_transaction) LIKE ? AND "
-			+ "STRFTIME('%m', date_of_transaction) LIKE ? AND STRFTIME('%Y', date_of_transaction) LIKE ? AND account_number LIKE ? ORDER BY date_of_transaction DESC, transaction_id DESC";
+			+ "STRFTIME('%m', date_of_transaction) LIKE ? AND STRFTIME('%Y', date_of_transaction) LIKE ? "
+			+ "AND account_number LIKE ? ORDER BY date_of_transaction DESC, transaction_id DESC";
 	
 	public static final String SUMMARY_TRANSACTION_BY_DATE = "SELECT SUM(compulsory_deposit) AS cd, SUM(cd_fine_deposit) AS cd_fine, SUM(loan_installment_deposit) AS "
 			+ "loan_installment, SUM(loan_interest_deposit) AS loan_interest, SUM(loan_fine_deposit) AS loan_fine, SUM(share_money_deposit) AS share_money, "

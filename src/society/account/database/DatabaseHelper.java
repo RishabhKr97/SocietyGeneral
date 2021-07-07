@@ -152,6 +152,18 @@ public class DatabaseHelper {
 						welfareDep, miscDep, loanIssue, miscIssue, mode, remarks });
 	}
 
+	public String getLastTransactionId(String accNum) {
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.GET_LAST_TRANSACTION_ID,
+				new String[] { accNum }); ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result != null && result.next()) {
+				return result.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public boolean checkTransactionNumberValid(String transNum) {
 		try (Statement statement = dbManager.executeQuery(DatabaseConstants.CHECK_TRANSACTION_NUMBER_VALID,
 				new String[] { transNum }); ResultSet result = statement == null ? null : statement.getResultSet()) {
