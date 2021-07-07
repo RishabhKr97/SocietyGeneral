@@ -84,4 +84,6 @@ class DatabaseConstants {
 	public static final String LAST_LOAN_DEPOSIT_DATE = "SELECT MAX(date) AS last_date FROM ( "
 			+ "SELECT MAX(date_of_transaction) AS date FROM transactions WHERE account_number = ? AND loan_installment_deposit > 0 "
 			+ "UNION SELECT MAX(date_of_transaction) AS date FROM transactions WHERE account_number = ? AND loan_issued > 0)";
+	
+	public static final String ALL_ACTIVE_ACCOUNT_NUMBERS = "SELECT account_number from members WHERE account_active = 1";
 }

@@ -1,5 +1,6 @@
 package society.account.ui;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -88,6 +89,11 @@ public class UiConstants {
 			LocalDateTime now = LocalDateTime.now();
 			return now.getYear() - 1930;
 		}
+
+		public static String getCurrentDate() {
+			LocalDate date = LocalDate.now();
+			return date.getDayOfMonth() + "-" + date.getMonthValue() + "-" + date.getYear();
+		}
 	}
 
 	public static class PaymentModeConstants {
@@ -105,7 +111,7 @@ public class UiConstants {
 				"Total<br>CD", "Total CD<br>Fine", "Total Loan<br>Installment", "Total Loan<br>Interest",
 				"Total Loan<br>Fine", "Total Share<br>Money", "Total Admission<br>Fee", "Total Welfare<br>Depoit",
 				"Total Misc<br>Fee", "Total Loan<br>Issued", "Total Misc<br>Amount Issued" };
-		public static final String[] DEFAULTER_TABLE_COLUMN_NAMES = { "Account<br>Number", "Name" };
+		public static final String[] DEFAULTER_TABLE_COLUMN_NAMES = { "Account<br>Number", "Pending From<br>(Months)" };
 		public static final String[][] ROW_DEFAULTS = new String[0][];
 
 		static {

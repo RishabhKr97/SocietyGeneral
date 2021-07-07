@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -345,5 +347,57 @@ public class DatabaseHelper {
 		}
 
 		return op.size() == 6 ? op : null;
+	}
+
+	public Map<String, List<String[]>> getAllPendingPaymentSummary() {
+		Map<String, List<String[]>> op = new HashMap<>();
+		op.put("pending_cd", new ArrayList<>());
+		op.put("pending_loan", new ArrayList<>());
+
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.ALL_ACTIVE_ACCOUNT_NUMBERS);
+				ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result == null || !result.next()) {
+				return null;
+			}
+
+			do {
+				String accNum = result.getString(1);
+				Map<String, String> pending = getPendingPayments(accNum);
+				if (pending == null) {
+					return null;
+				}
+
+				int pendingFrom = Integer.parseInt(pending.get("cd_pending_duration"));
+				if (pendingFrom > 0) {
+					op.get("pending_cd").add(new String[] { accNum, String.valueOf(pendingFrom - 1) });
+				}
+
+				pendingFrom = Integer.parseInt(pending.get("loan_pending_duration"));
+				if (pendingFrom > 0) {
+					op.get("pending_loan").add(new String[] { accNum, String.valueOf(pendingFrom - 1) });
+				}
+			} while (result.next());
+
+			Collections.sort(op.get("pending_cd"), new Comparator<String[]>() {
+				public int compare(String[] strings, String[] otherStrings) {
+					int thisInt = Integer.parseInt(strings[1]);
+					int otherInt = Integer.parseInt(otherStrings[1]);
+					return Integer.compare(otherInt, thisInt);
+				}
+			});
+			Collections.sort(op.get("pending_loan"), new Comparator<String[]>() {
+				public int compare(String[] strings, String[] otherStrings) {
+					int thisInt = Integer.parseInt(strings[1]);
+					int otherInt = Integer.parseInt(otherStrings[1]);
+					return Integer.compare(otherInt, thisInt);
+				}
+			});
+
+			return op;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 }
