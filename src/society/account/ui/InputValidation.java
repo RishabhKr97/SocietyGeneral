@@ -52,7 +52,7 @@ public class InputValidation {
 
 		if (mobile.length() != 10 || !mobile.matches("[0-9]+")) {
 			errorReport.valid = false;
-			errorReport.errorMessage = "Invalid Mobile Number";
+			errorReport.errorMessage = "Invalid Mobile Number<br>Enter 10 digits without country code.";
 			return errorReport;
 		}
 
@@ -102,7 +102,7 @@ public class InputValidation {
 		}
 
 		try {
-			if (Integer.parseInt(cd) < 0) {
+			if (Double.parseDouble(cd) < 0) {
 				errorReport.valid = false;
 				errorReport.errorMessage = "Invalid CD Value";
 				return errorReport;
@@ -114,7 +114,7 @@ public class InputValidation {
 		}
 
 		try {
-			if (Integer.parseInt(cdFine) < 0) {
+			if (Double.parseDouble(cdFine) < 0) {
 				errorReport.valid = false;
 				errorReport.errorMessage = "Invalid CD Fine Value";
 				return errorReport;
@@ -126,7 +126,7 @@ public class InputValidation {
 		}
 
 		try {
-			if (Integer.parseInt(loanInstallment) < 0) {
+			if (Double.parseDouble(loanInstallment) < 0) {
 				errorReport.valid = false;
 				errorReport.errorMessage = "Invalid Loan Installment Value";
 				return errorReport;
@@ -138,7 +138,7 @@ public class InputValidation {
 		}
 
 		try {
-			if (Integer.parseInt(loanInst) < 0) {
+			if (Double.parseDouble(loanInst) < 0) {
 				errorReport.valid = false;
 				errorReport.errorMessage = "Invalid Loan Interest Value";
 				return errorReport;
@@ -150,7 +150,7 @@ public class InputValidation {
 		}
 
 		try {
-			if (Integer.parseInt(loanFine) < 0) {
+			if (Double.parseDouble(loanFine) < 0) {
 				errorReport.valid = false;
 				errorReport.errorMessage = "Invalid Loan Fine Value";
 				return errorReport;
@@ -162,7 +162,7 @@ public class InputValidation {
 		}
 
 		try {
-			if (Integer.parseInt(shareMoney) < 0) {
+			if (Double.parseDouble(shareMoney) < 0) {
 				errorReport.valid = false;
 				errorReport.errorMessage = "Invalid Share Money Value";
 				return errorReport;
@@ -174,7 +174,7 @@ public class InputValidation {
 		}
 
 		try {
-			if (Integer.parseInt(admFee) < 0) {
+			if (Double.parseDouble(admFee) < 0) {
 				errorReport.valid = false;
 				errorReport.errorMessage = "Invalid Admission Fee Value";
 				return errorReport;
@@ -186,7 +186,7 @@ public class InputValidation {
 		}
 
 		try {
-			if (Integer.parseInt(welfareDep) < 0) {
+			if (Double.parseDouble(welfareDep) < 0) {
 				errorReport.valid = false;
 				errorReport.errorMessage = "Invalid Welfare Deposit Value";
 				return errorReport;
@@ -198,7 +198,7 @@ public class InputValidation {
 		}
 
 		try {
-			if (Integer.parseInt(miscDep) < 0) {
+			if (Double.parseDouble(miscDep) < 0) {
 				errorReport.valid = false;
 				errorReport.errorMessage = "Invalid Misc Deposit Value";
 				return errorReport;
@@ -210,7 +210,7 @@ public class InputValidation {
 		}
 
 		try {
-			if (Integer.parseInt(loanIssue) < 0) {
+			if (Double.parseDouble(loanIssue) < 0) {
 				errorReport.valid = false;
 				errorReport.errorMessage = "Invalid Loan Issued Value";
 				return errorReport;
@@ -222,7 +222,7 @@ public class InputValidation {
 		}
 
 		try {
-			if (Integer.parseInt(miscIssue) < 0) {
+			if (Double.parseDouble(miscIssue) < 0) {
 				errorReport.valid = false;
 				errorReport.errorMessage = "Invalid Misc Amount Issued Value";
 				return errorReport;
