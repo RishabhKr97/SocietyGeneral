@@ -15,22 +15,22 @@ import society.account.ui.AlertMessages;
 import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
-public class GenerateReceiptPanel extends JPanel implements ActionListener  {
+public class GenerateReceiptPanel extends JPanel implements ActionListener {
 
 	private int mWidth = UiConstants.DimensionConstants.DEFAULT_WIDTH;
 	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
 	private int mInitialSpacing = UiConstants.DimensionConstants.DEFAULT_INITIAL_SPACING;
 	private int mHorizontalSpacing = UiConstants.DimensionConstants.DEFAULT_HORIZONTAL_SPACING;
-	
+
 	private JLabel mTransactionNumberLabel;
 	private JTextField mTransactionNumberValue;
 	private JButton mSubmit;
 
 	private final DatabaseHelper dbHelper = new DatabaseHelper();
-	
+
 	public GenerateReceiptPanel() {
 		setLayout(null);
-		
+
 		mTransactionNumberLabel = new JLabel("Enter Transaction Number");
 		mTransactionNumberLabel.setSize(mWidth, mHeight);
 		mTransactionNumberLabel.setLocation(mInitialSpacing, mInitialSpacing);
@@ -46,30 +46,30 @@ public class GenerateReceiptPanel extends JPanel implements ActionListener  {
 		mSubmit.setLocation(mHorizontalSpacing * 2, mInitialSpacing);
 		mSubmit.addActionListener(this);
 		add(mSubmit);
-		
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == mSubmit) {
 			String transactionNum = mTransactionNumberValue.getText().trim();
-			
+
 			if (!dbHelper.checkTransactionNumberValid(transactionNum)) {
 				AlertMessages.showAlertMessage(this, "Transaction Number Does Not Exist");
 				mTransactionNumberValue.setText("");
 				return;
 			}
-			
+
 			Map<String, String> values = dbHelper.getTransactionInfo(transactionNum);
 			if (values == null || !Printer.printTransaction(values.get("account_number"), transactionNum, this)) {
 				AlertMessages.showSystemErrorMessage(this);
 				mTransactionNumberValue.setText("");
-				return;				
+				return;
 			}
-			
+
 			mTransactionNumberValue.setText("");
-			AlertMessages.showAlertMessage(this, "Receipt Generated!");			
-		}		
+			AlertMessages.showAlertMessage(this, "Receipt Generated!");
+		}
 	}
 
 }

@@ -17,8 +17,8 @@ import javax.swing.JTextField;
 import society.account.database.DatabaseHelper;
 import society.account.ui.AlertMessages;
 import society.account.ui.InputValidation;
-import society.account.ui.UiConstants;
 import society.account.ui.InputValidation.ErrorReport;
+import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
 public class EditUserPanel extends JPanel implements ActionListener {
@@ -271,7 +271,7 @@ public class EditUserPanel extends JPanel implements ActionListener {
 			}
 		}
 	}
-	
+
 	private void clearFields() {
 		mSearchAccountNumber.setText(" ENTER ACCOUNT NUMBER");
 		mAccountNumberValue.setText("");

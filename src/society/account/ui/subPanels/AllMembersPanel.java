@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -55,8 +56,8 @@ public class AllMembersPanel extends JPanel implements ActionListener {
 		mAllMembersTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		mAllMembersTable.getTableHeader().setReorderingAllowed(false);
 		mAllMembersTable.setEnabled(false);
-		mAllMembersPane = new JScrollPane(mAllMembersTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		mAllMembersPane = new JScrollPane(mAllMembersTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		mAllMembersPane.setSize(497, 618);
 		mAllMembersPane.setLocation(mInitialSpacing + mHorizontalSpacing / 2, mInitialSpacing + mVerticalSpacing);
 		mAllMembersPane.setVisible(true);

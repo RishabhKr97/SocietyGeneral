@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -89,8 +90,8 @@ public class TransactionSummaryPanel extends JPanel implements ActionListener {
 		mSummaryTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		mSummaryTable.getTableHeader().setReorderingAllowed(false);
 		mSummaryTable.setEnabled(false);
-		mSummaryPane = new JScrollPane(mSummaryTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		mSummaryPane = new JScrollPane(mSummaryTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		mSummaryPane.setSize(800, 202);
 		mSummaryPane.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 2);
 		mSummaryPane.setVisible(true);
@@ -116,8 +117,8 @@ public class TransactionSummaryPanel extends JPanel implements ActionListener {
 		mTransactionTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		mTransactionTable.getTableHeader().setReorderingAllowed(false);
 		mTransactionTable.setEnabled(false);
-		mTransactionPane = new JScrollPane(mTransactionTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		mTransactionPane = new JScrollPane(mTransactionTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		mTransactionPane.setSize(800, 360);
 		mTransactionPane.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 9);
 		mTransactionPane.setVisible(true);
@@ -156,7 +157,7 @@ public class TransactionSummaryPanel extends JPanel implements ActionListener {
 			for (String[] row : values_summary) {
 				summaryTableModel.addRow(row);
 			}
-			
+
 			DefaultTableModel transactionTableModel = (DefaultTableModel) mTransactionTable.getModel();
 			for (String[] row : values_transactions) {
 				transactionTableModel.addRow(row);

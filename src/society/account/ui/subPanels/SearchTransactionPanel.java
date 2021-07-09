@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
@@ -94,8 +95,8 @@ public class SearchTransactionPanel extends JPanel implements ActionListener {
 		mTransactionTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		mTransactionTable.getTableHeader().setReorderingAllowed(false);
 		mTransactionTable.setEnabled(false);
-		mTransactionPane = new JScrollPane(mTransactionTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		mTransactionPane = new JScrollPane(mTransactionTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		mTransactionPane.setSize(800, 600);
 		mTransactionPane.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 3);
 		mTransactionPane.setVisible(true);

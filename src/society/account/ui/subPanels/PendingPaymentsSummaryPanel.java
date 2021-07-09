@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -77,8 +78,8 @@ public class PendingPaymentsSummaryPanel extends JPanel implements ActionListene
 		mCdPendingTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		mCdPendingTable.getTableHeader().setReorderingAllowed(false);
 		mCdPendingTable.setEnabled(false);
-		mCdPendingPane = new JScrollPane(mCdPendingTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		mCdPendingPane = new JScrollPane(mCdPendingTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		mCdPendingPane.setSize(mWidth - mInitialSpacing * 2, 600);
 		mCdPendingPane.setLocation(mInitialSpacing * 2, mInitialSpacing + mVerticalSpacing * 2);
 		mCdPendingPane.setVisible(true);
@@ -94,8 +95,8 @@ public class PendingPaymentsSummaryPanel extends JPanel implements ActionListene
 		mLoanPendingTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		mLoanPendingTable.getTableHeader().setReorderingAllowed(false);
 		mLoanPendingTable.setEnabled(false);
-		mLoanPendingPane = new JScrollPane(mLoanPendingTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		mLoanPendingPane = new JScrollPane(mLoanPendingTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		mLoanPendingPane.setSize(mWidth - mInitialSpacing * 2, 600);
 		mLoanPendingPane.setLocation(mInitialSpacing * 2 + mWidth, mInitialSpacing + mVerticalSpacing * 2);
 		mLoanPendingPane.setVisible(true);

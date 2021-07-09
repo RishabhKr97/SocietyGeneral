@@ -5,6 +5,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.WindowConstants;
 
 import society.account.database.DatabaseHelper;
 
@@ -32,7 +33,7 @@ public class UI {
 		mTabs.add("Summary", mSummaryPanel);
 		mTabs.add("Manage", mManagePanel);
 
-		mMainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mMainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		mMainFrame.add(mTabs);
 		mMainFrame.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION,
 				UiConstants.DimensionConstants.WINDOW_DIMENSION);
