@@ -13,14 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import society.account.logger.Log;
 import society.account.ui.UiConstants;
 
 public class DatabaseHelper {
-
+	private static final String TAG = "DatabaseHelper";
 	private final DatabaseManager dbManager = DatabaseManager.getDatabaseManager();
 
 	public void closeDatabase() {
 		dbManager.close();
+		Log.d(TAG, "Database connection closed");
 	}
 
 	public int addUser(String accNum, String name, String dob, String doj, String address, String mobile, String email,
@@ -50,7 +52,7 @@ public class DatabaseHelper {
 			}
 			return 1;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "getNextAccountNumber()", e);
 		}
 		return -1;
 	}
@@ -62,7 +64,7 @@ public class DatabaseHelper {
 				return true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "checkAccountNumberActive()", e);
 		}
 		return false;
 	}
@@ -74,7 +76,7 @@ public class DatabaseHelper {
 				return true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "checkAccountNumberExist()", e);
 		}
 		return false;
 	}
@@ -86,7 +88,7 @@ public class DatabaseHelper {
 				return true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "checkAccountNumberDeleted()", e);
 		}
 		return false;
 	}
@@ -108,7 +110,7 @@ public class DatabaseHelper {
 				return op;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "getUserInfo()", e);
 		}
 		return null;
 	}
@@ -138,7 +140,7 @@ public class DatabaseHelper {
 				return op;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "getUserBalanceSummary()", e);
 		}
 		return null;
 	}
@@ -159,7 +161,7 @@ public class DatabaseHelper {
 				return result.getString(1);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "getLastTransactionId()", e);
 		}
 		return null;
 	}
@@ -171,7 +173,7 @@ public class DatabaseHelper {
 				return true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "checkTransactionNumberValid()", e);
 		}
 		return false;
 	}
@@ -199,7 +201,7 @@ public class DatabaseHelper {
 				return op;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "getTransactionInfo()", e);
 		}
 		return null;
 	}
@@ -242,7 +244,7 @@ public class DatabaseHelper {
 				return op;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "searchTransactionByDate()", e);
 		}
 		return null;
 	}
@@ -282,7 +284,7 @@ public class DatabaseHelper {
 				return op;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "getTransactionSummaryByDate()", e);
 		}
 		return null;
 	}
@@ -315,7 +317,7 @@ public class DatabaseHelper {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "getPendingPayments()", e);
 		}
 
 		Map<String, String> userBalanceValues = getUserBalanceSummary(accNum);
@@ -350,7 +352,7 @@ public class DatabaseHelper {
 					}
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				Log.e(TAG, "getPendingPayments()", e);
 			}
 		} else {
 			op.put("loan_fine", "0");
@@ -409,7 +411,7 @@ public class DatabaseHelper {
 
 			return op;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "getAllPendingPaymentSummary()", e);
 		}
 
 		return null;
@@ -429,7 +431,7 @@ public class DatabaseHelper {
 			}
 			return op;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "getAllMembers()", e);
 		}
 		return null;
 	}

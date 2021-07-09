@@ -12,6 +12,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import society.account.database.DatabaseHelper;
+import society.account.logger.Log;
 import society.account.ui.AlertMessages;
 import society.account.ui.InputValidation;
 import society.account.ui.InputValidation.ErrorReport;
@@ -19,6 +20,7 @@ import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
 public class AddUserPanel extends JPanel implements ActionListener {
+	private static final String TAG = "AddUserPanel";
 
 	private int mWidth = UiConstants.DimensionConstants.DEFAULT_WIDTH;
 	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
@@ -199,7 +201,6 @@ public class AddUserPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
 		if (e.getSource() == mSubmit) {
 			String accountNumber = mAccountNumberValue.getText().trim();
 			String name = mNameValue.getText().trim();
@@ -215,10 +216,13 @@ public class AddUserPanel extends JPanel implements ActionListener {
 			String pan = mPanValue.getText().trim();
 			String aadhar = mAadharValue.getText().trim().replace(" ", "");
 
+			Log.d(TAG, "Add Member", accountNumber, name, dobYear, dobMonth, dobDate, dojYear, dojMonth, dojDate,
+					address, mobile, email, pan, aadhar);
 			ErrorReport validation = InputValidation.verifyMemberInfo(accountNumber, name, address, mobile, email, pan,
 					aadhar);
 			if (!validation.valid) {
 				AlertMessages.showErrorMessage(this, validation.errorMessage);
+				Log.d(TAG, "Validation failed");
 				return;
 			}
 
@@ -228,8 +232,10 @@ public class AddUserPanel extends JPanel implements ActionListener {
 			if (result == 1) {
 				AlertMessages.showAlertMessage(this, "New Member Added!");
 				mClear.doClick();
+				Log.d(TAG, "Member added");
 			} else {
 				AlertMessages.showSystemErrorMessage(this);
+				Log.e(TAG, "Could not add member");
 			}
 		} else if (e.getSource() == mClear) {
 			mAccountNumberValue.setText("");
@@ -249,8 +255,10 @@ public class AddUserPanel extends JPanel implements ActionListener {
 			int result = dbHelper.getNextAccountNumber();
 			if (result <= 0) {
 				AlertMessages.showSystemErrorMessage(this);
+				Log.e(TAG, "Invalid next account number " + result);
 			} else {
 				mAccountNumberValue.setText(String.valueOf(result));
+				Log.d(TAG, "Next account number is " + result);
 			}
 		}
 	}

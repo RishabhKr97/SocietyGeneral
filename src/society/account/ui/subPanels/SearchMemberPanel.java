@@ -15,11 +15,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import society.account.database.DatabaseHelper;
+import society.account.logger.Log;
 import society.account.ui.AlertMessages;
 import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
 public class SearchMemberPanel extends JPanel implements ActionListener {
+	private static final String TAG = "SearchMemberPanel";
 
 	private int mWidth = UiConstants.DimensionConstants.DEFAULT_WIDTH;
 	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
@@ -217,6 +219,7 @@ public class SearchMemberPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == mSubmit) {
 			String accNum = mAccountNumber.getText().trim();
+			Log.d(TAG, "Search member " + accNum);
 			if (accNum.isEmpty()) {
 				clearFields();
 				return;
@@ -225,6 +228,7 @@ public class SearchMemberPanel extends JPanel implements ActionListener {
 			if (!dbHelper.checkAccountNumberExist(accNum)) {
 				AlertMessages.showAlertMessage(this, "Account Number Does Not Exists");
 				clearFields();
+				Log.d(TAG, "Accont does not exists");
 				return;
 			}
 
@@ -233,6 +237,7 @@ public class SearchMemberPanel extends JPanel implements ActionListener {
 			if (values_info == null || values_balance == null) {
 				AlertMessages.showSystemErrorMessage(this);
 				clearFields();
+				Log.e(TAG, "Info not found or balance not found");
 				return;
 			}
 

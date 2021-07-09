@@ -10,12 +10,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import society.account.database.DatabaseHelper;
+import society.account.logger.Log;
 import society.account.receipt.printmanager.Printer;
 import society.account.ui.AlertMessages;
 import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
 public class GenerateReceiptPanel extends JPanel implements ActionListener {
+	private static final String TAG = "GenerateReceiptPanel";
 
 	private int mWidth = UiConstants.DimensionConstants.DEFAULT_WIDTH;
 	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
@@ -53,10 +55,12 @@ public class GenerateReceiptPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == mSubmit) {
 			String transactionNum = mTransactionNumberValue.getText().trim();
+			Log.d(TAG, "Generate receipt for " + transactionNum);
 
 			if (!dbHelper.checkTransactionNumberValid(transactionNum)) {
 				AlertMessages.showAlertMessage(this, "Transaction Number Does Not Exist");
 				mTransactionNumberValue.setText("");
+				Log.d(TAG, "Transaction not found");
 				return;
 			}
 
@@ -64,9 +68,11 @@ public class GenerateReceiptPanel extends JPanel implements ActionListener {
 			if (values == null || !Printer.printTransaction(values.get("account_number"), transactionNum, this)) {
 				AlertMessages.showSystemErrorMessage(this);
 				mTransactionNumberValue.setText("");
+				Log.e(TAG, "Can not generate receipt");
 				return;
 			}
 
+			Log.d(TAG, "Receipt generated");
 			mTransactionNumberValue.setText("");
 			AlertMessages.showAlertMessage(this, "Receipt Generated!");
 		}

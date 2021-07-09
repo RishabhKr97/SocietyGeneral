@@ -6,8 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import society.account.logger.Log;
+
 class DatabaseManager {
 
+	private static final String TAG = "DatabaseManager";
 	private static final String DB_URL = "jdbc:sqlite:Database/SocietyGeneral.db";
 	private Connection mConnection = null;
 
@@ -19,12 +22,13 @@ class DatabaseManager {
 		try {
 			mConnection = DriverManager.getConnection(DB_URL);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception while connecting to DB", e);
 		}
 
 		// create schema
 		executeQuery(DatabaseConstants.CREATE_MEMBERS_TABLE);
 		executeQuery(DatabaseConstants.CREATE_TRANSACTIONS_TABLE);
+		Log.d(TAG, "Database Initialized");
 	}
 
 	Statement executeQuery(String query) {
@@ -37,12 +41,12 @@ class DatabaseManager {
 			statement.execute(query);
 			return statement;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception while execute query: " + query, e);
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e1) {
-					e1.printStackTrace();
+					Log.e(TAG, "Exception: ", e1);
 				}
 			}
 		}
@@ -62,12 +66,12 @@ class DatabaseManager {
 			statement.execute();
 			return statement;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception while execute query: " + query, params, e);
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e1) {
-					e1.printStackTrace();
+					Log.e(TAG, "Exception: ", e1);
 				}
 			}
 		}
@@ -87,14 +91,14 @@ class DatabaseManager {
 			}
 			result = statement.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception while execute update: " + query, params, e);
 		} finally {
 			try {
 				if (statement != null) {
 					statement.close();
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				Log.e(TAG, "Exception: ", e);
 			}
 		}
 		return result;
@@ -106,7 +110,7 @@ class DatabaseManager {
 				mConnection.close();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception while closing DB ", e);
 		}
 	}
 

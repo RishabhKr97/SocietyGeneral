@@ -16,12 +16,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import society.account.database.DatabaseHelper;
+import society.account.logger.Log;
 import society.account.ui.AlertMessages;
 import society.account.ui.UiConstants;
 import society.account.ui.UiFontManager;
 
 @SuppressWarnings("serial")
 public class TransactionSummaryPanel extends JPanel implements ActionListener {
+	private static final String TAG = "TransactionSummaryPanel";
 
 	private int mWidth = UiConstants.DimensionConstants.DEFAULT_WIDTH;
 	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
@@ -143,15 +145,19 @@ public class TransactionSummaryPanel extends JPanel implements ActionListener {
 			if (UiConstants.DateConstants.NA.equals(dotYear)) {
 				dotYear = "%";
 			}
+			Log.d(TAG, "Find summary", dotDate, dotMonth, dotYear, accNum);
 
 			List<String[]> values_transactions = dbHelper.searchTransactionByDate(accNum, dotDate, dotMonth, dotYear);
 			List<String[]> values_summary = dbHelper.getTransactionSummaryByDate(dotDate, dotMonth, dotYear);
 			if (values_transactions == null || values_transactions.isEmpty()) {
 				clearFields();
 				AlertMessages.showErrorMessage(this, "Nothing To Display.");
+				Log.d(TAG, "No transactions found");
 				return;
 			}
 
+			Log.d(TAG, "Found: " + values_transactions.size());
+			Log.d(TAG, "Found: " + values_summary.size());
 			clearTables();
 			DefaultTableModel summaryTableModel = (DefaultTableModel) mSummaryTable.getModel();
 			for (String[] row : values_summary) {

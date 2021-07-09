@@ -13,11 +13,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import society.account.database.DatabaseHelper;
+import society.account.logger.Log;
 import society.account.ui.AlertMessages;
 import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
 public class AllMembersPanel extends JPanel implements ActionListener {
+	private static final String TAG = "AllMembersPane";
 
 	private int mWidth = UiConstants.DimensionConstants.DEFAULT_WIDTH;
 	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
@@ -67,13 +69,16 @@ public class AllMembersPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == mGetMembers) {
+			Log.d(TAG, "Getting all members");
 			List<String[]> values = dbHelper.getAllMembers();
 			if (values == null || values.isEmpty()) {
 				clearTable();
 				AlertMessages.showAlertMessage(this, "No Member Found!");
+				Log.d(TAG, "No member found");
 				return;
 			}
 
+			Log.d(TAG, "Found " + values.size());
 			clearTable();
 			DefaultTableModel allMembersTableModel = (DefaultTableModel) mAllMembersTable.getModel();
 			for (String[] row : values) {

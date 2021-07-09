@@ -17,6 +17,7 @@ public class InputValidation {
 			if (Integer.parseInt(accNum) <= 0) {
 				errorReport.valid = false;
 				errorReport.errorMessage = "Invalid Account Number";
+
 				return errorReport;
 			}
 		} catch (NumberFormatException e) {

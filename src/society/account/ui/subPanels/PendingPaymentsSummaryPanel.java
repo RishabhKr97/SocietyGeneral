@@ -16,12 +16,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import society.account.database.DatabaseHelper;
+import society.account.logger.Log;
 import society.account.ui.AlertMessages;
 import society.account.ui.UiConstants;
 import society.account.ui.UiFontManager;
 
 @SuppressWarnings("serial")
 public class PendingPaymentsSummaryPanel extends JPanel implements ActionListener {
+	private static final String TAG = "PendingPaymentsSummaryPanel";
 
 	private int mWidth = 400;
 	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
@@ -107,14 +109,18 @@ public class PendingPaymentsSummaryPanel extends JPanel implements ActionListene
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == mFind) {
+			Log.d(TAG, "Find all pending payments");
 			Map<String, List<String[]>> allPending = dbHelper.getAllPendingPaymentSummary();
 			if (allPending == null
 					|| (allPending.get("pending_cd").isEmpty() && allPending.get("pending_loan").isEmpty())) {
 				clearFields();
 				AlertMessages.showAlertMessage(this, "No Pending Payments Found");
+				Log.d(TAG, "No pending payments");
 				return;
 			}
 
+			Log.d(TAG, "Pending CD " + allPending.get("pending_cd").size());
+			Log.d(TAG, "Pending Loan " + allPending.get("pending_loan").size());
 			clearFields();
 			DefaultTableModel cdTableModel = (DefaultTableModel) mCdPendingTable.getModel();
 			for (String[] row : allPending.get("pending_cd")) {

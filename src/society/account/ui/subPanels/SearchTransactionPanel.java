@@ -16,11 +16,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import society.account.database.DatabaseHelper;
+import society.account.logger.Log;
 import society.account.ui.AlertMessages;
 import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
 public class SearchTransactionPanel extends JPanel implements ActionListener {
+	public static final String TAG = "SearchTransactionPanel";
 
 	private int mWidth = UiConstants.DimensionConstants.DEFAULT_WIDTH;
 	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
@@ -114,6 +116,7 @@ public class SearchTransactionPanel extends JPanel implements ActionListener {
 			if (!dbHelper.checkAccountNumberExist(accNum)) {
 				clearFields();
 				AlertMessages.showAlertMessage(this, "Account Number Does Not Exists");
+				Log.d(TAG, "Search transaction. Account number does not exists: " + accNum);
 				return;
 			}
 
@@ -126,14 +129,17 @@ public class SearchTransactionPanel extends JPanel implements ActionListener {
 			if (UiConstants.DateConstants.NA.equals(dotYear)) {
 				dotYear = "%";
 			}
+			Log.d(TAG, "Search transaction", dotDate, dotMonth, dotYear, accNum);
 
 			List<String[]> values = dbHelper.searchTransactionByDate(accNum, dotDate, dotMonth, dotYear);
 			if (values == null || values.isEmpty()) {
 				clearFields();
 				AlertMessages.showErrorMessage(this, "Nothing To Display.");
+				Log.d(TAG, "No transctions found");
 				return;
 			}
-
+			
+			Log.d(TAG, "Found: " + values.size());
 			clearTable();
 			DefaultTableModel tableModel = (DefaultTableModel) mTransactionTable.getModel();
 			for (String[] row : values) {

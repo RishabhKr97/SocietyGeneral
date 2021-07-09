@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import society.account.database.DatabaseHelper;
+import society.account.logger.Log;
 import society.account.ui.AlertMessages;
 import society.account.ui.InputValidation;
 import society.account.ui.InputValidation.ErrorReport;
@@ -20,6 +21,7 @@ import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
 public class EditTransactionPanel extends JPanel implements ActionListener {
+	private static final String TAG = "EditTransactionPanel";
 
 	private int mWidth = UiConstants.DimensionConstants.DEFAULT_WIDTH;
 	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
@@ -272,6 +274,7 @@ public class EditTransactionPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == mSearchTransactionNumberSubmit) {
 			String transactionNumber = mSearchTransactionNumber.getText().trim();
+			Log.d(TAG, "Edit transaction " + transactionNumber);
 			if (transactionNumber.isEmpty()) {
 				clearFields();
 				return;
@@ -280,6 +283,7 @@ public class EditTransactionPanel extends JPanel implements ActionListener {
 			if (!dbHelper.checkTransactionNumberValid(transactionNumber)) {
 				AlertMessages.showAlertMessage(this, "Transaction Number Does Not Exists");
 				clearFields();
+				Log.d(TAG, "Transaction does not exists");
 				return;
 			}
 
@@ -287,6 +291,7 @@ public class EditTransactionPanel extends JPanel implements ActionListener {
 			if (values == null) {
 				AlertMessages.showSystemErrorMessage(this);
 				clearFields();
+				Log.e(TAG, "Can not get transaction info");
 				return;
 			}
 
@@ -328,12 +333,17 @@ public class EditTransactionPanel extends JPanel implements ActionListener {
 			String miscPaymentIssued = mMiscAmountIssuedValue.getText().trim();
 			String paymentMode = String.valueOf(mPaymentModeValue.getSelectedIndex());
 			String remarks = mRemarksValue.getText().trim();
+			Log.d(TAG, "Edit transaction", accountNumber, dotYear, dotMonth, dotDate, cdDeposit, cdFineDeposit,
+					loanInstallmentDeposit, loanInterestDeposit, loanFineDeposit, shareMoneyDeposit,
+					admissionFeeDeposit, welfareDeposit, miscDeposit, loanIssued, miscPaymentIssued, paymentMode,
+					remarks);
 
 			ErrorReport validation = InputValidation.verifyTransactionDetails(accountNumber, cdDeposit, cdFineDeposit,
 					loanInstallmentDeposit, loanInterestDeposit, loanFineDeposit, shareMoneyDeposit,
 					admissionFeeDeposit, welfareDeposit, miscDeposit, loanIssued, miscPaymentIssued);
 			if (!validation.valid) {
 				AlertMessages.showErrorMessage(this, validation.errorMessage);
+				Log.d(TAG, "Validation failed");
 				return;
 			}
 
@@ -345,8 +355,10 @@ public class EditTransactionPanel extends JPanel implements ActionListener {
 			if (result == 1) {
 				AlertMessages.showAlertMessage(this, "Transaction Information Updated!");
 				clearFields();
+				Log.d(TAG, "Transaction updated");
 			} else {
 				AlertMessages.showSystemErrorMessage(this);
+				Log.e(TAG, "Can not update transsaction. Result: " + result);
 			}
 		}
 	}

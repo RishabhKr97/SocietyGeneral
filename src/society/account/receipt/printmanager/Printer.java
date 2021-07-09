@@ -15,9 +15,13 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import society.account.database.DatabaseHelper;
+import society.account.logger.Log;
 import society.account.ui.AlertMessages;
 
 public class Printer {
+	private static final String TAG = "Printer";
+	private static final String RECEIPT_SHEET_PATH = "receipts.xls";
+
 	// Cell Details For Each Column Of Receipt
 	private static final int TRANSACTION_NUM_ROW = 2;
 	private static final int DATE_ROW = 2;
@@ -44,17 +48,18 @@ public class Printer {
 	private static final int DEFAULT_COLUMN = 1;
 	private static final int PRINT_FROM_COLUMN = 8;
 
-	private static final String RECEIPT_SHEET_PATH = "receipts.xls";
-
 	private static int mPrintFrom = 0;
 
 	private static boolean printTransaction(String accNum, String transactionId, Component component, int numTrials) {
+		Log.d(TAG, "Print: Trial: " + numTrials);
+
 		DatabaseHelper dbHelper = new DatabaseHelper();
 		Map<String, String> transactionInfo = dbHelper.getTransactionInfo(transactionId);
 		Map<String, String> userInfo = dbHelper.getUserInfo(accNum);
 		Map<String, String> userBalance = dbHelper.getUserBalanceSummary(accNum);
 
 		if (transactionInfo == null || userInfo == null || userBalance == null) {
+			Log.d(TAG, "Can not find all needed information");
 			return false;
 		}
 
@@ -63,12 +68,15 @@ public class Printer {
 			Sheet sheet = workbook.getSheetAt(0);
 			Cell printFromCell = sheet.getRow(PRINT_FROM_ROW).getCell(PRINT_FROM_COLUMN);
 			int printFromValue = (int) printFromCell.getNumericCellValue();
+			Log.d(TAG, "Print From: " + printFromValue);
 			if (printFromValue >= 7) {
+				Log.d(TAG, "All receipt filled");
 				AlertMessages.showAlertMessage(component, "All Receipts Filled.\nPlease Print Before Continuing.");
 			}
 			if (printFromValue >= 1 && printFromValue <= 6) {
 				mPrintFrom = printFromValue;
 			} else {
+				Log.d(TAG, "Resetting print from value");
 				mPrintFrom = 1;
 				printFromCell.setCellValue("1");
 			}
@@ -120,6 +128,7 @@ public class Printer {
 
 			inputStream.close();
 			try (FileOutputStream outputStream = new FileOutputStream(RECEIPT_SHEET_PATH)) {
+				Log.d(TAG, "Starting output stream");
 				mPrintFrom += 1;
 				printFromCell.setCellValue(mPrintFrom);
 				workbook.write(outputStream);
@@ -128,22 +137,25 @@ public class Printer {
 			}
 			return true;
 		} catch (FileNotFoundException e) {
+			Log.e(TAG, "Receipt file not found");
 			if (numTrials > 2) {
+				Log.e(TAG, "Trials Over. Receipt file not found");
 				return false;
 			}
 
 			if (e.getMessage().contains("being used by another process")) {
 				AlertMessages.showAlertMessage(component, "Please Close The Receipt Sheet Before Proceeding");
+				Log.e(TAG, "Receipt fFile is being used by another process");
 				return printTransaction(accNum, transactionId, component, numTrials + 1);
 			}
-
 		} catch (NumberFormatException | IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Exception Occurred.", e);
 		}
 		return false;
 	}
 
 	public static boolean printTransaction(String accNum, String transactionId, Component component) {
+		Log.d(TAG, "Print Request: ", accNum, transactionId);
 		return printTransaction(accNum, transactionId, component, 0);
 	}
 

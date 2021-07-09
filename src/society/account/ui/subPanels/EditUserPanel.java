@@ -15,6 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import society.account.database.DatabaseHelper;
+import society.account.logger.Log;
 import society.account.ui.AlertMessages;
 import society.account.ui.InputValidation;
 import society.account.ui.InputValidation.ErrorReport;
@@ -22,6 +23,7 @@ import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
 public class EditUserPanel extends JPanel implements ActionListener {
+	private static final String TAG = "EditUserPanel";
 
 	private int mWidth = UiConstants.DimensionConstants.DEFAULT_WIDTH;
 	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
@@ -206,6 +208,7 @@ public class EditUserPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == mSearchAccountNumberSubmit) {
 			String accNum = mSearchAccountNumber.getText().trim();
+			Log.d(TAG, "Search account number " + accNum);
 			if (accNum.isEmpty()) {
 				clearFields();
 				return;
@@ -214,6 +217,7 @@ public class EditUserPanel extends JPanel implements ActionListener {
 			if (!dbHelper.checkAccountNumberActive(accNum)) {
 				AlertMessages.showAlertMessage(this, "Account Number Does Not Exists");
 				clearFields();
+				Log.d(TAG, "Account number does not exists");
 				return;
 			}
 
@@ -221,6 +225,7 @@ public class EditUserPanel extends JPanel implements ActionListener {
 			if (values == null) {
 				AlertMessages.showSystemErrorMessage(this);
 				clearFields();
+				Log.e(TAG, "Can not get user info");
 				return;
 			}
 
@@ -254,9 +259,12 @@ public class EditUserPanel extends JPanel implements ActionListener {
 			String pan = mPanValue.getText().trim();
 			String aadhar = mAadharValue.getText().trim().replace(" ", "");
 
+			Log.d(TAG, "Update Member", accountNumber, name, dobYear, dobMonth, dobDate, dojYear, dojMonth, dojDate,
+					address, mobile, email, pan, aadhar);
 			ErrorReport validation = InputValidation.verifyMemberInfo(name, address, mobile, email, pan, aadhar);
 			if (!validation.valid) {
 				AlertMessages.showErrorMessage(this, validation.errorMessage);
+				Log.d(TAG, "Validation failed");
 				return;
 			}
 
@@ -265,9 +273,11 @@ public class EditUserPanel extends JPanel implements ActionListener {
 
 			if (result == 1) {
 				AlertMessages.showAlertMessage(this, "Member Information Updated!");
+				Log.d(TAG, "Update success");
 				clearFields();
 			} else {
 				AlertMessages.showSystemErrorMessage(this);
+				Log.e(TAG, "Update failed. Result: " + result);
 			}
 		}
 	}

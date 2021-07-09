@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import society.account.database.DatabaseHelper;
+import society.account.logger.Log;
 import society.account.receipt.printmanager.Printer;
 import society.account.ui.AlertMessages;
 import society.account.ui.InputValidation;
@@ -19,6 +20,7 @@ import society.account.ui.UiConstants;
 
 @SuppressWarnings("serial")
 public class AddTransactionPanel extends JPanel implements ActionListener {
+	private static final String TAG = "AddTransactionPanel";
 
 	private int mWidth = UiConstants.DimensionConstants.DEFAULT_WIDTH;
 	private int mHeight = UiConstants.DimensionConstants.DEFAULT_HEIGHT;
@@ -274,12 +276,17 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 			String miscPaymentIssued = mMiscAmountIssuedValue.getText().trim();
 			String paymentMode = String.valueOf(mPaymentModeValue.getSelectedIndex());
 			String remarks = mRemarksValue.getText().trim();
+			Log.d(TAG, "Add transaction", accountNumber, dotYear, dotMonth, dotDate, cdDeposit, cdFineDeposit,
+					loanInstallmentDeposit, loanInterestDeposit, loanFineDeposit, shareMoneyDeposit,
+					admissionFeeDeposit, welfareDeposit, miscDeposit, loanIssued, miscPaymentIssued, paymentMode,
+					remarks);
 
 			ErrorReport validation = InputValidation.verifyTransactionDetails(accountNumber, cdDeposit, cdFineDeposit,
 					loanInstallmentDeposit, loanInterestDeposit, loanFineDeposit, shareMoneyDeposit,
 					admissionFeeDeposit, welfareDeposit, miscDeposit, loanIssued, miscPaymentIssued);
 			if (!validation.valid) {
 				AlertMessages.showErrorMessage(this, validation.errorMessage);
+				Log.d(TAG, "Validation failed");
 				return;
 			}
 
@@ -289,26 +296,32 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 					remarks);
 
 			if (result == 1) {
+				Log.d(TAG, "Transaction Added");
 				int requiredPrint = AlertMessages.showConfirmMessage(this, "Transaction Added!\nDo You Want To Print?");
 				if (requiredPrint == 0) {
 					String transactionId = dbHelper.getLastTransactionId(accountNumber);
 					if (transactionId == null || !Printer.printTransaction(accountNumber, transactionId, this)) {
 						AlertMessages.showSystemErrorMessage(this);
+						Log.e(TAG, "Can not generate receipt");
 					} else {
 						AlertMessages.showAlertMessage(this, "Receipt Generated!");
+						Log.d(TAG, "Receipt generated");
 					}
 				}
 				mClear.doClick();
 			} else {
 				AlertMessages.showSystemErrorMessage(this);
+				Log.e(TAG, "Can not add transaction");
 			}
 
 		} else if (e.getSource() == mGetPaymentDetails) {
 			String accountNumber = mAccountNumberValue.getText().trim();
+			Log.d(TAG, "Get payment detials for " + accountNumber);
 
 			if (!dbHelper.checkAccountNumberExist(accountNumber)) {
 				AlertMessages.showErrorMessage(this, "Account Number Does Not Exists");
 				mClear.doClick();
+				Log.d(TAG, "Account does not exists");
 				return;
 			}
 
@@ -316,6 +329,7 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 			if (values == null) {
 				AlertMessages.showSystemErrorMessage(this);
 				mClear.doClick();
+				Log.e(TAG, "Could not get details");
 				return;
 			}
 
