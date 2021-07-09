@@ -190,7 +190,7 @@ public class SearchMemberPanel extends JPanel implements ActionListener {
 		add(mCdBalanceLabel);
 
 		mCdBalanceValue = new JTextField();
-		mCdBalanceValue.setText("My Compulsory Deposit Balance");
+		mCdBalanceValue.setText("My CD Balance");
 		mCdBalanceValue.setSize(mWidth, mHeight);
 		mCdBalanceValue.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 11);
 		mCdBalanceValue.setEditable(false);
@@ -265,17 +265,17 @@ public class SearchMemberPanel extends JPanel implements ActionListener {
 
 	private void clearFields() {
 		mAccountNumber.setText(" ENTER ACCOUNT NUMBER");
-		mNameValue.setText("");
-		mDobValue.setText("");
-		mDojValue.setText("");
-		mAddressValue.setText("");
-		mMobileValue.setText("");
-		mEmailValue.setText("");
-		mPanValue.setText("");
-		mAadharValue.setText("");
-		mShareBalanceValue.setText("");
-		mCdBalanceValue.setText("");
-		mLoanBalanceValue.setText("");
+		mNameValue.setText("My Name");
+		mDobValue.setText("My DOB");
+		mDojValue.setText("My DOJ");
+		mAddressValue.setText("My Address");
+		mMobileValue.setText("My Mobile Number");
+		mEmailValue.setText("My Email Id");
+		mPanValue.setText("My PAN Number");
+		mAadharValue.setText("My Aadhar Number");
+		mShareBalanceValue.setText("My Share Balance");
+		mCdBalanceValue.setText("My CD Balance");
+		mLoanBalanceValue.setText("My Loan Balance");
 		mStatusLabel.setVisible(false);
 	}
 
