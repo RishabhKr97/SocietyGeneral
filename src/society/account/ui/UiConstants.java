@@ -111,6 +111,8 @@ public class UiConstants {
 				"Total<br>CD", "Total CD<br>Fine", "Total Loan<br>Installment", "Total Loan<br>Interest",
 				"Total Loan<br>Fine", "Total Share<br>Money", "Total Admission<br>Fee", "Total Welfare<br>Depoit",
 				"Total Misc<br>Fee", "Total Loan<br>Issued", "Total Misc<br>Amount Issued" };
+		public static final String[] ALL_MEMBERS_TABLE_COLUMN_NAMES = { "Account<br>Number", "Name",
+				"Account<br>Status" };
 		public static final String[] DEFAULTER_TABLE_COLUMN_NAMES = { "Account<br>Number", "Pending From<br>(Months)" };
 		public static final String[][] ROW_DEFAULTS = new String[0][];
 
@@ -123,6 +125,9 @@ public class UiConstants {
 			}
 			for (int i = 0; i < DEFAULTER_TABLE_COLUMN_NAMES.length; i++) {
 				DEFAULTER_TABLE_COLUMN_NAMES[i] = "<html><center>" + DEFAULTER_TABLE_COLUMN_NAMES[i] + "</html>";
+			}
+			for (int i = 0; i < ALL_MEMBERS_TABLE_COLUMN_NAMES.length; i++) {
+				ALL_MEMBERS_TABLE_COLUMN_NAMES[i] = "<html><center>" + ALL_MEMBERS_TABLE_COLUMN_NAMES[i] + "</html>";
 			}
 		}
 	}

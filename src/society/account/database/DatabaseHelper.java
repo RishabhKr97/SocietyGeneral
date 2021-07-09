@@ -271,10 +271,10 @@ public class DatabaseHelper {
 					op.add(curr);
 				} while (result.next());
 
-				int[] summation = new int[UiConstants.TableConstants.SUMMARY_TABLE_COLUMN_NAMES.length];
+				double[] summation = new double[UiConstants.TableConstants.SUMMARY_TABLE_COLUMN_NAMES.length];
 				for (String[] row : op) {
 					for (int i = 1; i < row.length; i++) {
-						summation[i] += Integer.parseInt(row[i]);
+						summation[i] += Double.parseDouble(row[i]);
 					}
 				}
 				op.add(Arrays.stream(summation).mapToObj(String::valueOf).toArray(String[]::new));
@@ -319,7 +319,7 @@ public class DatabaseHelper {
 		}
 
 		Map<String, String> userBalanceValues = getUserBalanceSummary(accNum);
-		if (userBalanceValues != null && Integer.parseInt(userBalanceValues.get("loan_balance")) > 0) {
+		if (userBalanceValues != null && Double.parseDouble(userBalanceValues.get("loan_balance")) > 0) {
 			try (Statement statement = dbManager.executeQuery(DatabaseConstants.LAST_LOAN_DEPOSIT_DATE,
 					new String[] { accNum, accNum });
 					ResultSet result = statement == null ? null : statement.getResultSet()) {
@@ -410,6 +410,25 @@ public class DatabaseHelper {
 			e.printStackTrace();
 		}
 
+		return null;
+	}
+
+	public List<String[]> getAllMembers() {
+		List<String[]> op = new ArrayList<>();
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.GET_ALL_MEMBERS);
+				ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result == null) {
+				return null;
+			}
+
+			while (result.next()) {
+				op.add(new String[] { result.getString("account_number"), result.getString("name"),
+						result.getString("account_active") });
+			}
+			return op;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

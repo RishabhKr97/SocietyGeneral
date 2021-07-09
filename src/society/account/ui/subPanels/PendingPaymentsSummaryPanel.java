@@ -107,10 +107,10 @@ public class PendingPaymentsSummaryPanel extends JPanel implements ActionListene
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == mFind) {
 			Map<String, List<String[]>> allPending = dbHelper.getAllPendingPaymentSummary();
-
-			if (allPending == null) {
+			if (allPending == null
+					|| (allPending.get("pending_cd").isEmpty() && allPending.get("pending_loan").isEmpty())) {
 				clearFields();
-				AlertMessages.showSystemErrorMessage(this);
+				AlertMessages.showAlertMessage(this, "No Pending Payments Found");
 				return;
 			}
 

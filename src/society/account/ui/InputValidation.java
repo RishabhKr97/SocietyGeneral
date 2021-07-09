@@ -52,7 +52,7 @@ public class InputValidation {
 
 		if (mobile.length() != 10 || !mobile.matches("[0-9]+")) {
 			errorReport.valid = false;
-			errorReport.errorMessage = "Invalid Mobile Number<br>Enter 10 digits without country code.";
+			errorReport.errorMessage = "Invalid Mobile Number.\nEnter 10 digits without country code.";
 			return errorReport;
 		}
 
