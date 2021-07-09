@@ -8,8 +8,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
 import society.account.database.DatabaseHelper;
+import society.account.logger.Log;
 
 public class UI {
+	private static final String TAG = "UI";
+
 	JFrame mMainFrame;
 	JTabbedPane mTabs;
 	UserInfoPanel mUserInfoPanel;
@@ -44,8 +47,10 @@ public class UI {
 			@Override
 			public void windowClosing(WindowEvent windowEvent) {
 				new DatabaseHelper().closeDatabase();
-				System.out.println("Application Closed");
+				Log.d(TAG, "Application Closed");
 			}
 		});
+
+		Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(mMainFrame));
 	}
 }
