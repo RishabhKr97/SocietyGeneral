@@ -377,18 +377,19 @@ public class DatabaseHelper {
 			do {
 				String accNum = result.getString(1);
 				Map<String, String> pending = getPendingPayments(accNum);
-				if (pending == null) {
+				Map<String, String> balance = getUserBalanceSummary(accNum);
+				if (pending == null || balance == null) {
 					return null;
 				}
 
 				int pendingFrom = Integer.parseInt(pending.get("cd_pending_duration"));
 				if (pendingFrom > 0) {
-					op.get("pending_cd").add(new String[] { accNum, String.valueOf(pendingFrom - 1) });
+					op.get("pending_cd").add(new String[] { accNum, String.valueOf(pendingFrom - 1), pending.get("cd_pending") });
 				}
 
 				pendingFrom = Integer.parseInt(pending.get("loan_pending_duration"));
 				if (pendingFrom > 0) {
-					op.get("pending_loan").add(new String[] { accNum, String.valueOf(pendingFrom - 1) });
+					op.get("pending_loan").add(new String[] { accNum, String.valueOf(pendingFrom - 1), balance.get("loan_balance") });
 				}
 			} while (result.next());
 

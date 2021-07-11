@@ -113,7 +113,7 @@ public class UiConstants {
 				"Total Misc<br>Fee", "Total Loan<br>Issued", "Total Misc<br>Amount Issued" };
 		public static final String[] ALL_MEMBERS_TABLE_COLUMN_NAMES = { "Account<br>Number", "Name",
 				"Account<br>Status" };
-		public static final String[] DEFAULTER_TABLE_COLUMN_NAMES = { "Account<br>Number", "Pending From<br>(Months)" };
+		public static final String[] DEFAULTER_TABLE_COLUMN_NAMES = { "Account<br>Number", "Pending From<br>(Months)", "Pending<br>Amount" };
 		public static final String[][] ROW_DEFAULTS = new String[0][];
 
 		static {

@@ -74,7 +74,7 @@ public class PendingPaymentsSummaryPanel extends JPanel implements ActionListene
 				UiConstants.TableConstants.DEFAULTER_TABLE_COLUMN_NAMES));
 		for (int column = 0; column < mCdPendingTable.getColumnCount(); column++) {
 			TableColumn tableColumn = mCdPendingTable.getColumnModel().getColumn(column);
-			tableColumn.setPreferredWidth(UiConstants.DimensionConstants.DEFAULT_TABLE_COLUMN_WIDTH * 2 + 4);
+			tableColumn.setPreferredWidth(UiConstants.DimensionConstants.DEFAULT_TABLE_COLUMN_WIDTH + 33);
 		}
 		mCdPendingTable.setRowHeight(mHeight + 2);
 		mCdPendingTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -91,7 +91,7 @@ public class PendingPaymentsSummaryPanel extends JPanel implements ActionListene
 				UiConstants.TableConstants.DEFAULTER_TABLE_COLUMN_NAMES));
 		for (int column = 0; column < mLoanPendingTable.getColumnCount(); column++) {
 			TableColumn tableColumn = mLoanPendingTable.getColumnModel().getColumn(column);
-			tableColumn.setPreferredWidth(UiConstants.DimensionConstants.DEFAULT_TABLE_COLUMN_WIDTH * 2 + 4);
+			tableColumn.setPreferredWidth(UiConstants.DimensionConstants.DEFAULT_TABLE_COLUMN_WIDTH + 33);
 		}
 		mLoanPendingTable.setRowHeight(mHeight + 2);
 		mLoanPendingTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
