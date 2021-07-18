@@ -304,7 +304,7 @@ public class DatabaseHelper {
 					endDate = endDate.withDayOfMonth(1);
 					if (endDate.isAfter(startDate)) {
 						Period period = Period.between(startDate, endDate);
-						int pendingMonths = period.getMonths();
+						int pendingMonths = period.getMonths() + (12 * period.getYears());
 						op.put("cd_fine", String.valueOf(5 * pendingMonths * (pendingMonths + 1)));
 						pendingMonths++;
 						op.put("cd_pending", String.valueOf(500 * pendingMonths));
@@ -334,7 +334,7 @@ public class DatabaseHelper {
 						endDate = endDate.withDayOfMonth(1);
 						if (endDate.isAfter(startDate)) {
 							Period period = Period.between(startDate, endDate);
-							int pendingMonths = period.getMonths();
+							int pendingMonths = period.getMonths() + (12 * period.getYears());
 							if (pendingMonths >= 3) {
 								op.put("loan_fine", String.valueOf((pendingMonths - 2) * 50));
 							} else {
