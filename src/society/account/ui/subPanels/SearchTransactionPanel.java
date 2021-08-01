@@ -99,7 +99,7 @@ public class SearchTransactionPanel extends JPanel implements ActionListener {
 		mTransactionTable.setEnabled(false);
 		mTransactionPane = new JScrollPane(mTransactionTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		mTransactionPane.setSize(800, 600);
+		mTransactionPane.setSize(800, 450);
 		mTransactionPane.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 3);
 		mTransactionPane.setVisible(true);
 		add(mTransactionPane);

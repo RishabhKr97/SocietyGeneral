@@ -30,7 +30,7 @@ public class UI {
 		mSummaryPanel = new SummaryPanel();
 		mManagePanel = new ManagePanel();
 
-		mTabs.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION, UiConstants.DimensionConstants.WINDOW_DIMENSION);
+		mTabs.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION_WIDTH, UiConstants.DimensionConstants.WINDOW_DIMENSION_HEIGHT);
 		mTabs.add("Member Info", mUserInfoPanel);
 		mTabs.add("Member Transactions", mTransactionPanel);
 		mTabs.add("Summary", mSummaryPanel);
@@ -38,8 +38,8 @@ public class UI {
 
 		mMainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		mMainFrame.add(mTabs);
-		mMainFrame.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION,
-				UiConstants.DimensionConstants.WINDOW_DIMENSION);
+		mMainFrame.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION_WIDTH,
+				UiConstants.DimensionConstants.WINDOW_DIMENSION_HEIGHT);
 		mMainFrame.setVisible(true);
 		mMainFrame.setTitle("Apna Co-Op. Society");
 

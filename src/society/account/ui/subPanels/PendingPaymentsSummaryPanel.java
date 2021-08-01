@@ -82,7 +82,7 @@ public class PendingPaymentsSummaryPanel extends JPanel implements ActionListene
 		mCdPendingTable.setEnabled(false);
 		mCdPendingPane = new JScrollPane(mCdPendingTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		mCdPendingPane.setSize(mWidth - mInitialSpacing * 2, 600);
+		mCdPendingPane.setSize(mWidth - mInitialSpacing * 2, 450);
 		mCdPendingPane.setLocation(mInitialSpacing * 2, mInitialSpacing + mVerticalSpacing * 2);
 		mCdPendingPane.setVisible(true);
 		add(mCdPendingPane);
@@ -99,7 +99,7 @@ public class PendingPaymentsSummaryPanel extends JPanel implements ActionListene
 		mLoanPendingTable.setEnabled(false);
 		mLoanPendingPane = new JScrollPane(mLoanPendingTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		mLoanPendingPane.setSize(mWidth - mInitialSpacing * 2, 600);
+		mLoanPendingPane.setSize(mWidth - mInitialSpacing * 2, 450);
 		mLoanPendingPane.setLocation(mInitialSpacing * 2 + mWidth, mInitialSpacing + mVerticalSpacing * 2);
 		mLoanPendingPane.setVisible(true);
 		add(mLoanPendingPane);

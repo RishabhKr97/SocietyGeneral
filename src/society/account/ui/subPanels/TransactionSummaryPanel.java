@@ -94,7 +94,7 @@ public class TransactionSummaryPanel extends JPanel implements ActionListener {
 		mSummaryTable.setEnabled(false);
 		mSummaryPane = new JScrollPane(mSummaryTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		mSummaryPane.setSize(800, 202);
+		mSummaryPane.setSize(800, 168);
 		mSummaryPane.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 2);
 		mSummaryPane.setVisible(true);
 		add(mSummaryPane);
@@ -121,7 +121,7 @@ public class TransactionSummaryPanel extends JPanel implements ActionListener {
 		mTransactionTable.setEnabled(false);
 		mTransactionPane = new JScrollPane(mTransactionTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		mTransactionPane.setSize(800, 360);
+		mTransactionPane.setSize(800, 250);
 		mTransactionPane.setLocation(mInitialSpacing, mInitialSpacing + mVerticalSpacing * 9);
 		mTransactionPane.setVisible(true);
 		add(mTransactionPane);

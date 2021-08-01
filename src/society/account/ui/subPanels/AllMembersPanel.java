@@ -60,7 +60,7 @@ public class AllMembersPanel extends JPanel implements ActionListener {
 		mAllMembersTable.setEnabled(false);
 		mAllMembersPane = new JScrollPane(mAllMembersTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		mAllMembersPane.setSize(497, 618);
+		mAllMembersPane.setSize(497, 500);
 		mAllMembersPane.setLocation(mInitialSpacing + mHorizontalSpacing / 2, mInitialSpacing + mVerticalSpacing);
 		mAllMembersPane.setVisible(true);
 		add(mAllMembersPane);

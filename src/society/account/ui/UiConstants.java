@@ -8,11 +8,12 @@ import java.util.Map;
 public class UiConstants {
 
 	public static class DimensionConstants {
-		public static final int WINDOW_DIMENSION = 850;
+		public static final int WINDOW_DIMENSION_WIDTH = 850;
+		public static final int WINDOW_DIMENSION_HEIGHT = 650;
 		public static final int DEFAULT_WIDTH = 250;
-		public static final int DEFAULT_HEIGHT = 25;
-		public static final int DEFAULT_INITIAL_SPACING = 15;
-		public static final int DEFAULT_VERTICAL_SPACING = DEFAULT_HEIGHT + 15;
+		public static final int DEFAULT_HEIGHT = 20;
+		public static final int DEFAULT_INITIAL_SPACING = 10;
+		public static final int DEFAULT_VERTICAL_SPACING = DEFAULT_HEIGHT + 10;
 		public static final int DEFAULT_HORIZONTAL_SPACING = DEFAULT_INITIAL_SPACING + DEFAULT_WIDTH + 30;
 		public static final int DEFAULT_COMBO_BOX_DATE_WIDTH = 60;
 		public static final int DEFAULT_TABLE_COLUMN_WIDTH = 90;

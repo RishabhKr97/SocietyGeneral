@@ -153,7 +153,7 @@ public class EditUserPanel extends JPanel implements ActionListener {
 		mAddressValue = new JTextArea();
 		mAddressValue.setLineWrap(true);
 		mAddressScroll = new JScrollPane(mAddressValue);
-		mAddressScroll.setSize(mWidth, mHeight * 3);
+		mAddressScroll.setSize(mWidth, (int) (mHeight * 2.5));
 		mAddressScroll.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 5);
 		add(mAddressScroll);
 

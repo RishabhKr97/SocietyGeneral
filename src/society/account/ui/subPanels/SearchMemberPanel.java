@@ -120,7 +120,7 @@ public class SearchMemberPanel extends JPanel implements ActionListener {
 		mAddressValue.setLineWrap(true);
 		mAddressValue.setEditable(false);
 		mAddressScroll = new JScrollPane(mAddressValue);
-		mAddressScroll.setSize(mWidth, mHeight * 3);
+		mAddressScroll.setSize(mWidth, (int) (mHeight * 2.5));
 		mAddressScroll.setLocation(mHorizontalSpacing, mInitialSpacing + mVerticalSpacing * 4);
 		add(mAddressScroll);
 

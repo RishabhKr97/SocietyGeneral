@@ -5,15 +5,15 @@ import java.awt.Font;
 import javax.swing.UIManager;
 
 public class UiFontManager {
-	private static final Font mHeadingFont = new Font(Font.SANS_SERIF, Font.BOLD, 17);
-	private static final Font mSubHeadingFont = new Font(Font.SANS_SERIF, Font.BOLD, 15);
-	private static final Font mLabelFont = new Font("", Font.BOLD, 16);
-	private static final Font mTextFont = new Font("", Font.PLAIN, 16);
-	private static final Font mButtonFont = new Font("", Font.BOLD, 15);
-	private static final Font mComboBoxFont = new Font("", Font.BOLD, 15);
-	private static final Font mTableHeaderFont = new Font(Font.SERIF, Font.BOLD, 16);
-	public static final Font mTableTextFont = new Font("", Font.PLAIN, 16);
-	private static final Font mLabelAsHeadingFont = new Font(Font.MONOSPACED, Font.BOLD, 18);
+	private static final Font mHeadingFont = new Font(Font.SANS_SERIF, Font.BOLD, 14);
+	private static final Font mSubHeadingFont = new Font(Font.SANS_SERIF, Font.BOLD, 12);
+	private static final Font mLabelFont = new Font("", Font.BOLD, 13);
+	private static final Font mTextFont = new Font("", Font.PLAIN, 13);
+	private static final Font mButtonFont = new Font("", Font.BOLD, 12);
+	private static final Font mComboBoxFont = new Font("", Font.BOLD, 12);
+	private static final Font mTableHeaderFont = new Font(Font.SERIF, Font.BOLD, 13);
+	public static final Font mTableTextFont = new Font("", Font.PLAIN, 13);
+	private static final Font mLabelAsHeadingFont = new Font(Font.MONOSPACED, Font.BOLD, 15);
 
 	public static Font getSubHeadingFont() {
 		return mSubHeadingFont;
