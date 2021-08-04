@@ -18,8 +18,8 @@ import society.account.database.DatabaseHelper;
 import society.account.logger.Log;
 import society.account.ui.AlertMessages;
 
-public class Printer {
-	private static final String TAG = "Printer";
+public class TransactionPrinter {
+	private static final String TAG = "TransactionPrinter";
 	private static final String RECEIPT_SHEET_PATH = "receipts.xls";
 
 	// Cell Details For Each Column Of Receipt
@@ -145,7 +145,7 @@ public class Printer {
 
 			if (e.getMessage().contains("being used by another process")) {
 				AlertMessages.showAlertMessage(component, "Please Close The Receipt Sheet Before Proceeding");
-				Log.e(TAG, "Receipt fFile is being used by another process");
+				Log.e(TAG, "Receipt file is being used by another process");
 				return printTransaction(accNum, transactionId, component, numTrials + 1);
 			}
 		} catch (NumberFormatException | IOException e) {
@@ -155,7 +155,7 @@ public class Printer {
 	}
 
 	public static boolean printTransaction(String accNum, String transactionId, Component component) {
-		Log.d(TAG, "Print Request: ", accNum, transactionId);
+		Log.d(TAG, "Print Transaction Request: ", accNum, transactionId);
 		return printTransaction(accNum, transactionId, component, 0);
 	}
 
@@ -187,7 +187,6 @@ public class Printer {
 
 	private static String getFormattedDate(String date) {
 		LocalDate localDate = LocalDate.parse(date);
-		return localDate.getDayOfMonth() + "/" + localDate.getMonthValue() + "/" + (localDate.getYear() % 100);
+		return localDate.getDayOfMonth() + "-" + localDate.getMonthValue() + "-" + (localDate.getYear() % 100);
 	}
-
 }

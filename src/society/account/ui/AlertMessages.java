@@ -22,4 +22,10 @@ public class AlertMessages {
 	public static int showConfirmMessage(Component component, String message) {
 		return JOptionPane.showConfirmDialog(component, message);
 	}
+
+	public static int showAccountStatementPeriodDialog(Component component) {
+		String[] options = new String[] { "3 Months", "6 Months", "1 Year", "All Time" };
+		return JOptionPane.showOptionDialog(component, "Select Period Of Statement", "Print Account Statement",
+				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+	}
 }

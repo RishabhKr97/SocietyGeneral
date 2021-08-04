@@ -249,6 +249,40 @@ public class DatabaseHelper {
 		return null;
 	}
 
+	public List<String[]> getAllTransactionsByDate(String accNum, String fromDate) {
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.GET_ALL_TRANSACTIONS_BY_DATE,
+				new String[] { accNum, fromDate });
+				ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result != null && result.next()) {
+				List<String[]> op = new ArrayList<>();
+				do {
+					String[] curr = new String[UiConstants.TableConstants.TRANSACTION_TABLE_COLUMN_NAMES.length];
+					curr[0] = result.getString("transaction_id");
+					curr[1] = result.getString("account_number");
+					curr[2] = result.getString("date_of_transaction");
+					curr[3] = result.getString("compulsory_deposit");
+					curr[4] = result.getString("cd_fine_deposit");
+					curr[5] = result.getString("loan_installment_deposit");
+					curr[6] = result.getString("loan_interest_deposit");
+					curr[7] = result.getString("loan_fine_deposit");
+					curr[8] = result.getString("share_money_deposit");
+					curr[9] = result.getString("admission_fee_deposit");
+					curr[10] = result.getString("welfare_deposit");
+					curr[11] = result.getString("misc_deposit");
+					curr[12] = result.getString("loan_issued");
+					curr[13] = result.getString("misc_amount_issued");
+					curr[14] = UiConstants.PaymentModeConstants.PAYMENT_MODES[result.getInt("payment_mode")];
+					curr[15] = result.getString("remarks");
+					op.add(curr);
+				} while (result.next());
+				return op;
+			}
+		} catch (SQLException e) {
+			Log.e(TAG, "getAllTransactionsByDate()", e);
+		}
+		return null;
+	}
+
 	public List<String[]> getTransactionSummaryByDate(String dotDate, String dotMonth, String dotYear) {
 		try (Statement statement = dbManager.executeQuery(DatabaseConstants.SUMMARY_TRANSACTION_BY_DATE,
 				new String[] { dotDate, dotMonth, dotYear });
@@ -384,12 +418,14 @@ public class DatabaseHelper {
 
 				int pendingFrom = Integer.parseInt(pending.get("cd_pending_duration"));
 				if (pendingFrom > 0) {
-					op.get("pending_cd").add(new String[] { accNum, String.valueOf(pendingFrom - 1), pending.get("cd_pending") });
+					op.get("pending_cd")
+							.add(new String[] { accNum, String.valueOf(pendingFrom - 1), pending.get("cd_pending") });
 				}
 
 				pendingFrom = Integer.parseInt(pending.get("loan_pending_duration"));
 				if (pendingFrom > 0) {
-					op.get("pending_loan").add(new String[] { accNum, String.valueOf(pendingFrom - 1), balance.get("loan_balance") });
+					op.get("pending_loan")
+							.add(new String[] { accNum, String.valueOf(pendingFrom - 1), balance.get("loan_balance") });
 				}
 			} while (result.next());
 

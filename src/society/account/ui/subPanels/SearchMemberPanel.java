@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.time.LocalDate;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -16,6 +17,7 @@ import javax.swing.JTextField;
 
 import society.account.database.DatabaseHelper;
 import society.account.logger.Log;
+import society.account.receipt.printmanager.AccountStatementPrinter;
 import society.account.ui.AlertMessages;
 import society.account.ui.UiConstants;
 
@@ -31,6 +33,7 @@ public class SearchMemberPanel extends JPanel implements ActionListener {
 
 	private JTextField mAccountNumber;
 	private JButton mSubmit;
+	private JButton mGetStatement;
 	private JLabel mNameLabel;
 	private JTextField mNameValue;
 	private JLabel mDobLabel;
@@ -73,6 +76,13 @@ public class SearchMemberPanel extends JPanel implements ActionListener {
 		mSubmit.setLocation(mHorizontalSpacing, mInitialSpacing);
 		mSubmit.addActionListener(this);
 		add(mSubmit);
+		
+		mGetStatement = new JButton("Generate Statement");
+		mGetStatement.setSize(150, mHeight);
+		mGetStatement.setLocation(mHorizontalSpacing + 150, mInitialSpacing);
+		mGetStatement.addActionListener(this);
+		mGetStatement.setVisible(false);
+		add(mGetStatement);
 
 		mNameLabel = new JLabel("Name");
 		mNameLabel.setSize(mWidth, mHeight);
@@ -260,6 +270,41 @@ public class SearchMemberPanel extends JPanel implements ActionListener {
 				mStatusLabel.setForeground(Color.RED);
 			}
 			mStatusLabel.setVisible(true);
+			mGetStatement.setVisible(true);
+		} else if (e.getSource() == mGetStatement) {
+			String accountNumber = mAccountNumber.getText().trim();
+			Log.d(TAG, "Generating account statement for " + accountNumber);
+			if (!dbHelper.checkAccountNumberExist(accountNumber)) {
+				AlertMessages.showErrorMessage(this, "Account Number Does Not Exists");
+				Log.d(TAG, "Account number does not exists");
+				clearFields();
+				return;
+			}
+			
+			int period = AlertMessages.showAccountStatementPeriodDialog(this);
+			String fromDate = null;
+			LocalDate today = LocalDate.now();
+			if (period == 0) {
+				fromDate = today.minusMonths(3).toString();
+			} else if (period == 1) {
+				fromDate = today.minusMonths(6).toString();
+			} else if (period == 2) {
+				fromDate = today.minusYears(1).toString();
+			} else if (period == 3) {
+				fromDate = LocalDate.EPOCH.toString();
+			}
+			Log.d(TAG, "Selected period " + period + ". From " + fromDate + " To " + today);
+			
+			if (fromDate == null || !AccountStatementPrinter.printStatement(accountNumber, fromDate, this)) {
+				clearFields();
+				AlertMessages.showAlertMessage(this, "Can not generate statement");
+				Log.e(TAG, "Can not generate statement");
+				return;
+			}
+			
+			clearFields();
+			AlertMessages.showAlertMessage(this, "Account Statement Generated!");
+			Log.d(TAG, "Account statement generated");
 		}
 	}
 
@@ -277,6 +322,7 @@ public class SearchMemberPanel extends JPanel implements ActionListener {
 		mCdBalanceValue.setText("My CD Balance");
 		mLoanBalanceValue.setText("My Loan Balance");
 		mStatusLabel.setVisible(false);
+		mGetStatement.setVisible(false);
 	}
 
 	private class AccountMouseListner implements MouseListener {

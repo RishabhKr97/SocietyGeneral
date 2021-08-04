@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 import society.account.database.DatabaseHelper;
 import society.account.logger.Log;
-import society.account.receipt.printmanager.Printer;
+import society.account.receipt.printmanager.TransactionPrinter;
 import society.account.ui.AlertMessages;
 import society.account.ui.InputValidation;
 import society.account.ui.InputValidation.ErrorReport;
@@ -300,7 +300,7 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 				int requiredPrint = AlertMessages.showConfirmMessage(this, "Transaction Added!\nDo You Want To Print?");
 				if (requiredPrint == 0) {
 					String transactionId = dbHelper.getLastTransactionId(accountNumber);
-					if (transactionId == null || !Printer.printTransaction(accountNumber, transactionId, this)) {
+					if (transactionId == null || !TransactionPrinter.printTransaction(accountNumber, transactionId, this)) {
 						AlertMessages.showSystemErrorMessage(this);
 						Log.e(TAG, "Can not generate receipt");
 					} else {

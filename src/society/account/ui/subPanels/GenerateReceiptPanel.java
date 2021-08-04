@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 
 import society.account.database.DatabaseHelper;
 import society.account.logger.Log;
-import society.account.receipt.printmanager.Printer;
+import society.account.receipt.printmanager.TransactionPrinter;
 import society.account.ui.AlertMessages;
 import society.account.ui.UiConstants;
 
@@ -65,7 +65,7 @@ public class GenerateReceiptPanel extends JPanel implements ActionListener {
 			}
 
 			Map<String, String> values = dbHelper.getTransactionInfo(transactionNum);
-			if (values == null || !Printer.printTransaction(values.get("account_number"), transactionNum, this)) {
+			if (values == null || !TransactionPrinter.printTransaction(values.get("account_number"), transactionNum, this)) {
 				AlertMessages.showSystemErrorMessage(this);
 				mTransactionNumberValue.setText("");
 				Log.e(TAG, "Can not generate receipt");
