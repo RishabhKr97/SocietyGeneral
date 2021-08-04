@@ -446,6 +446,17 @@ public class DatabaseHelper {
 				}
 			});
 
+			op.get("pending_cd").forEach((s) -> {
+				if ("0".equals(s[1])) {
+					s[1] = "Current Month";
+				}
+			});
+			op.get("pending_loan").forEach((s) -> {
+				if ("0".equals(s[1])) {
+					s[1] = "Current Month";
+				}
+			});
+
 			return op;
 		} catch (SQLException e) {
 			Log.e(TAG, "getAllPendingPaymentSummary()", e);

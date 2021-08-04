@@ -101,7 +101,7 @@ public class TransactionSummaryPanel extends JPanel implements ActionListener {
 
 		mAllTransactionsLabel = new JLabel("ALL TRANSACTIONS");
 		mAllTransactionsLabel.setSize(800, mHeight);
-		mAllTransactionsLabel.setLocation(mInitialSpacing, mVerticalSpacing * 8);
+		mAllTransactionsLabel.setLocation(mInitialSpacing, (int) (mVerticalSpacing * 8.2));
 		mAllTransactionsLabel.setFont(UiFontManager.getLabelAsHeadingFont());
 		mAllTransactionsLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		add(mAllTransactionsLabel);
