@@ -318,16 +318,16 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 			String accountNumber = mAccountNumberValue.getText().trim();
 			Log.d(TAG, "Get payment detials for " + accountNumber);
 
-			if (!dbHelper.checkAccountNumberExist(accountNumber)) {
-				AlertMessages.showErrorMessage(this, "Account Number Does Not Exists");
+			if (!dbHelper.checkAccountNumberActive(accountNumber)) {
+				AlertMessages.showErrorMessage(this, "Account Number Is Inactive Or Does Not Exists");
 				mClear.doClick();
-				Log.d(TAG, "Account does not exists");
+				Log.d(TAG, "Account Number Is Inactive Or Does Not Exists");
 				return;
 			}
 
 			Map<String, String> values = dbHelper.getPendingPayments(accountNumber);
 			if (values == null) {
-				AlertMessages.showSystemErrorMessage(this);
+				AlertMessages.showErrorMessage(this, "Could not fetch payment details");
 				mClear.doClick();
 				Log.e(TAG, "Could not get details");
 				return;

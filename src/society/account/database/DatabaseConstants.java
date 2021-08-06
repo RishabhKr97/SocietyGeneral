@@ -44,6 +44,9 @@ class DatabaseConstants {
 	public static final String USER_BALANCE_SUMMARY = "SELECT (SUM(loan_issued) - SUM(loan_installment_deposit)) AS loan_balance, "
 			+ "SUM(compulsory_deposit) AS cd_balance, SUM(share_money_deposit) AS share_balance FROM transactions WHERE account_number = ?";
 
+	public static final String USER_LOAN_BALANCE_BY_DATE = "SELECT (SUM(loan_issued) - SUM(loan_installment_deposit)) AS loan_balance "
+			+ "FROM transactions WHERE account_number = ? AND date_of_transaction < ?";
+
 	public static final String CHECK_TRANSACTION_NUMBER_VALID = "SELECT COUNT(*) FROM transactions WHERE transaction_id = ?";
 
 	public static final String GET_TRANSACTION_INFO = "SELECT * FROM transactions WHERE transaction_id = ?";
@@ -64,15 +67,15 @@ class DatabaseConstants {
 			+ "SUM(misc_amount_issued) AS misc_issued, COUNT(payment_mode) AS mode_count, payment_mode FROM transactions WHERE STRFTIME('%d', date_of_transaction) LIKE ? AND "
 			+ "STRFTIME('%m', date_of_transaction) LIKE ? AND STRFTIME('%Y', date_of_transaction) LIKE ? GROUP BY payment_mode ORDER BY mode_count DESC, cd DESC";
 
-	public static final String LAST_CD_DATE = "SELECT MAX(date) AS last_date FROM ( "
-			+ "SELECT MAX(date_of_transaction) AS date FROM transactions WHERE account_number = ? AND compulsory_deposit > 0 "
-			+ "UNION SELECT date_of_joining AS date FROM members WHERE account_number = ?)";
+	public static final String LAST_CD_DATE = "SELECT MAX(date_of_transaction) AS last_date FROM transactions WHERE account_number = ? AND compulsory_deposit > 0";
 
-	public static final String LAST_LOAN_DEPOSIT_DATE = "SELECT MAX(date) AS last_date FROM ( "
-			+ "SELECT MAX(date_of_transaction) AS date FROM transactions WHERE account_number = ? AND loan_installment_deposit > 0 "
-			+ "UNION SELECT MAX(date_of_transaction) AS date FROM transactions WHERE account_number = ? AND loan_issued > 0)";
-
-	public static final String ALL_ACTIVE_ACCOUNT_NUMBERS = "SELECT account_number from members WHERE account_active = 1";
+	public static final String ALL_ACTIVE_ACCOUNT_NUMBERS = "SELECT account_number FROM members WHERE account_active = 1";
 
 	public static final String GET_ALL_MEMBERS = "SELECT account_number, name, account_active FROM members ORDER BY account_number";
+
+	public static final String GET_DOJ = "SELECT date_of_joining FROM members WHERE account_number = ?";
+
+	public static final String GET_LOAN_TRANSACTIONS = "SELECT date_of_transaction, loan_issued, loan_installment_deposit, loan_interest_deposit FROM transactions "
+			+ "WHERE account_number = ? AND date_of_transaction >= (SELECT MAX(date_of_transaction) FROM transactions WHERE account_number = ? AND loan_issued > 0) "
+			+ "AND (loan_issued > 0 OR loan_installment_deposit > 0 OR loan_interest_deposit > 0) ORDER BY date_of_transaction";
 }

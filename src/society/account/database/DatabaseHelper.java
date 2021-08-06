@@ -325,76 +325,111 @@ public class DatabaseHelper {
 
 	public Map<String, String> getPendingPayments(String accNum) {
 		Map<String, String> op = new HashMap<>();
+		String doj = null;
+		String lastCdDate = null;
+		boolean firstCdTransaction = false;
 
-		try (Statement statement = dbManager.executeQuery(DatabaseConstants.LAST_CD_DATE,
-				new String[] { accNum, accNum });
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.GET_DOJ, new String[] { accNum });
 				ResultSet result = statement == null ? null : statement.getResultSet()) {
 			if (result != null && result.next()) {
-				String lastDate = result.getString("last_date");
-				if (lastDate != null) {
-					LocalDate startDate = LocalDate.parse(lastDate).withDayOfMonth(1);
-					LocalDate endDate = LocalDate.now().withDayOfMonth(1);
-					startDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
-					endDate = endDate.withDayOfMonth(1);
-					if (endDate.isAfter(startDate)) {
-						Period period = Period.between(startDate, endDate);
-						int pendingMonths = period.getMonths() + (12 * period.getYears());
-						op.put("cd_fine", String.valueOf(5 * pendingMonths * (pendingMonths + 1)));
-						pendingMonths++;
-						op.put("cd_pending", String.valueOf(500 * pendingMonths));
-						op.put("cd_pending_duration", String.valueOf(pendingMonths));
-					} else {
-						op.put("cd_fine", "0");
-						op.put("cd_pending", "0");
-						op.put("cd_pending_duration", "0");
-					}
-				}
+				doj = result.getString("date_of_joining");
 			}
 		} catch (SQLException e) {
 			Log.e(TAG, "getPendingPayments()", e);
 		}
+		if (doj == null) {
+			Log.e(TAG, "Could not fetch DOJ");
+			return null;
+		}
+
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.LAST_CD_DATE, new String[] { accNum });
+				ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result != null && result.next()) {
+				lastCdDate = result.getString("last_date");
+			}
+		} catch (SQLException e) {
+			Log.e(TAG, "getPendingPayments()", e);
+		}
+		if (lastCdDate == null) {
+			lastCdDate = doj;
+			firstCdTransaction = true;
+		}
 
 		Map<String, String> userBalanceValues = getUserBalanceSummary(accNum);
-		if (userBalanceValues != null && Double.parseDouble(userBalanceValues.get("loan_balance")) > 0) {
-			try (Statement statement = dbManager.executeQuery(DatabaseConstants.LAST_LOAN_DEPOSIT_DATE,
-					new String[] { accNum, accNum });
-					ResultSet result = statement == null ? null : statement.getResultSet()) {
-				if (result != null && result.next()) {
-					String lastDate = result.getString("last_date");
-					if (lastDate != null) {
-						LocalDate startDate = LocalDate.parse(lastDate);
-						LocalDate endDate = LocalDate.now();
-						startDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
-						endDate = endDate.withDayOfMonth(1);
-						if (endDate.isAfter(startDate)) {
-							Period period = Period.between(startDate, endDate);
-							int pendingMonths = period.getMonths() + (12 * period.getYears());
-							if (pendingMonths >= 3) {
-								op.put("loan_fine", String.valueOf((pendingMonths - 2) * 50));
-							} else {
-								op.put("loan_fine", "0");
-							}
-							pendingMonths++;
-							op.put("loan_interest", String.valueOf(
-									Double.parseDouble(userBalanceValues.get("loan_balance")) * 0.006 * pendingMonths));
-							op.put("loan_pending_duration", String.valueOf(pendingMonths));
-						} else {
-							op.put("loan_fine", "0");
-							op.put("loan_interest", "0");
-							op.put("loan_pending_duration", "0");
-						}
-					}
-				}
-			} catch (SQLException e) {
-				Log.e(TAG, "getPendingPayments()", e);
+		if (userBalanceValues == null) {
+			Log.e(TAG, "Could not fetch user balance");
+			return null;
+		}
+
+		double totalCdDue = calculateCdDue(doj);
+		double totalCdPaid = Double.parseDouble(userBalanceValues.get("cd_balance"));
+		op.put("cd_pending", String.valueOf(totalCdDue - totalCdPaid));
+
+		LocalDate startDate = LocalDate.parse(lastCdDate);
+		startDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+		LocalDate endDate = LocalDate.now().withDayOfMonth(1);
+		if (endDate.isAfter(startDate)) {
+			Period period = Period.between(startDate, endDate);
+			int pendingMonths = period.getMonths() + (12 * period.getYears());
+			if (firstCdTransaction) {
+				pendingMonths++;
 			}
+			op.put("cd_fine", String.valueOf(5 * pendingMonths * (pendingMonths + 1)));
+			op.put("cd_pending_duration", String.valueOf(pendingMonths + 1));
 		} else {
+			op.put("cd_fine", "0");
+			op.put("cd_pending_duration", "0");
+		}
+
+		if ("0".equals(userBalanceValues.get("loan_balance"))) {
 			op.put("loan_fine", "0");
 			op.put("loan_interest", "0");
 			op.put("loan_pending_duration", "0");
+			return op;
 		}
 
-		return op.size() == 6 ? op : null;
+		List<String[]> loanTransactions = new ArrayList<>();
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.GET_LOAN_TRANSACTIONS,
+				new String[] { accNum, accNum });
+				ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result != null && result.next()) {
+				do {
+					loanTransactions.add(new String[] { result.getString("date_of_transaction"),
+							result.getString("loan_issued"), result.getString("loan_installment_deposit"),
+							result.getString("loan_interest_deposit") });
+				} while (result.next());
+			}
+		} catch (SQLException e) {
+			Log.e(TAG, "getPendingPayments()", e);
+		}
+		if (loanTransactions.isEmpty()) {
+			Log.e(TAG, "Could not fetch loan transactions");
+			return null;
+		}
+
+		double previousBalance = getLoanBalanceByDate(accNum, loanTransactions.get(0)[0]);
+		double pendingInterest = calculateLoanInterestDue(loanTransactions, previousBalance);
+		op.put("loan_interest", String.valueOf(pendingInterest));
+
+		String lastLoanDate = loanTransactions.get(loanTransactions.size() - 1)[0];
+		startDate = LocalDate.parse(lastLoanDate);
+		startDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+		endDate = LocalDate.now().withDayOfMonth(1);
+		if (endDate.isAfter(startDate)) {
+			Period period = Period.between(startDate, endDate);
+			int pendingMonths = period.getMonths() + (12 * period.getYears());
+			if (pendingMonths >= 3) {
+				op.put("loan_fine", String.valueOf((pendingMonths - 2) * 50));
+			} else {
+				op.put("loan_fine", "0");
+			}
+			op.put("loan_pending_duration", String.valueOf(pendingMonths + 1));
+		} else {
+			op.put("loan_fine", "0");
+			op.put("loan_pending_duration", "0");
+		}
+
+		return op;
 	}
 
 	public Map<String, List<String[]>> getAllPendingPaymentSummary() {
@@ -482,5 +517,76 @@ public class DatabaseHelper {
 			Log.e(TAG, "getAllMembers()", e);
 		}
 		return null;
+	}
+
+	public double getLoanBalanceByDate(String accNum, String date) {
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.USER_LOAN_BALANCE_BY_DATE,
+				new String[] { accNum, date });
+				ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result != null && result.next()) {
+				return result.getDouble("loan_balance");
+			}
+		} catch (SQLException e) {
+			Log.e(TAG, "getLoanBalanceByDate()", e);
+		}
+		return 0;
+	}
+
+	private double calculateCdDue(String doj) {
+		LocalDate startDate = LocalDate.parse(doj).withDayOfMonth(1);
+		LocalDate endDate = LocalDate.now().withDayOfMonth(1);
+		if (endDate.isAfter(startDate)) {
+			Period period = Period.between(startDate, endDate);
+			int totalMonths = period.getMonths() + (12 * period.getYears());
+			return (totalMonths + 1) * 500;
+		}
+		return 500;
+	}
+
+	private double calculateLoanInterestDue(List<String[]> transactions, double previousBalance) {
+		LocalDate currentDate = LocalDate.now().withDayOfMonth(1);
+		LocalDate currentTransactionDate = LocalDate.parse(transactions.get(0)[0]).withDayOfMonth(1);
+		int idx = 0;
+		double principalDue = 0;
+		double totalInterestDue = 0;
+		String[] temp;
+		while (idx < transactions.size()) {
+			temp = transactions.get(idx);
+			if (LocalDate.parse(temp[0]).withDayOfMonth(1).isAfter(currentTransactionDate)) {
+				break;
+			}
+			principalDue += Double.parseDouble(temp[1]);
+			principalDue -= Double.parseDouble(temp[2]);
+			idx++;
+		}
+		principalDue += previousBalance;
+
+		while (idx < transactions.size()) {
+			temp = transactions.get(idx);
+			LocalDate nextDate = LocalDate.parse(temp[0]).withDayOfMonth(1);
+			Period period = Period.between(currentTransactionDate, nextDate);
+			int totalMonths = period.getMonths() + (12 * period.getYears());
+			totalInterestDue += principalDue * 0.006 * totalMonths;
+			currentTransactionDate = nextDate;
+
+			while (idx < transactions.size()) {
+				temp = transactions.get(idx);
+				if (LocalDate.parse(temp[0]).withDayOfMonth(1).isAfter(currentTransactionDate)) {
+					break;
+				}
+				principalDue += Double.parseDouble(temp[1]);
+				principalDue -= Double.parseDouble(temp[2]);
+				totalInterestDue -= Double.parseDouble(temp[3]);
+				idx++;
+			}
+		}
+
+		if (currentDate.isAfter(currentTransactionDate)) {
+			Period period = Period.between(currentTransactionDate, currentDate);
+			int totalMonths = period.getMonths() + (12 * period.getYears());
+			totalInterestDue += principalDue * 0.006 * totalMonths;
+		}
+
+		return totalInterestDue;
 	}
 }
