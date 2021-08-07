@@ -328,15 +328,8 @@ public class DatabaseHelper {
 		String doj = null;
 		String lastCdDate = null;
 		boolean firstCdTransaction = false;
-
-		try (Statement statement = dbManager.executeQuery(DatabaseConstants.GET_DOJ, new String[] { accNum });
-				ResultSet result = statement == null ? null : statement.getResultSet()) {
-			if (result != null && result.next()) {
-				doj = result.getString("date_of_joining");
-			}
-		} catch (SQLException e) {
-			Log.e(TAG, "getPendingPayments()", e);
-		}
+		
+		doj = getUserDoj(accNum);
 		if (doj == null) {
 			Log.e(TAG, "Could not fetch DOJ");
 			return null;
@@ -530,6 +523,19 @@ public class DatabaseHelper {
 			Log.e(TAG, "getLoanBalanceByDate()", e);
 		}
 		return 0;
+	}
+
+	public String getUserDoj(String accNum) {
+		String doj = null;
+		try (Statement statement = dbManager.executeQuery(DatabaseConstants.GET_DOJ, new String[] { accNum });
+				ResultSet result = statement == null ? null : statement.getResultSet()) {
+			if (result != null && result.next()) {
+				doj = result.getString("date_of_joining");
+			}
+		} catch (SQLException e) {
+			Log.e(TAG, "getUserDoj()", e);
+		}
+		return doj;
 	}
 
 	private double calculateCdDue(String doj) {

@@ -1,5 +1,8 @@
 package society.account.ui;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 import society.account.database.DatabaseHelper;
 
 public class InputValidation {
@@ -9,8 +12,8 @@ public class InputValidation {
 		public String errorMessage;
 	}
 
-	public static ErrorReport verifyMemberInfo(String accNum, String name, String address, String mobile, String email,
-			String pan, String aadhar) {
+	public static ErrorReport verifyMemberInfo(String accNum, String name, String dob, String doj, String address,
+			String mobile, String email, String pan, String aadhar) {
 
 		ErrorReport errorReport = new ErrorReport();
 		try {
@@ -32,16 +35,32 @@ public class InputValidation {
 			return errorReport;
 		}
 
-		return verifyMemberInfo(name, address, mobile, email, pan, aadhar);
+		return verifyMemberInfo(name, dob, doj, address, mobile, email, pan, aadhar);
 	}
 
-	public static ErrorReport verifyMemberInfo(String name, String address, String mobile, String email, String pan,
-			String aadhar) {
+	public static ErrorReport verifyMemberInfo(String name, String dob, String doj, String address, String mobile,
+			String email, String pan, String aadhar) {
 
 		ErrorReport errorReport = new ErrorReport();
-		if (!name.matches("[a-zA-Z]+[\\sa-zA-Z]+")) {
+		if (!name.matches("[a-zA-Z][\\sa-zA-Z]+")) {
 			errorReport.valid = false;
 			errorReport.errorMessage = "Invalid Name";
+			return errorReport;
+		}
+
+		try {
+			LocalDate.parse(dob);
+		} catch (DateTimeParseException e) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Invalid Date of Birth";
+			return errorReport;
+		}
+
+		try {
+			LocalDate.parse(doj);
+		} catch (DateTimeParseException e) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Invalid Date of Joining";
 			return errorReport;
 		}
 
@@ -79,9 +98,9 @@ public class InputValidation {
 		return errorReport;
 	}
 
-	public static ErrorReport verifyTransactionDetails(String accNum, String cd, String cdFine, String loanInstallment,
-			String loanInst, String loanFine, String shareMoney, String admFee, String welfareDep, String miscDep,
-			String loanIssue, String miscIssue) {
+	public static ErrorReport verifyTransactionDetails(String accNum, String dot, String cd, String cdFine,
+			String loanInstallment, String loanInst, String loanFine, String shareMoney, String admFee,
+			String welfareDep, String miscDep, String loanIssue, String miscIssue) {
 
 		ErrorReport errorReport = new ErrorReport();
 		try {
@@ -93,6 +112,30 @@ public class InputValidation {
 		} catch (NumberFormatException e) {
 			errorReport.valid = false;
 			errorReport.errorMessage = "Invalid Account Number";
+			return errorReport;
+		}
+
+		LocalDate localDot = null;
+		try {
+			localDot = LocalDate.parse(dot);
+		} catch (DateTimeParseException e) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Invalid Date of Transaction";
+			return errorReport;
+		}
+
+		LocalDate localDoj = null;
+		String doj = new DatabaseHelper().getUserDoj(accNum);
+		if (doj == null) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Can not determine user. Restart Application Or Contact Administrator.";
+			return errorReport;
+		}
+		localDoj = LocalDate.parse(doj);
+		if (localDoj.isAfter(localDot)) {
+			errorReport.valid = false;
+			errorReport.errorMessage = "Transaction Date Can Not Be Before Joining Date ("
+					+ UiConstants.DateConstants.getFormattedDate(localDoj) + ")";
 			return errorReport;
 		}
 

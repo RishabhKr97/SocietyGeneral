@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -74,13 +73,14 @@ public class AccountStatementPrinter {
 				Workbook workbook = WorkbookFactory.create(inputStream)) {
 			Sheet sheet = workbook.getSheetAt(0);
 
-			updateCellAsString(sheet, STATEMENT_DATE_ROW, STATEMENT_DATE_COLUMN, "Account Statement From "
-					+ getFormattedDate(fromDate) + " To " + UiConstants.DateConstants.getCurrentDate());
+			updateCellAsString(sheet, STATEMENT_DATE_ROW, STATEMENT_DATE_COLUMN,
+					"Account Statement From " + UiConstants.DateConstants.getFormattedDate(fromDate) + " To "
+							+ UiConstants.DateConstants.getCurrentDate());
 
 			updateCellAsString(sheet, ACC_MOB_ROW, ACC_NAME_DOJ_COLUMN, accNum);
 			updateCellAsString(sheet, NAME_AADHAR_ROW, ACC_NAME_DOJ_COLUMN, userInfo.get("name"));
 			updateCellAsString(sheet, DOJ_PAN_ROW, ACC_NAME_DOJ_COLUMN,
-					getFormattedDate(userInfo.get("date_of_joining")));
+					UiConstants.DateConstants.getFormattedDate(userInfo.get("date_of_joining")));
 			updateCellAsString(sheet, ACC_MOB_ROW, MOB_AADHAR_PAN_COLUMN, userInfo.get("mobile_number"));
 			updateCellAsString(sheet, NAME_AADHAR_ROW, MOB_AADHAR_PAN_COLUMN, userInfo.get("aadhar_number"));
 			updateCellAsString(sheet, DOJ_PAN_ROW, MOB_AADHAR_PAN_COLUMN, userInfo.get("pan_number"));
@@ -99,7 +99,8 @@ public class AccountStatementPrinter {
 			clearPreviousData(sheet, currentRow);
 			for (String[] transaction : userTransactions) {
 				updateCellAsString(sheet, currentRow, TRANSACTION_NUM_COLUMN, transaction[0]);
-				updateCellAsString(sheet, currentRow, DATE_COLUMN, getFormattedDate(transaction[2]));
+				updateCellAsString(sheet, currentRow, DATE_COLUMN,
+						UiConstants.DateConstants.getFormattedDate(transaction[2]));
 				updateCellAsString(sheet, currentRow, CD_COLUMN, transaction[3]);
 				updateCellAsString(sheet, currentRow, FINE_ON_CD_COLUMN, transaction[4]);
 				updateCellAsString(sheet, currentRow, LOAN_INSTALLMENT_COLUMN, transaction[5]);
@@ -166,10 +167,5 @@ public class AccountStatementPrinter {
 		}
 		Cell cell = sheet.getRow(row).getCell(column);
 		cell.setCellValue(data);
-	}
-
-	private static String getFormattedDate(String date) {
-		LocalDate localDate = LocalDate.parse(date);
-		return localDate.getDayOfMonth() + "-" + localDate.getMonthValue() + "-" + localDate.getYear();
 	}
 }

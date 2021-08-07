@@ -338,9 +338,10 @@ public class EditTransactionPanel extends JPanel implements ActionListener {
 					admissionFeeDeposit, welfareDeposit, miscDeposit, loanIssued, miscPaymentIssued, paymentMode,
 					remarks);
 
-			ErrorReport validation = InputValidation.verifyTransactionDetails(accountNumber, cdDeposit, cdFineDeposit,
-					loanInstallmentDeposit, loanInterestDeposit, loanFineDeposit, shareMoneyDeposit,
-					admissionFeeDeposit, welfareDeposit, miscDeposit, loanIssued, miscPaymentIssued);
+			ErrorReport validation = InputValidation.verifyTransactionDetails(accountNumber,
+					dotYear + "-" + dotMonth + "-" + dotDate, cdDeposit, cdFineDeposit, loanInstallmentDeposit,
+					loanInterestDeposit, loanFineDeposit, shareMoneyDeposit, admissionFeeDeposit, welfareDeposit,
+					miscDeposit, loanIssued, miscPaymentIssued);
 			if (!validation.valid) {
 				AlertMessages.showErrorMessage(this, validation.errorMessage);
 				Log.d(TAG, "Validation failed");

@@ -281,9 +281,10 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 					admissionFeeDeposit, welfareDeposit, miscDeposit, loanIssued, miscPaymentIssued, paymentMode,
 					remarks);
 
-			ErrorReport validation = InputValidation.verifyTransactionDetails(accountNumber, cdDeposit, cdFineDeposit,
-					loanInstallmentDeposit, loanInterestDeposit, loanFineDeposit, shareMoneyDeposit,
-					admissionFeeDeposit, welfareDeposit, miscDeposit, loanIssued, miscPaymentIssued);
+			ErrorReport validation = InputValidation.verifyTransactionDetails(accountNumber,
+					dotYear + "-" + dotMonth + "-" + dotDate, cdDeposit, cdFineDeposit, loanInstallmentDeposit,
+					loanInterestDeposit, loanFineDeposit, shareMoneyDeposit, admissionFeeDeposit, welfareDeposit,
+					miscDeposit, loanIssued, miscPaymentIssued);
 			if (!validation.valid) {
 				AlertMessages.showErrorMessage(this, validation.errorMessage);
 				Log.d(TAG, "Validation failed");
@@ -300,7 +301,8 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 				int requiredPrint = AlertMessages.showConfirmMessage(this, "Transaction Added!\nDo You Want To Print?");
 				if (requiredPrint == 0) {
 					String transactionId = dbHelper.getLastTransactionId(accountNumber);
-					if (transactionId == null || !TransactionPrinter.printTransaction(accountNumber, transactionId, this)) {
+					if (transactionId == null
+							|| !TransactionPrinter.printTransaction(accountNumber, transactionId, this)) {
 						AlertMessages.showSystemErrorMessage(this);
 						Log.e(TAG, "Can not generate receipt");
 					} else {

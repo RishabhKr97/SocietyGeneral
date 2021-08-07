@@ -95,6 +95,15 @@ public class UiConstants {
 			LocalDate date = LocalDate.now();
 			return date.getDayOfMonth() + "-" + date.getMonthValue() + "-" + date.getYear();
 		}
+
+		public static String getFormattedDate(String date) {
+			LocalDate localDate = LocalDate.parse(date);
+			return getFormattedDate(localDate);
+		}
+
+		public static String getFormattedDate(LocalDate date) {
+			return date.getDayOfMonth() + "-" + date.getMonthValue() + "-" + date.getYear();
+		}
 	}
 
 	public static class PaymentModeConstants {
@@ -114,7 +123,8 @@ public class UiConstants {
 				"Total Misc<br>Fee", "Total Loan<br>Issued", "Total Misc<br>Amount Issued" };
 		public static final String[] ALL_MEMBERS_TABLE_COLUMN_NAMES = { "Account<br>Number", "Name",
 				"Account<br>Status" };
-		public static final String[] DEFAULTER_TABLE_COLUMN_NAMES = { "Account<br>Number", "Pending From<br>(Months)", "Pending<br>Amount" };
+		public static final String[] DEFAULTER_TABLE_COLUMN_NAMES = { "Account<br>Number", "Pending From<br>(Months)",
+				"Pending<br>Amount" };
 		public static final String[][] ROW_DEFAULTS = new String[0][];
 
 		static {

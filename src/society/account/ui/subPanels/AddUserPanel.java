@@ -218,8 +218,9 @@ public class AddUserPanel extends JPanel implements ActionListener {
 
 			Log.d(TAG, "Add Member", accountNumber, name, dobYear, dobMonth, dobDate, dojYear, dojMonth, dojDate,
 					address, mobile, email, pan, aadhar);
-			ErrorReport validation = InputValidation.verifyMemberInfo(accountNumber, name, address, mobile, email, pan,
-					aadhar);
+			ErrorReport validation = InputValidation.verifyMemberInfo(accountNumber, name,
+					dobYear + "-" + dobMonth + "-" + dobDate, dojYear + "-" + dojMonth + "-" + dojDate, address, mobile,
+					email, pan, aadhar);
 			if (!validation.valid) {
 				AlertMessages.showErrorMessage(this, validation.errorMessage);
 				Log.d(TAG, "Validation failed");
