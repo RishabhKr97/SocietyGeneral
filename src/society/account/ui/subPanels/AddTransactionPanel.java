@@ -291,6 +291,25 @@ public class AddTransactionPanel extends JPanel implements ActionListener {
 				return;
 			}
 
+			Map<String, String> userBalance = dbHelper.getUserBalanceSummary(accountNumber);
+			if (userBalance == null) {
+				AlertMessages.showSystemErrorMessage(this);
+				return;
+			}
+			double loanBalance = Double.parseDouble(userBalance.get("loan_balance"));
+			if (loanBalance != 0 && Double.parseDouble(loanIssued) != 0) {
+				int issueAgain = AlertMessages.showConfirmMessage(this,
+						"A loan has already been issued. Current Balance is " + loanBalance
+								+ ".\nDo you want to issue again?");
+				if (issueAgain != 0) {
+					return;
+				}
+			}
+			if (loanBalance == 0 && Double.parseDouble(loanInstallmentDeposit) != 0) {
+				AlertMessages.showAlertMessage(this, "Loan Balance is 0. Loan installment should not be paid.");
+				return;
+			}
+
 			int result = dbHelper.addTransaction(accountNumber, dotYear + "-" + dotMonth + "-" + dotDate, cdDeposit,
 					cdFineDeposit, loanInstallmentDeposit, loanInterestDeposit, loanFineDeposit, shareMoneyDeposit,
 					admissionFeeDeposit, welfareDeposit, miscDeposit, loanIssued, miscPaymentIssued, paymentMode,

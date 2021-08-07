@@ -76,6 +76,5 @@ class DatabaseConstants {
 	public static final String GET_DOJ = "SELECT date_of_joining FROM members WHERE account_number = ?";
 
 	public static final String GET_LOAN_TRANSACTIONS = "SELECT date_of_transaction, loan_issued, loan_installment_deposit, loan_interest_deposit FROM transactions "
-			+ "WHERE account_number = ? AND date_of_transaction >= (SELECT MAX(date_of_transaction) FROM transactions WHERE account_number = ? AND loan_issued > 0) "
-			+ "AND (loan_issued > 0 OR loan_installment_deposit > 0 OR loan_interest_deposit > 0) ORDER BY date_of_transaction";
+			+ "WHERE account_number = ? AND (loan_issued > 0 OR loan_installment_deposit > 0 OR loan_interest_deposit > 0) ORDER BY date_of_transaction";
 }
