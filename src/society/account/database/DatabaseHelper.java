@@ -225,7 +225,7 @@ public class DatabaseHelper {
 					String[] curr = new String[UiConstants.TableConstants.TRANSACTION_TABLE_COLUMN_NAMES.length];
 					curr[0] = result.getString("transaction_id");
 					curr[1] = result.getString("account_number");
-					curr[2] = result.getString("date_of_transaction");
+					curr[2] = UiConstants.DateConstants.getFormattedDate(result.getString("date_of_transaction"));
 					curr[3] = result.getString("compulsory_deposit");
 					curr[4] = result.getString("cd_fine_deposit");
 					curr[5] = result.getString("loan_installment_deposit");

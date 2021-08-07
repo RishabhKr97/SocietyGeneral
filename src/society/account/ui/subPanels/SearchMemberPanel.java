@@ -76,7 +76,7 @@ public class SearchMemberPanel extends JPanel implements ActionListener {
 		mSubmit.setLocation(mHorizontalSpacing, mInitialSpacing);
 		mSubmit.addActionListener(this);
 		add(mSubmit);
-		
+
 		mGetStatement = new JButton("Generate Statement");
 		mGetStatement.setSize(150, mHeight);
 		mGetStatement.setLocation(mHorizontalSpacing + 150, mInitialSpacing);
@@ -252,8 +252,8 @@ public class SearchMemberPanel extends JPanel implements ActionListener {
 			}
 
 			mNameValue.setText(values_info.get("name"));
-			mDobValue.setText(values_info.get("date_of_birth"));
-			mDojValue.setText(values_info.get("date_of_joining"));
+			mDobValue.setText(UiConstants.DateConstants.getFormattedDate(values_info.get("date_of_birth")));
+			mDojValue.setText(UiConstants.DateConstants.getFormattedDate(values_info.get("date_of_joining")));
 			mAddressValue.setText(values_info.get("address"));
 			mMobileValue.setText(values_info.get("mobile_number"));
 			mEmailValue.setText(values_info.get("email_id"));
@@ -280,7 +280,7 @@ public class SearchMemberPanel extends JPanel implements ActionListener {
 				clearFields();
 				return;
 			}
-			
+
 			int period = AlertMessages.showAccountStatementPeriodDialog(this);
 			String fromDate = null;
 			LocalDate today = LocalDate.now();
@@ -294,14 +294,14 @@ public class SearchMemberPanel extends JPanel implements ActionListener {
 				fromDate = LocalDate.EPOCH.toString();
 			}
 			Log.d(TAG, "Selected period " + period + ". From " + fromDate + " To " + today);
-			
+
 			if (fromDate == null || !AccountStatementPrinter.printStatement(accountNumber, fromDate, this)) {
 				clearFields();
 				AlertMessages.showAlertMessage(this, "Can not generate statement");
 				Log.e(TAG, "Can not generate statement");
 				return;
 			}
-			
+
 			clearFields();
 			AlertMessages.showAlertMessage(this, "Account Statement Generated!");
 			Log.d(TAG, "Account statement generated");
