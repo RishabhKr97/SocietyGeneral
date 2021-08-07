@@ -16,6 +16,12 @@ class DatabaseConstants {
 			+ "payment_mode INTEGER, remarks TEXT, "
 			+ "FOREIGN KEY (account_number) REFERENCES members(account_number) )";
 
+	public static final String CREATE_TRANSACTION_ACCOUNT_NUMBER_INDEX = "CREATE INDEX IF NOT EXISTS index_transactions_account_number ON transactions (account_number)";
+
+	public static final String CREATE_TRANSACTION_DATE_INDEX = "CREATE INDEX IF NOT EXISTS index_transactions_date ON transactions (date_of_transaction)";
+
+	public static final String CREATE_TRANSACTION_ACCOUNT_NUMBER_DATE_INDEX = "CREATE INDEX IF NOT EXISTS index_transactions_account_number_date ON transactions (account_number, date_of_transaction)";
+
 	public static final String ADD_MEMBER = "INSERT INTO members " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 
 	public static final String REMOVE_MEMBER = "UPDATE members SET account_active = 0 WHERE account_number = ?";

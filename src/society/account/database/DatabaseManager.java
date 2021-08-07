@@ -28,6 +28,11 @@ class DatabaseManager {
 		// create schema
 		executeQuery(DatabaseConstants.CREATE_MEMBERS_TABLE);
 		executeQuery(DatabaseConstants.CREATE_TRANSACTIONS_TABLE);
+		// create index
+		executeQuery(DatabaseConstants.CREATE_TRANSACTION_ACCOUNT_NUMBER_INDEX);
+		executeQuery(DatabaseConstants.CREATE_TRANSACTION_DATE_INDEX);
+		executeQuery(DatabaseConstants.CREATE_TRANSACTION_ACCOUNT_NUMBER_DATE_INDEX);
+
 		Log.d(TAG, "Database Initialized");
 	}
 
