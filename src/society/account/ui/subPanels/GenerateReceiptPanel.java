@@ -65,7 +65,8 @@ public class GenerateReceiptPanel extends JPanel implements ActionListener {
 			}
 
 			Map<String, String> values = dbHelper.getTransactionInfo(transactionNum);
-			if (values == null || !TransactionPrinter.printTransaction(values.get("account_number"), transactionNum, this)) {
+			if (values == null
+					|| !TransactionPrinter.printTransaction(values.get("account_number"), transactionNum, this)) {
 				AlertMessages.showSystemErrorMessage(this);
 				mTransactionNumberValue.setText("");
 				Log.e(TAG, "Can not generate receipt");

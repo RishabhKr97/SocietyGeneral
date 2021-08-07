@@ -63,7 +63,7 @@ public class PendingPaymentsSummaryPanel extends JPanel implements ActionListene
 		mCdPendingLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		add(mCdPendingLabel);
 
-		mLoanPendingLabel = new JLabel("PENDING LOAN");
+		mLoanPendingLabel = new JLabel("PENDING LOAN INSTALLMENTS");
 		mLoanPendingLabel.setSize(mWidth, mHeight);
 		mLoanPendingLabel.setLocation(mInitialSpacing + mWidth, mInitialSpacing + mVerticalSpacing);
 		mLoanPendingLabel.setFont(UiFontManager.getLabelAsHeadingFont());

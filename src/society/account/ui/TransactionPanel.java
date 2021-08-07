@@ -27,7 +27,8 @@ public class TransactionPanel extends JPanel {
 		mGenerateReceiptPanel = new GenerateReceiptPanel();
 		mEditTransactionPanel = new EditTransactionPanel();
 
-		mTabs.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION_WIDTH, UiConstants.DimensionConstants.WINDOW_DIMENSION_HEIGHT);
+		mTabs.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION_WIDTH,
+				UiConstants.DimensionConstants.WINDOW_DIMENSION_HEIGHT);
 		mTabs.setFont(UiFontManager.getSubHeadingFont());
 		mTabs.add("Add New Transaction", mAddTransactionPanel);
 		mTabs.add("Search Transaction", mSearchTransactionPanel);

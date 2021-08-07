@@ -21,7 +21,8 @@ public class SummaryPanel extends JPanel {
 		mTransactionSummaryPanel = new TransactionSummaryPanel();
 		mDefaulterSummaryPanel = new PendingPaymentsSummaryPanel();
 
-		mTabs.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION_WIDTH, UiConstants.DimensionConstants.WINDOW_DIMENSION_HEIGHT);
+		mTabs.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION_WIDTH,
+				UiConstants.DimensionConstants.WINDOW_DIMENSION_HEIGHT);
 		mTabs.setFont(UiFontManager.getSubHeadingFont());
 		mTabs.add("Transaction Summary", mTransactionSummaryPanel);
 		mTabs.add("Pending Payments", mDefaulterSummaryPanel);

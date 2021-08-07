@@ -24,7 +24,8 @@ public class ManagePanel extends JPanel {
 		mDeleteRestoreUserPanel = new DeleteRestoreUserPanel();
 		mEditUserPanel = new EditUserPanel();
 
-		mTabs.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION_WIDTH, UiConstants.DimensionConstants.WINDOW_DIMENSION_HEIGHT);
+		mTabs.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION_WIDTH,
+				UiConstants.DimensionConstants.WINDOW_DIMENSION_HEIGHT);
 		mTabs.setFont(UiFontManager.getSubHeadingFont());
 		mTabs.add("Add New Member", mAddUserPanel);
 		mTabs.add("Remove Or Restore Member", mDeleteRestoreUserPanel);

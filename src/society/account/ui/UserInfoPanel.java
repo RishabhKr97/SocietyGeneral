@@ -21,7 +21,8 @@ public class UserInfoPanel extends JPanel {
 		mSearchMemberPanel = new SearchMemberPanel();
 		mAllMemberPanel = new AllMembersPanel();
 
-		mTabs.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION_WIDTH, UiConstants.DimensionConstants.WINDOW_DIMENSION_HEIGHT);
+		mTabs.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION_WIDTH,
+				UiConstants.DimensionConstants.WINDOW_DIMENSION_HEIGHT);
 		mTabs.setFont(UiFontManager.getSubHeadingFont());
 		mTabs.add("Search Member", mSearchMemberPanel);
 		mTabs.add("All Members", mAllMemberPanel);

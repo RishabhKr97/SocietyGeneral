@@ -328,7 +328,7 @@ public class DatabaseHelper {
 		String doj = null;
 		String lastCdDate = null;
 		boolean firstCdTransaction = false;
-		
+
 		doj = getUserDoj(accNum);
 		if (doj == null) {
 			Log.e(TAG, "Could not fetch DOJ");
@@ -364,6 +364,7 @@ public class DatabaseHelper {
 		if (endDate.isAfter(startDate)) {
 			Period period = Period.between(startDate, endDate);
 			int pendingMonths = period.getMonths() + (12 * period.getYears());
+			// if first cd transaction then doj month should also be added
 			if (firstCdTransaction) {
 				pendingMonths++;
 			}
@@ -383,8 +384,7 @@ public class DatabaseHelper {
 
 		List<String[]> loanTransactions = new ArrayList<>();
 		try (Statement statement = dbManager.executeQuery(DatabaseConstants.GET_LOAN_TRANSACTIONS,
-				new String[] { accNum });
-				ResultSet result = statement == null ? null : statement.getResultSet()) {
+				new String[] { accNum }); ResultSet result = statement == null ? null : statement.getResultSet()) {
 			if (result != null && result.next()) {
 				do {
 					loanTransactions.add(new String[] { result.getString("date_of_transaction"),
@@ -456,6 +456,7 @@ public class DatabaseHelper {
 				}
 			} while (result.next());
 
+			// sort by pending duration
 			Collections.sort(op.get("pending_cd"), new Comparator<String[]>() {
 				@Override
 				public int compare(String[] strings, String[] otherStrings) {
@@ -548,6 +549,8 @@ public class DatabaseHelper {
 		return 500;
 	}
 
+	// go through all the transactions of the user and calculate interest for each
+	// period
 	private double calculateLoanInterestDue(List<String[]> transactions) {
 		LocalDate currentDate = LocalDate.now().withDayOfMonth(1);
 		LocalDate currentTransactionDate = LocalDate.parse(transactions.get(0)[0]).withDayOfMonth(1);
@@ -568,20 +571,21 @@ public class DatabaseHelper {
 				totalInterestDue -= Double.parseDouble(temp[3]);
 				idx++;
 			}
-			
+
 			if (idx < transactions.size()) {
 				temp = transactions.get(idx);
 			} else {
 				break;
 			}
-			
+
 			nextDate = LocalDate.parse(temp[0]).withDayOfMonth(1);
 			Period period = Period.between(currentTransactionDate, nextDate);
 			int totalMonths = period.getMonths() + (12 * period.getYears());
 			totalInterestDue += principalDue * 0.006 * totalMonths;
 			currentTransactionDate = nextDate;
 		}
-		
+
+		// interest from last transaction date to current date
 		if (currentDate.isAfter(currentTransactionDate)) {
 			Period period = Period.between(currentTransactionDate, currentDate);
 			int totalMonths = period.getMonths() + (12 * period.getYears());

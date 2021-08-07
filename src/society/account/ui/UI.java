@@ -30,7 +30,8 @@ public class UI {
 		mSummaryPanel = new SummaryPanel();
 		mManagePanel = new ManagePanel();
 
-		mTabs.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION_WIDTH, UiConstants.DimensionConstants.WINDOW_DIMENSION_HEIGHT);
+		mTabs.setSize(UiConstants.DimensionConstants.WINDOW_DIMENSION_WIDTH,
+				UiConstants.DimensionConstants.WINDOW_DIMENSION_HEIGHT);
 		mTabs.add("Member Info", mUserInfoPanel);
 		mTabs.add("Member Transactions", mTransactionPanel);
 		mTabs.add("Summary", mSummaryPanel);

@@ -138,7 +138,7 @@ public class SearchTransactionPanel extends JPanel implements ActionListener {
 				Log.d(TAG, "No transctions found");
 				return;
 			}
-			
+
 			Log.d(TAG, "Found: " + values.size());
 			clearTable();
 			DefaultTableModel tableModel = (DefaultTableModel) mTransactionTable.getModel();
