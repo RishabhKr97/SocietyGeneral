@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -73,9 +74,15 @@ public class AccountStatementPrinter {
 				Workbook workbook = WorkbookFactory.create(inputStream)) {
 			Sheet sheet = workbook.getSheetAt(0);
 
-			updateCellAsString(sheet, STATEMENT_DATE_ROW, STATEMENT_DATE_COLUMN,
-					"Account Statement From " + UiConstants.DateConstants.getFormattedDate(fromDate) + " To "
-							+ UiConstants.DateConstants.getCurrentDate());
+			LocalDate localFromDate = LocalDate.parse(fromDate);
+			if (LocalDate.EPOCH.isEqual(localFromDate)) {
+				updateCellAsString(sheet, STATEMENT_DATE_ROW, STATEMENT_DATE_COLUMN,
+						"Member Passbook Till " + UiConstants.DateConstants.getCurrentDate());
+			} else {
+				updateCellAsString(sheet, STATEMENT_DATE_ROW, STATEMENT_DATE_COLUMN,
+						"Account Statement From " + UiConstants.DateConstants.getFormattedDate(localFromDate) + " To "
+								+ UiConstants.DateConstants.getCurrentDate());
+			}
 
 			updateCellAsString(sheet, ACC_MOB_ROW, ACC_NAME_DOJ_COLUMN, accNum);
 			updateCellAsString(sheet, NAME_AADHAR_ROW, ACC_NAME_DOJ_COLUMN, userInfo.get("name"));
@@ -89,6 +96,7 @@ public class AccountStatementPrinter {
 			updateCellAsString(sheet, BALANCE_SUMMARY_ROW, CD_BALANCE_COLUMN, userBalance.get("cd_balance"));
 			updateCellAsString(sheet, BALANCE_SUMMARY_ROW, LOAN_BALANCE_COLUMN, userBalance.get("loan_balance"));
 
+			clearPreviousTransactionData(sheet, ENTRY_ROW);
 			if (userTransactions == null || userTransactions.isEmpty()) {
 				AlertMessages.showAlertMessage(component, "No Transactions Found");
 				Log.d(TAG, "No transactions found");
@@ -96,7 +104,6 @@ public class AccountStatementPrinter {
 			}
 
 			int currentRow = ENTRY_ROW;
-			clearPreviousData(sheet, currentRow);
 			for (String[] transaction : userTransactions) {
 				updateCellAsString(sheet, currentRow, TRANSACTION_NUM_COLUMN, transaction[0]);
 				updateCellAsString(sheet, currentRow, DATE_COLUMN,
@@ -148,7 +155,7 @@ public class AccountStatementPrinter {
 		return printStatement(accNum, fromDate, component, 0);
 	}
 
-	private static void clearPreviousData(Sheet sheet, int beg) {
+	private static void clearPreviousTransactionData(Sheet sheet, int beg) {
 		Row row = null;
 		for (int i = beg; i < sheet.getLastRowNum(); i++) {
 			row = sheet.getRow(i);
