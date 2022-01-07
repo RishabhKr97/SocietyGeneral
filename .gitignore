@@ -42,5 +42,5 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 
-Database/
+/Database/
 ApplicationLogs/

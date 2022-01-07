@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
+import society.account.database.DatabaseBackup;
 import society.account.database.DatabaseHelper;
 import society.account.logger.Log;
 
@@ -46,9 +47,14 @@ public class UI {
 
 		mMainFrame.addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing(WindowEvent windowEvent) {
-				new DatabaseHelper().closeDatabase();
-				Log.d(TAG, "Application Closed");
+			public void windowClosing(WindowEvent windowEvent) {				
+				try {
+					new DatabaseHelper().closeDatabase();
+					DatabaseBackup.backupDatabase(mMainFrame);
+					Log.d(TAG, "Application Closed");
+				} catch (Exception e) {
+					Log.e(TAG, "Eaxception while closing application", e);
+				}
 			}
 		});
 
